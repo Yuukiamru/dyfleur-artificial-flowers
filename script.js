@@ -19,7 +19,7 @@
   const MAX_FLOWERS = 12;
   const ORDER_STAGES = ["Order Placed", "Processing", "Shipped", "Delivered"];
 
-  const WHATSAPP_NUMBER = "6283856696403";
+  const WHATSAPP_NUMBER = "08881548329";
 
   const escapeHTML = (value) =>
     String(value ?? "").replace(
@@ -1376,14 +1376,15 @@
     ].join("\n");
 
     const feedback = $("#whatsappFeedback");
-    if (!/^62\d{8,15}$/.test(WHATSAPP_NUMBER)) {
+    const internationalNumber = WHATSAPP_NUMBER.replace(/^0/, "62");
+    if (!/^62\d{8,15}$/.test(internationalNumber)) {
       if (feedback)
         feedback.textContent =
           "Nomor WhatsApp toko belum diatur. Isi WHATSAPP_NUMBER di script.js sebelum demo.";
       return;
     }
 
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/${internationalNumber}?text=${encodeURIComponent(message)}`;
     const popup = window.open(url, "_blank");
 
     if (popup) {
