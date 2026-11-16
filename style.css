@@ -5104,6 +5104,37 @@ select:focus-visible {
 @media (max-width: 520px) {
   .shop-card-fallback { width: 66px; height: 62px; }
 }
+.whatsapp-float {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  background: #A45E70;
+  transition: transform 0.2s ease;
+}
+.whatsapp-float:hover {
+  transform: translateY(-3px);
+}
+.whatsapp-float img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+@media (max-width: 520px) {
+  .whatsapp-float {
+    right: 16px;
+    bottom: 16px;
+    width: 54px;
+    height: 54px;
+  }
+}
 .shop-card-art[hidden],
 .flower-thumb img[hidden],
 .preview-bloom img[hidden] {
