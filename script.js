@@ -1049,6 +1049,8 @@
   const orderSuccess = $("#orderSuccess");
   const checkoutShipping = $("#checkoutShipping");
   const customerPhoneInput = $("#customerPhone");
+  const qrisCode = $("#qrisCode");
+  const successQrisCode = $("#successQrisCode");
   let currentOrder = null;
 
   function normalizeIndonesianPhone(value) {
@@ -1121,6 +1123,7 @@
 
     closeCart(false);
     checkoutForm?.reset();
+    if (qrisCode) qrisCode.hidden = true;
     const submitButton = $(".checkout-submit");
     if (submitButton) submitButton.disabled = false;
     if (checkoutForm) checkoutForm.hidden = false;
@@ -1133,6 +1136,13 @@
   }
 
   $("#checkoutButton")?.addEventListener("click", openCheckout);
+  checkoutForm
+    ?.querySelectorAll('input[name="paymentMethod"]')
+    .forEach((input) => {
+      input.addEventListener("change", () => {
+        if (qrisCode) qrisCode.hidden = input.value !== "QRIS";
+      });
+    });
   checkoutShipping?.addEventListener("change", updateCheckoutTotals);
   $("#closeCheckout")?.addEventListener("click", () => checkoutDialog?.close());
   $("#closeCheckoutSuccess")?.addEventListener("click", () =>
@@ -1286,6 +1296,8 @@
       total: subtotal + shipping,
       statusIndex: 0,
     };
+    if (successQrisCode)
+      successQrisCode.hidden = currentOrder.payment !== "QRIS";
 
     const orderSaved = saveOrder(currentOrder);
     renderOrderHistory();
