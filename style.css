@@ -6395,9 +6395,18 @@ html {
 }
 
 .whatsapp-float {
-  border-color: rgba(255, 255, 255, 0.45);
-  background: var(--wine);
-  box-shadow: var(--shadow-surface);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.whatsapp-float img {
+  border-radius: 0;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(11%) sepia(25%) saturate(1800%)
+    hue-rotate(286deg) brightness(91%) contrast(96%);
 }
 
 @media (max-width: 767px) {
