@@ -6630,3 +6630,116 @@ html {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+small,
+label,
+.product-price,
+.product-description {
+  font-family: var(--sans);
+}
+
+.shop .product-index,
+.shop .product-description,
+.shop .shop-stage-copy .product-description,
+.shop .shop-card-info small,
+.shop .product-benefit,
+.shop .product-benefits,
+.shop .product-specifications,
+.shop .shop-detail-row,
+.shop .shop-detail-row > span small,
+.shop .shop-detail-note {
+  color: var(--color-muted-accessible);
+}
+
+.shop .product-price,
+.shop .shop-stage-copy .product-price {
+  color: var(--color-wine);
+  font-family: var(--sans);
+}
+
+.shop-product-details {
+  padding: 14px 16px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--surface-panel);
+  box-shadow: 0 4px 16px rgba(53, 25, 35, 0.05);
+}
+
+.product-specifications {
+  padding: 0 12px 10px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--surface-panel);
+  box-shadow: 0 4px 16px rgba(53, 25, 35, 0.05);
+}
+
+.product-specifications summary {
+  color: var(--color-wine);
+}
+
+.builder .category-select-label,
+.builder .editor-selection-row label,
+.builder .editor-control-label {
+  color: var(--color-muted-accessible);
+}
+
+.builder .category-note p,
+.builder .preview-footer,
+.builder .options-heading > span,
+.builder .flower-info small,
+.builder .catalog-description,
+.builder .editor-hint,
+.builder .control-selection,
+.builder .editor-drag-hint,
+.builder .wrapping-option-info small,
+.builder .range-control {
+  color: var(--color-muted-accessible);
+  font-family: var(--sans);
+}
+
+.builder .wrapping-select label,
+.builder .range-control output {
+  color: var(--color-wine);
+  font-family: var(--sans);
+}
+
+.checkout-dialog .checkout-lead,
+.checkout-dialog .checkout-fields label,
+.checkout-dialog .checkout-label,
+.checkout-dialog .checkout-fields label span,
+.checkout-dialog .checkout-label span,
+.checkout-dialog .payment-option small,
+.checkout-dialog .checkout-order-item,
+.checkout-dialog .checkout-order-item small,
+.checkout-dialog .checkout-items-empty,
+.checkout-dialog .checkout-price-summary > div,
+.checkout-dialog .checkout-disclaimer {
+  color: var(--color-muted-accessible);
+  font-family: var(--sans);
+}
+
+.checkout-dialog .checkout-fields label,
+.checkout-dialog .checkout-label {
+  color: var(--color-text);
+}
+
+.checkout-dialog .checkout-grand-total strong,
+.builder-checkout .checkout-total strong {
+  font-family: var(--sans);
+  font-weight: 600;
+}
+
+.cart-trust-note,
+.cart-empty-state,
+.cart-empty-state small {
+  color: var(--color-muted-accessible);
+  font-family: var(--sans);
+}
+
+.cart-empty-state p {
+  color: var(--color-wine);
+}
+
+.shop-search-label input::placeholder {
+  color: var(--color-muted-accessible);
+}
