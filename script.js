@@ -480,10 +480,15 @@
       icon: String(item.icon || "✿"),
       quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
       detail: String(item.detail || ""),
+      ...(item.configuration ? { configuration: item.configuration } : {}),
     };
 
+    const configurationKey = JSON.stringify(normalized.configuration || null);
     const existing = cart.find(
-      (row) => row.name === normalized.name && row.detail === normalized.detail,
+      (row) =>
+        row.name === normalized.name &&
+        row.detail === normalized.detail &&
+        JSON.stringify(row.configuration || null) === configurationKey,
     );
     if (existing) {
       if (existing.quantity + normalized.quantity > 99) {
@@ -999,6 +1004,8 @@
     selectedFlowerIndex = -1;
     autoArrangeEnabled = true;
     if (wrapping) wrapping.value = "0";
+    currentWrappingScale = 100;
+    if (wrappingScale) wrappingScale.value = "100";
     renderBuilder();
     showToast("Your arrangement has been reset");
   });
@@ -1028,12 +1035,29 @@
       wrapping?.options[wrapping.selectedIndex]?.text.split(" — ")[0] ||
       "No wrapping";
 
+    const configuration = {
+      flowers: selectedFlowers.map((id, index) => {
+        const adjustment = flowerAdjustments[index] || {};
+        return {
+          id,
+          angle: Number(adjustment.angle) || 0,
+          scale: Number(adjustment.scale) || 1,
+          x: Number(adjustment.x) || 0,
+          y: Number(adjustment.y) || 0,
+          layer: Number(adjustment.layer) || index + 1,
+        };
+      }),
+      wrapping: wrapping?.value || "0",
+      wrappingScale: currentWrappingScale,
+    };
+
     addToCart({
       name: `Custom Bouquet (${selectedFlowers.length} ${selectedFlowers.length === 1 ? "stem" : "stems"})`,
       price: total,
       icon: "💐",
       quantity: 1,
       detail: wrapping?.value === "0" ? details : `${details}; ${wrapLabel}`,
+      configuration,
     });
 
     openCart();
@@ -1300,8 +1324,14 @@
       successQrisCode.hidden = currentOrder.payment !== "QRIS";
 
     const orderSaved = saveOrder(currentOrder);
-    renderOrderHistory();
     const submitButton = $(".checkout-submit");
+    if (!orderSaved) {
+      if (submitButton) submitButton.disabled = false;
+      showToast("Pesanan gagal disimpan. Keranjang Anda tetap aman; coba lagi.");
+      return;
+    }
+
+    renderOrderHistory();
     if (submitButton) submitButton.disabled = true;
     cart.length = 0;
     renderCart();
@@ -1330,9 +1360,8 @@
 
     const feedback = $("#whatsappFeedback");
     if (feedback) {
-      feedback.textContent = orderSaved
-        ? "Demo order saved in this browser. Payment has not been verified."
-        : "Order displayed, but browser storage is unavailable. Payment has not been verified.";
+      feedback.textContent =
+        "Demo order saved in this browser. Payment has not been verified.";
     }
   });
 
