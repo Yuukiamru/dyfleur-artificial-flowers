@@ -214,7 +214,7 @@
       price: 340000,
       image: "assets/flowers/chair-UWMA.svg",
       index: "FEATURED PIECE / 001",
-      meta: "Artificial floral arrangement · Decorative use",
+      meta: "Bunga artifisial · Dekorasi ruangan",
       dimensions: "40 × 60 cm",
       composition: "3 pink alstroemeria · 4 white gerbera / daisy",
       icon: "✿",
@@ -227,7 +227,7 @@
       price: 200000,
       image: "assets/flowers/chair-YY.svg",
       index: "CURATED PIECE / 002",
-      meta: "Artificial lily arrangement · Decorative use",
+      meta: "Bunga artifisial · Dekorasi dan hadiah",
       dimensions: "38 × 43 cm",
       composition: "2 white lilies · 3 red roses",
       icon: "🌷",
@@ -240,7 +240,7 @@
       price: 209000,
       image: "assets/flowers/chair-DN.svg",
       index: "CURATED PIECE / 003",
-      meta: "Artificial floral arrangement · Decorative use",
+      meta: "Bunga artifisial · Dekorasi dan hadiah",
       dimensions: "60 × 43 cm",
       composition: "2 white lilies · 3 red roses · 5–6 pink tulips",
       icon: "✳",
@@ -348,7 +348,7 @@
     if (sort === "name") cards.sort((a, b) => shopProducts[a.dataset.shopProduct].name.localeCompare(shopProducts[b.dataset.shopProduct].name, "id"));
     cards.forEach((card) => {
       const product = shopProducts[card.dataset.shopProduct];
-      const matches = `${product.name} ${product.subtitle} ${product.description}`.toLowerCase().includes(query);
+      const matches = `${product.name} ${product.subtitle} ${product.description} ${product.meta}`.toLowerCase().includes(query);
       card.hidden = !matches;
       shopList.append(card);
     });
@@ -485,7 +485,7 @@
 
     if (!cart.length) {
       cartItems.innerHTML =
-        '<p class="cart-empty">Your cart is empty for now.</p>';
+        '<div class="cart-empty-state"><span aria-hidden="true">✿</span><p>Keranjang Anda masih kosong.</p><small>Temukan rangkaian bunga yang sesuai untuk ruang atau momen spesial Anda.</small><a href="#shop" class="cart-continue-link">Jelajahi koleksi</a></div>';
     } else {
       cartItems.innerHTML = cart
         .map(
@@ -550,7 +550,7 @@
     } else cart.push(normalized);
 
     renderCart();
-    showToast(`${normalized.name} added to your cart`);
+    showToast(`${normalized.name} ditambahkan ke keranjang`);
   }
 
   document.addEventListener("click", (event) => {
