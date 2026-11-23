@@ -215,6 +215,8 @@
       image: "assets/flowers/chair-UWMA.svg",
       index: "FEATURED PIECE / 001",
       meta: "Artificial floral arrangement · Decorative use",
+      dimensions: "40 × 60 cm",
+      composition: "3 pink alstroemeria · 4 white gerbera / daisy",
       icon: "✿",
     },
     "blush-tulip": {
@@ -226,6 +228,8 @@
       image: "assets/flowers/chair-YY.svg",
       index: "CURATED PIECE / 002",
       meta: "Artificial lily arrangement · Decorative use",
+      dimensions: "38 × 43 cm",
+      composition: "2 white lilies · 3 red roses",
       icon: "🌷",
     },
     "lavender-bloom": {
@@ -237,6 +241,8 @@
       image: "assets/flowers/chair-DN.svg",
       index: "CURATED PIECE / 003",
       meta: "Artificial floral arrangement · Decorative use",
+      dimensions: "60 × 43 cm",
+      composition: "2 white lilies · 3 red roses · 5–6 pink tulips",
       icon: "✳",
     },
   };
@@ -246,6 +252,8 @@
   const shopPrice = $("#shopProductPrice");
   const shopIndex = $("#shopProductIndex");
   const shopMeta = $("#shopProductMeta");
+  const shopDimensions = $("#shopProductDimensions");
+  const shopComposition = $("#shopProductComposition");
   const shopImage = $("#shopChairBouquet");
   const shopAddButton = $("#shopAddButton");
   const productCards = $$(".shop-product-card");
@@ -292,6 +300,8 @@
     if (shopDescription) shopDescription.textContent = product.description;
     if (shopPrice) shopPrice.textContent = money(product.price);
     if (shopMeta) shopMeta.textContent = product.meta;
+    if (shopDimensions) shopDimensions.textContent = product.dimensions;
+    if (shopComposition) shopComposition.textContent = product.composition;
     if (shopAddButton) shopAddButton.dataset.addProduct = id;
 
     if (shopImage) {
