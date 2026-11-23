@@ -14,10 +14,10 @@
 
     <meta
       name="description"
-      content="D’YFleur — artificial flowers and custom bouquets."
+      content="Temukan rangkaian bunga artifisial dan bouquet kustom D’YFleur untuk dekorasi ruang dan hadiah."
     />
 
-    <title>D’YFleur — Artificial Flower Store</title>
+    <title>D’YFleur — Rangkaian Bunga Artifisial</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 
@@ -203,13 +203,14 @@
               <img
                 class="shop-card-art"
                 src="assets/flowers/until-we-meet-again.svg"
-                alt=""
-                loading="lazy"
+                alt="Bouquet A Promise of Spring, bunga artifisial bernuansa pink dan putih"
+                loading="lazy" width="160" height="180"
               />
-
               <span class="shop-card-info">
                 <strong>A Promise of Spring</strong>
-                <small>Rp340.000</small>
+                <small>Pink dan putih · Rp340.000</small>
+                <span class="product-benefit">Rangkaian penuh untuk mempercantik sudut ruang.</span>
+                <span class="material-badge">Bunga artifisial</span>
               </span>
 
               <span class="shop-card-check" aria-hidden="true">✓</span>
@@ -225,13 +226,14 @@
               <img
                 class="shop-card-art"
                 src="assets/flowers/The-Lily-of-Silent-Release.svg"
-                alt=""
-                loading="lazy"
+                alt="Bouquet The Lily of Silent Release, lily putih dan mawar merah artifisial"
+                loading="lazy" width="160" height="180"
               />
-
               <span class="shop-card-info">
                 <strong>The Lily of Silent Release</strong>
-                <small>Rp200.000</small>
+                <small>Putih dan merah · Rp200.000</small>
+                <span class="product-benefit">Lily dan mawar untuk hadiah bermakna.</span>
+                <span class="material-badge">Bunga artifisial</span>
               </span>
 
               <span class="shop-card-check" aria-hidden="true">✓</span>
@@ -247,13 +249,14 @@
               <img
                 class="shop-card-art"
                 src="assets/flowers/DN-shop.svg"
-                alt=""
-                loading="lazy"
+                alt="Bouquet The Blush of Everlasting Love, lily putih, mawar merah, dan tulip pink artifisial"
+                loading="lazy" width="160" height="180"
               />
-
               <span class="shop-card-info">
                 <strong>The Blush of Everlasting Love</strong>
-                <small>Rp209.000</small>
+                <small>Pink, putih, dan merah · Rp209.000</small>
+                <span class="product-benefit">Tiga jenis bunga dalam satu rangkaian.</span>
+                <span class="material-badge">Bunga artifisial</span>
               </span>
 
               <span class="shop-card-check" aria-hidden="true">✓</span>
@@ -274,7 +277,8 @@
                 A delicate arrangement inspired by a heartfelt gesture, symbolizing sincere affection, new beginnings, and the beauty of love that blooms unexpectedly.
               </p>
               <div class="product-price" id="shopProductPrice">Rp340.000</div>
-              <p class="product-meta" id="shopProductMeta">Made to order · Decorative artificial flowers</p>
+              <ul class="product-benefits" aria-label="Keunggulan produk"><li>Tampilan dekoratif tanpa perlu disiram.</li><li>Dapat digunakan kembali sebagai dekorasi ruangan.</li><li>Bersihkan debu secara berkala dengan lembut.</li></ul>
+              <p class="product-meta" id="shopProductMeta">Bunga artifisial · Untuk dekorasi</p>
               <div class="shop-product-details" aria-label="Bouquet details">
                 <div class="shop-detail-row">
                   <span>Dimensions <small>(W × H)</small></span>
@@ -284,8 +288,9 @@
                   <span>Main flowers</span>
                   <strong id="shopProductComposition">3 pink alstroemeria · 4 white gerbera / daisy</strong>
                 </div>
-                <p class="shop-detail-note">Approximate dimensions; flower arrangement may vary slightly.</p>
+                <p class="shop-detail-note">Ukuran merupakan estimasi; susunan bunga dapat sedikit berbeda.</p>
               </div>
+              <details class="product-specifications"><summary>Perawatan dan informasi produk</summary><div><p><strong>Perawatan:</strong> Tidak memerlukan air. Bersihkan debu dengan kain lembut atau kuas halus.</p><p><strong>Material:</strong> Jenis bahan spesifik belum dikonfirmasi oleh pemasok. Hubungi kami untuk informasi sebelum membeli.</p><p><strong>Pengiriman:</strong> Metode pelindung dan standar kemasan perlu dikonfirmasi sebelum pesanan diproses.</p><p><strong>Kegunaan:</strong> Dekorasi meja, ruang tamu, kamar, atau hadiah.</p></div></details>
               <button
                 class="button button-dark"
                 type="button"
@@ -311,7 +316,7 @@
                   class="chair-bouquet"
                   id="shopChairBouquet"
                   src="assets/flowers/lilly.svg"
-                  alt="White lily arrangement"
+                  alt="Rangkaian bunga artifisial dekoratif pilihan"
                   onerror="this.style.display = 'none'"
                 />
                 <span class="bouquet-fallback" aria-hidden="true">✿</span>
@@ -594,11 +599,10 @@
         </button>
       </div>
 
-      <div class="cart-items" id="cartItems">
-        <p class="cart-empty">Your cart is empty for now.</p>
-      </div>
+      <div class="cart-items" id="cartItems" aria-live="polite" aria-relevant="additions removals text"><p class="cart-empty">Keranjang Anda masih kosong. Pilih rangkaian bunga untuk memulai.</p></div>
 
       <div class="cart-footer">
+        <p class="cart-trust-note">Konfirmasi estimasi pengiriman dan metode pengemasan sebelum pembayaran. Checkout saat ini masih simulasi.</p>
         <div class="cart-footer-top">
           <span>Subtotal</span><strong id="cartSubtotal">Rp0</strong>
         </div>
