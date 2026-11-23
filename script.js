@@ -72,41 +72,17 @@
   const siteHeader = $("#top");
 
   if (siteHeader) {
-    let previousScrollY = window.scrollY;
-
-    const showHeader = () => siteHeader.classList.remove("is-hidden");
-    const hideHeader = () => {
-      if (mainNav?.classList.contains("open")) return;
-      siteHeader.classList.add("is-hidden");
+    const updateScrolledState = () => {
+      siteHeader.classList.toggle("scrolled", window.scrollY > 50);
     };
 
-    if (previousScrollY > 0) hideHeader();
+    updateScrolledState();
 
     window.addEventListener(
       "scroll",
-      () => {
-        const currentScrollY = window.scrollY;
-        if (currentScrollY <= 0) {
-          showHeader();
-        } else if (currentScrollY > previousScrollY) {
-          hideHeader();
-        } else if (currentScrollY < previousScrollY) {
-          showHeader();
-        }
-        previousScrollY = currentScrollY;
-      },
+      updateScrolledState,
       { passive: true },
     );
-
-    document.addEventListener(
-      "pointermove",
-      (event) => {
-        if (event.clientY <= siteHeader.offsetHeight) showHeader();
-      },
-      { passive: true },
-    );
-
-    siteHeader.addEventListener("focusin", showHeader);
   }
 
   function closeMenu() {
