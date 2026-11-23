@@ -6057,3 +6057,10 @@ select:focus-visible {
     height: 165px;
   }
 }
+
+
+/* Edit a saved custom bouquet from the cart */
+.builder-cart-actions { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.builder-cart-actions [hidden] { display:none !important; }
+.cart-item-design-actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
+.cart-edit-button { border:0; padding:0; background:transparent; color:var(--burgundy, #8b465b); font:inherit; font-size:.72rem; font-weight:600; text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
