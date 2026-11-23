@@ -380,6 +380,9 @@
       icon: String(item.icon || "✿"),
       quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
       detail: String(item.detail || ""),
+      ...(item.configuration && typeof item.configuration === "object"
+        ? { configuration: item.configuration }
+        : {}),
     }));
 
   const cartDrawer = $("#cartDrawer");
@@ -424,6 +427,28 @@
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }
 
+  function renderCartBouquetPreview(configuration, expanded = false) {
+    const flowers = Array.isArray(configuration?.flowers) ? configuration.flowers : [];
+    const wrappingId = String(configuration?.wrapping || "0");
+    const wrappingScale = Math.max(50, Math.min(150, Number(configuration?.wrappingScale) || 100)) / 100;
+    const blooms = flowers.map((entry, index) => {
+      const flower = flowerData[entry.id];
+      if (!flower) return "";
+      const width = Number(entry.width) || (flower.category === "addons" || flower.category === "greenery" ? 30 : flower.category === "hydrangea" ? 38 : 34);
+      const image = flower.image
+        ? `<img src="${escapeHTML(flower.image)}" alt="" loading="lazy">`
+        : `<span class="cart-preview-fallback">${escapeHTML(flower.glyph || "✿")}</span>`;
+      return `<span class="cart-preview-bloom" style="--flower-x:${Number(entry.x) || 50}%;--flower-y:${Number(entry.y) || 0}%;--flower-angle:${Number(entry.angle) || 0}deg;--flower-scale:${Number(entry.scale) || 1};--flower-layer:${Number(entry.layer) || index + 1};--flower-width:${width}px">${image}</span>`;
+    }).join("");
+    const wrappingBack = ["1", "2", "3"].includes(wrappingId)
+      ? `<img class="cart-preview-wrap cart-preview-wrap-back" src="assets/WRAPPING/BACK/${wrappingId}.svg" alt="" style="--wrapping-scale:${wrappingScale}">`
+      : "";
+    const wrappingFront = ["1", "2", "3"].includes(wrappingId)
+      ? `<img class="cart-preview-wrap cart-preview-wrap-front" src="assets/WRAPPING/FRONT/${wrappingId}.svg" alt="" style="--wrapping-scale:${wrappingScale}">`
+      : "";
+    return `<div class="cart-bouquet-preview${expanded ? " is-expanded" : ""}" role="img" aria-label="Preview of the saved custom bouquet">${wrappingBack}<div class="cart-preview-blooms">${blooms}</div>${wrappingFront}</div>`;
+  }
+
   function renderCart() {
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     const total = cartSubtotalValue();
@@ -446,12 +471,19 @@
     } else {
       cartItems.innerHTML = cart
         .map(
-          (item, index) => `
-        <article class="cart-item">
-          <div class="cart-item-art" aria-hidden="true">${escapeHTML(item.icon || "✿")}</div>
+          (item, index) => {
+            const hasDesign = Array.isArray(item.configuration?.flowers) && item.configuration.flowers.length > 0;
+            const expanded = item.previewExpanded === true;
+            const designPreview = hasDesign
+              ? renderCartBouquetPreview(item.configuration, expanded)
+              : `<div class="cart-item-art" aria-hidden="true">${escapeHTML(item.icon || "✿")}</div>`;
+            return `
+        <article class="cart-item${hasDesign ? " cart-item-custom" : ""}${expanded ? " is-preview-expanded" : ""}">
+          ${designPreview}
           <div class="cart-item-info">
             <strong>${escapeHTML(item.name)}</strong>
             ${item.detail ? `<small class="cart-item-detail">${escapeHTML(item.detail)}</small>` : ""}
+            ${hasDesign ? `<button class="cart-preview-toggle" type="button" data-cart-action="preview" data-cart-index="${index}" aria-expanded="${expanded}">${expanded ? "Hide design" : "View design"}</button>` : ""}
             <div class="cart-quantity-control" aria-label="Quantity controls">
               <button type="button" data-cart-action="decrease" data-cart-index="${index}" aria-label="Decrease ${escapeHTML(item.name)} quantity" ${item.quantity <= 1 ? "disabled" : ""}>−</button>
               <output>${item.quantity}</output>
@@ -461,7 +493,8 @@
           <span class="cart-item-price">${money(item.price * item.quantity)}</span>
           <button class="cart-remove" type="button" data-cart-action="remove" data-cart-index="${index}" aria-label="Remove ${escapeHTML(item.name)}">×</button>
         </article>
-      `,
+      `;
+          },
         )
         .join("");
     }
@@ -538,6 +571,11 @@
     if (button.dataset.cartAction === "decrease" && item.quantity > 1)
       item.quantity -= 1;
     if (button.dataset.cartAction === "remove") cart.splice(index, 1);
+    if (button.dataset.cartAction === "preview") {
+      item.previewExpanded = !item.previewExpanded;
+      renderCart();
+      return;
+    }
 
     renderCart();
   });
@@ -1045,14 +1083,18 @@
 
     const configuration = {
       flowers: selectedFlowers.map((id, index) => {
+        const flower = flowerData[id];
         const adjustment = flowerAdjustments[index] || {};
+        const autoPose = (bouquetLayouts[selectedFlowers.length] || bouquetLayouts[12])[index] || [50, 0, 0.76];
+        const x = autoArrangeEnabled ? getAutoX(index, selectedFlowers.length) : Math.max(8, Math.min(92, 50 + (adjustment.x || 0)));
         return {
           id,
-          angle: Number(adjustment.angle) || 0,
-          scale: Number(adjustment.scale) || 1,
-          x: Number(adjustment.x) || 0,
-          y: Number(adjustment.y) || 0,
-          layer: Number(adjustment.layer) || index + 1,
+          angle: autoArrangeEnabled ? autoPose[1] : Number(adjustment.angle) || 0,
+          scale: autoArrangeEnabled ? autoPose[2] : Number(adjustment.scale) || 1,
+          x,
+          y: autoArrangeEnabled ? 0 : Number(adjustment.y) || 0,
+          layer: autoArrangeEnabled ? index + 1 : Number(adjustment.layer) || index + 1,
+          width: flower.category === "addons" || flower.category === "greenery" ? 30 : flower.category === "hydrangea" ? 38 : 34,
         };
       }),
       wrapping: wrapping?.value || "0",
