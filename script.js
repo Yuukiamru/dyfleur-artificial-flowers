@@ -389,6 +389,7 @@
   const cartBackdrop = $("#cartBackdrop");
   const cartItems = $("#cartItems");
   let lastFocusedElement = null;
+  let editingCartIndex = null;
 
   function saveCart() {
     if (!writeStorage(CART_STORAGE_KEY, cart)) {
@@ -490,7 +491,7 @@
           <div class="cart-item-info">
             <strong>${escapeHTML(item.name)}</strong>
             ${item.detail ? `<small class="cart-item-detail">${escapeHTML(item.detail)}</small>` : ""}
-            ${hasDesign ? `<button class="cart-preview-toggle" type="button" data-cart-action="preview" data-cart-index="${index}" aria-expanded="${expanded}">${expanded ? "Hide design" : "View design"}</button>` : ""}
+            ${hasDesign ? `<div class="cart-item-design-actions"><button class="cart-preview-toggle" type="button" data-cart-action="preview" data-cart-index="${index}" aria-expanded="${expanded}">${expanded ? "Hide design" : "View design"}</button><button class="cart-edit-button" type="button" data-cart-action="edit" data-cart-index="${index}">Edit bouquet</button></div>` : ""}
             <div class="cart-quantity-control" aria-label="Quantity controls">
               <button type="button" data-cart-action="decrease" data-cart-index="${index}" aria-label="Decrease ${escapeHTML(item.name)} quantity" ${item.quantity <= 1 ? "disabled" : ""}>−</button>
               <output>${item.quantity}</output>
@@ -581,6 +582,27 @@
     if (button.dataset.cartAction === "preview") {
       item.previewExpanded = !item.previewExpanded;
       renderCart();
+      return;
+    }
+    if (button.dataset.cartAction === "edit") {
+      if (!item.configuration || !Array.isArray(item.configuration.flowers)) return;
+      editingCartIndex = index;
+      const savedFlowers = item.configuration.flowers.filter((flower) => flowerData[flower.id]);
+      selectedFlowers.splice(0, selectedFlowers.length, ...savedFlowers.map((flower) => flower.id));
+      flowerAdjustments.splice(0, flowerAdjustments.length, ...savedFlowers.map((flower, flowerIndex) => ({
+        uid: nextFlowerInstanceId++, angle: Number(flower.angle) || 0, scale: Number(flower.scale) || 1,
+        x: Number(flower.x) - 50 || 0, y: Number(flower.y) || 0, layer: Number(flower.layer) || flowerIndex + 1,
+      })));
+      selectedFlowerIndex = selectedFlowers.length ? 0 : -1;
+      autoArrangeEnabled = false;
+      if (wrapping) wrapping.value = String(item.configuration.wrapping || "0");
+      currentWrappingScale = Math.max(70, Math.min(130, Number(item.configuration.wrappingScale) || 100));
+      if (wrappingScale) wrappingScale.value = String(currentWrappingScale);
+      if ($("#customBouquetName")) $("#customBouquetName").value = item.name;
+      renderBuilder();
+      closeCart();
+      $("#builder")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      showToast("Edit the bouquet, then choose Update cart item");
       return;
     }
 
@@ -815,6 +837,12 @@
     const builderSummary = $("#builderSummary");
     const builderBreakdown = $("#builderBreakdown");
     const addBouquetButton = $("#addBouquet");
+    const cancelEditButton = $("#cancelBouquetEdit");
+    if (addBouquetButton) {
+      addBouquetButton.innerHTML = editingCartIndex === null ? 'Add bouquet to cart <span>↗</span>' : 'Update cart item <span>✓</span>';
+      addBouquetButton.disabled = count === 0;
+    }
+    if (cancelEditButton) cancelEditButton.hidden = editingCartIndex === null;
 
     if (flowerCount)
       flowerCount.textContent = `${count} ${count === 1 ? "flower" : "flowers"} selected`;
@@ -830,8 +858,6 @@
         ? `Flowers ${flowerLabel} + wrapping ${wrapPrice}`
         : "Choose flowers to see your price breakdown.";
     }
-    if (addBouquetButton) addBouquetButton.disabled = count === 0;
-
     updateWrappingPreview();
     renderFlowerOptions();
     renderWrappingOptions();
@@ -1043,7 +1069,17 @@
     updateWrappingPreview();
   });
 
+  $("#cancelBouquetEdit")?.addEventListener("click", () => {
+    editingCartIndex = null; selectedFlowers.length = 0; flowerAdjustments.length = 0;
+    selectedFlowerIndex = -1; autoArrangeEnabled = true;
+    if (wrapping) wrapping.value = "0"; currentWrappingScale = 100;
+    if (wrappingScale) wrappingScale.value = "100";
+    if ($("#customBouquetName")) $("#customBouquetName").value = "";
+    renderBuilder(); showToast("Bouquet editing cancelled");
+  });
+
   $("#resetBouquet")?.addEventListener("click", () => {
+    if (editingCartIndex !== null) { showToast("Cancel editing before resetting the builder"); return; }
     selectedFlowers.length = 0;
     flowerAdjustments.length = 0;
     selectedFlowerIndex = -1;
@@ -1108,15 +1144,21 @@
       wrappingScale: currentWrappingScale,
     };
 
-    addToCart({
-      name: customBouquetName,
-      price: total,
-      icon: "💐",
-      quantity: 1,
+    const updatedItem = {
+      name: customBouquetName, price: total, icon: "💐", quantity: 1,
       detail: `${selectedFlowers.length} ${selectedFlowers.length === 1 ? "stem" : "stems"} · ${wrapping?.value === "0" ? details : `${details}; ${wrapLabel}`}`,
       configuration,
-    });
-
+    };
+    if (editingCartIndex !== null) {
+      const target = cart[editingCartIndex];
+      if (!target) { editingCartIndex = null; showToast("Cart item no longer exists. Add this bouquet again."); renderBuilder(); return; }
+      target.name = updatedItem.name; target.price = updatedItem.price; target.icon = updatedItem.icon;
+      target.detail = updatedItem.detail; target.configuration = updatedItem.configuration; target.previewExpanded = true;
+      editingCartIndex = null;
+      renderCart(); renderBuilder(); showToast("Bouquet updated in your cart"); openCart();
+      return;
+    }
+    addToCart(updatedItem);
     openCart();
   });
 
