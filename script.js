@@ -1079,7 +1079,8 @@
   });
 
   $("#resetBouquet")?.addEventListener("click", () => {
-    if (editingCartIndex !== null) { showToast("Cancel editing before resetting the builder"); return; }
+    // Reset only builder state; saved cart data changes only on explicit update.
+    editingCartIndex = null;
     selectedFlowers.length = 0;
     flowerAdjustments.length = 0;
     selectedFlowerIndex = -1;
@@ -1087,6 +1088,8 @@
     if (wrapping) wrapping.value = "0";
     currentWrappingScale = 100;
     if (wrappingScale) wrappingScale.value = "100";
+    const bouquetNameInput = $("#customBouquetName");
+    if (bouquetNameInput) bouquetNameInput.value = "";
     renderBuilder();
     showToast("Your arrangement has been reset");
   });
