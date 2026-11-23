@@ -434,11 +434,18 @@
     const blooms = flowers.map((entry, index) => {
       const flower = flowerData[entry.id];
       if (!flower) return "";
+      const legacyLayout = !Number.isFinite(Number(entry.width));
+      const autoPose = (bouquetLayouts[flowers.length] || bouquetLayouts[12])[index] || [50, 0, 0.76];
       const width = Number(entry.width) || (flower.category === "addons" || flower.category === "greenery" ? 30 : flower.category === "hydrangea" ? 38 : 34);
+      const x = legacyLayout ? 50 : (Number(entry.x) || 50);
+      const y = legacyLayout ? 0 : (Number(entry.y) || 0);
+      const angle = legacyLayout ? autoPose[1] : (Number(entry.angle) || 0);
+      const scale = legacyLayout ? autoPose[2] : (Number(entry.scale) || 1);
+      const layer = legacyLayout ? index + 1 : (Number(entry.layer) || index + 1);
       const image = flower.image
         ? `<img src="${escapeHTML(flower.image)}" alt="" loading="lazy">`
         : `<span class="cart-preview-fallback">${escapeHTML(flower.glyph || "✿")}</span>`;
-      return `<span class="cart-preview-bloom" style="--flower-x:${Number(entry.x) || 50}%;--flower-y:${Number(entry.y) || 0}%;--flower-angle:${Number(entry.angle) || 0}deg;--flower-scale:${Number(entry.scale) || 1};--flower-layer:${Number(entry.layer) || index + 1};--flower-width:${width}px">${image}</span>`;
+      return `<span class="cart-preview-bloom" style="--flower-x:${x}%;--flower-y:${y}%;--flower-angle:${angle}deg;--flower-scale:${scale};--flower-layer:${layer};--flower-width:${width}px">${image}</span>`;
     }).join("");
     const wrappingBack = ["1", "2", "3"].includes(wrappingId)
       ? `<img class="cart-preview-wrap cart-preview-wrap-back" src="assets/WRAPPING/BACK/${wrappingId}.svg" alt="" style="--wrapping-scale:${wrappingScale}">`
