@@ -15,7 +15,7 @@
 
   --ink: #291d20;
 
-  --muted: #8b7779;
+  --muted: #6f595d;
 
   --line: rgba(53, 25, 35, 0.14);
 
@@ -6145,4 +6145,37 @@ select:focus-visible {
 @media(prefers-reduced-motion:reduce) {
  html { scroll-behavior:auto !important; }
  *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; }
+}
+
+
+/* P0 accessibility: visible keyboard focus and skip navigation */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--wine-3, #642f43);
+  outline-offset: 3px;
+}
+.shop-product-card:focus-visible,
+.flower-option:focus-visible,
+.cart-button:focus-visible,
+.checkout-button:focus-visible,
+.hero-link:focus-visible {
+  outline: 2px solid var(--wine-3, #642f43);
+  outline-offset: 3px;
+}
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 12px;
+  left: 12px;
+  padding: 12px 16px;
+  transform: translateY(-160%);
+  border: 2px solid var(--wine);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--wine);
+  font-weight: 600;
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 3px solid var(--wine-3);
+  outline-offset: 3px;
 }
