@@ -34,6 +34,8 @@ html {
   scroll-behavior: smooth;
 
   scroll-padding-top: 86px;
+
+  scrollbar-gutter: stable;
 }
 
 body {
