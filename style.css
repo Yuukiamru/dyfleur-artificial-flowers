@@ -6512,3 +6512,35 @@ html {
     width: clamp(150px, 45vw, 260px);
   }
 }
+
+.cart-item-art {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--ivory);
+}
+
+.cart-item-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  padding: 4px;
+  object-fit: contain;
+}
+
+.cart-item-image[hidden],
+.cart-item-image-fallback[hidden] {
+  display: none;
+}
+
+.cart-item-image-fallback {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  font-size: 23px;
+}

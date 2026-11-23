@@ -368,6 +368,15 @@
     }
   })();
 
+  const cartItemImage = (item) => {
+    if (typeof item.image === "string" && item.image.trim()) return item.image;
+    const product = Object.values(shopProducts).find(
+      (candidate) =>
+        `${candidate.name} ${candidate.subtitle}`.trim() === item.name,
+    );
+    return product?.image || "";
+  };
+
   const cart = storedCart
     .filter(
       (item) =>
@@ -380,6 +389,7 @@
       name: item.name,
       price: Number(item.price),
       icon: String(item.icon || "✿"),
+      image: cartItemImage(item),
       quantity: Math.min(99, Math.max(1, Math.floor(Number(item.quantity) || 1))),
       detail: String(item.detail || ""),
       ...(item.configuration && typeof item.configuration === "object"
@@ -490,9 +500,12 @@
           (item, index) => {
             const hasDesign = Array.isArray(item.configuration?.flowers) && item.configuration.flowers.length > 0;
             const expanded = item.previewExpanded === true;
+            const imageContent = item.image
+              ? `<img class="cart-item-image" src="${escapeHTML(item.image)}" alt="" loading="lazy"><span class="cart-item-image-fallback" hidden>${escapeHTML(item.icon || "✿")}</span>`
+              : escapeHTML(item.icon || "✿");
             const designPreview = hasDesign
               ? renderCartBouquetPreview(item.configuration, expanded)
-              : `<div class="cart-item-art" aria-hidden="true">${escapeHTML(item.icon || "✿")}</div>`;
+              : `<div class="cart-item-art" aria-hidden="true">${imageContent}</div>`;
             return `
         <article class="cart-item${hasDesign ? " cart-item-custom" : ""}${expanded ? " is-preview-expanded" : ""}">
           ${designPreview}
@@ -515,6 +528,18 @@
         .join("");
     }
 
+    cartItems.querySelectorAll(".cart-item-image").forEach((image) => {
+      image.addEventListener(
+        "error",
+        () => {
+          image.hidden = true;
+          const fallback = image.nextElementSibling;
+          if (fallback) fallback.hidden = false;
+        },
+        { once: true },
+      );
+    });
+
     saveCart();
     updateCheckoutTotals();
   }
@@ -527,6 +552,7 @@
       name: String(item.name || "D’YFleur item"),
       price: Number(item.price),
       icon: String(item.icon || "✿"),
+      image: cartItemImage(item),
       quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
       detail: String(item.detail || ""),
       ...(item.configuration ? { configuration: item.configuration } : {}),
@@ -561,6 +587,7 @@
       name: `${product.name} ${product.subtitle}`.trim(),
       price: product.price,
       icon: product.icon,
+      image: product.image,
       quantity: 1,
     });
   });
