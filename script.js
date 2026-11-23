@@ -1013,6 +1013,14 @@
   $("#addBouquet")?.addEventListener("click", () => {
     if (!selectedFlowers.length) return;
 
+    const customBouquetNameInput = $("#customBouquetName");
+    const customBouquetName = String(customBouquetNameInput?.value || "").trim();
+    if (!customBouquetName) {
+      showToast("Please give your bouquet a name");
+      customBouquetNameInput?.focus();
+      return;
+    }
+
     const flowerTotal = selectedFlowers.reduce(
       (sum, id) => sum + flowerData[id].price,
       0,
@@ -1052,11 +1060,11 @@
     };
 
     addToCart({
-      name: `Custom Bouquet (${selectedFlowers.length} ${selectedFlowers.length === 1 ? "stem" : "stems"})`,
+      name: customBouquetName,
       price: total,
       icon: "💐",
       quantity: 1,
-      detail: wrapping?.value === "0" ? details : `${details}; ${wrapLabel}`,
+      detail: `${selectedFlowers.length} ${selectedFlowers.length === 1 ? "stem" : "stems"} · ${wrapping?.value === "0" ? details : `${details}; ${wrapLabel}`}`,
       configuration,
     });
 
