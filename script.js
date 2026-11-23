@@ -14,7 +14,8 @@
       .format(Number(value) || 0)
       .replace(/\s/g, "");
 
-  const CART_STORAGE_KEY = "lorem-cart-v1";
+  const CART_STORAGE_KEY = "dyfleur_cart_v1";
+  const LEGACY_CART_STORAGE_KEY = "lorem-cart-v1";
   const ORDER_STORAGE_KEY = "lorem-orders-v1";
   const MAX_FLOWERS = 12;
   const ORDER_STAGES = ["Order Placed", "Processing", "Shipped", "Delivered"];
@@ -376,7 +377,22 @@
      6. CART + LOCAL STORAGE
   ===================================================== */
 
-  const cart = readArray(CART_STORAGE_KEY)
+  const storedCart = (() => {
+    try {
+      const current = localStorage.getItem(CART_STORAGE_KEY);
+      if (current !== null) return readArray(CART_STORAGE_KEY);
+      const legacy = localStorage.getItem(LEGACY_CART_STORAGE_KEY);
+      if (legacy === null) return [];
+      const migrated = readArray(LEGACY_CART_STORAGE_KEY);
+      writeStorage(CART_STORAGE_KEY, migrated);
+      return migrated;
+    } catch (error) {
+      console.warn("Could not restore cart:", error);
+      return [];
+    }
+  })();
+
+  const cart = storedCart
     .filter(
       (item) =>
         item &&
@@ -388,7 +404,7 @@
       name: item.name,
       price: Number(item.price),
       icon: String(item.icon || "✿"),
-      quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
+      quantity: Math.min(99, Math.max(1, Math.floor(Number(item.quantity) || 1))),
       detail: String(item.detail || ""),
       ...(item.configuration && typeof item.configuration === "object"
         ? { configuration: item.configuration }
@@ -511,7 +527,7 @@
             <div class="cart-quantity-control" aria-label="Quantity controls">
               <button type="button" data-cart-action="decrease" data-cart-index="${index}" aria-label="Decrease ${escapeHTML(item.name)} quantity" ${item.quantity <= 1 ? "disabled" : ""}>−</button>
               <output>${item.quantity}</output>
-              <button type="button" data-cart-action="increase" data-cart-index="${index}" aria-label="Increase ${escapeHTML(item.name)} quantity">+</button>
+              <button type="button" data-cart-action="increase" data-cart-index="${index}" aria-label="Increase ${escapeHTML(item.name)} quantity" ${item.quantity >= 99 ? "disabled" : ""}>+</button>
             </div>
           </div>
           <span class="cart-item-price">${money(item.price * item.quantity)}</span>
@@ -595,6 +611,10 @@
     if (button.dataset.cartAction === "decrease" && item.quantity > 1)
       item.quantity -= 1;
     if (button.dataset.cartAction === "remove") cart.splice(index, 1);
+    if (button.dataset.cartAction === "increase" || button.dataset.cartAction === "decrease") {
+      const status = $("#cartQuantityStatus");
+      if (status) status.textContent = item.name + ", quantity " + item.quantity;
+    }
     if (button.dataset.cartAction === "preview") {
       item.previewExpanded = !item.previewExpanded;
       renderCart();
