@@ -6553,3 +6553,62 @@ html {
   place-items: center;
   font-size: 23px;
 }
+
+.checkout-fields input:not([type="checkbox"]):not([type="radio"]),
+.checkout-fields textarea,
+.checkout-section select,
+.shop-search-label input,
+.shop-sort-label select,
+.category-select,
+#flowerInstanceSelect,
+.wrapping-select select,
+.custom-bouquet-name-field input {
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background-color: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+}
+
+.checkout-fields textarea {
+  min-height: 88px;
+  padding-block: 12px;
+}
+
+.checkout-section select,
+.shop-sort-label select,
+.category-select,
+#flowerInstanceSelect,
+.wrapping-select select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 40px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--wine-3) 50%),
+    linear-gradient(135deg, var(--wine-3) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 13px) 50%;
+  background-repeat: no-repeat;
+  background-size: 5px 5px;
+  cursor: pointer;
+}
+
+.checkout-fields input:not([type="checkbox"]):not([type="radio"]):focus,
+.checkout-fields textarea:focus,
+.checkout-section select:focus,
+.shop-search-label input:focus,
+.shop-sort-label select:focus,
+.category-select:focus,
+#flowerInstanceSelect:focus,
+.wrapping-select select:focus,
+.custom-bouquet-name-field input:focus {
+  border-color: var(--wine-3);
+  outline: 2px solid rgba(100, 47, 67, 0.18);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(100, 47, 67, 0.1);
+}
