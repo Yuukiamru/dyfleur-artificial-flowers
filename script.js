@@ -418,6 +418,9 @@
     cartBackdrop.hidden = false;
     document.body.classList.add("cart-is-open");
     document.body.style.overflow = "hidden";
+    document.querySelector(".site-header")?.setAttribute("inert", "");
+    document.querySelector("main")?.setAttribute("inert", "");
+    $(".skip-link")?.setAttribute("inert", "");
     $("#closeCart")?.focus();
   }
 
@@ -430,6 +433,9 @@
     cartBackdrop.hidden = true;
     document.body.classList.remove("cart-is-open");
     document.body.style.overflow = "";
+    document.querySelector(".site-header")?.removeAttribute("inert");
+    document.querySelector("main")?.removeAttribute("inert");
+    $(".skip-link")?.removeAttribute("inert");
     if (wasOpen && restoreFocus)
       (lastFocusedElement || $("#cartButton"))?.focus();
   }
@@ -1565,12 +1571,13 @@
     }
 
     if (event.key === "Tab" && cartDrawer?.classList.contains("open")) {
-      const focusable = $$(
-        'button:not([disabled]), a[href], select, input, [tabindex]:not([tabindex="-1"])',
+      const focusable = $(
+        'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
         cartDrawer,
-      ).filter(
-        (element) =>
-          !element.hidden && element.getAttribute("aria-hidden") !== "true",
+      ).filter((element) =>
+        !element.hidden &&
+        element.getAttribute("aria-hidden") !== "true" &&
+        element.getClientRects().length > 0
       );
 
       if (!focusable.length) return;
