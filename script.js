@@ -1324,7 +1324,7 @@
     if (!str) return "";
     return String(str)
       .toUpperCase()
-      .replace(/KABUPATEN|KAB\\.|KOTA/g, "")
+      .replace(/KABUPATEN|KAB\.|KOTA/g, "")
       .replace(/[^A-Z0-9]/g, "")
       .trim();
   }
@@ -1410,11 +1410,11 @@
 
   function formatShippingRegionName(value, prefix) {
     const displayName = String(value || "")
-      .replace(/\\b(?:KABUPATEN|KAB\\.?)\\s*|\\bKOTA\\s*/gi, "")
+      .replace(/\b(?:KABUPATEN|KAB\.?)\\s*|\bKOTA\\s*/gi, "")
       .replace(/\\s+/g, " ")
       .trim()
       .toLocaleLowerCase("id-ID")
-      .replace(/\\b\\p{L}/gu, (letter) => letter.toLocaleUpperCase("id-ID"));
+      .replace(/\b\\p{L}/gu, (letter) => letter.toLocaleUpperCase("id-ID"));
     return `${prefix} ${displayName}`;
   }
 
