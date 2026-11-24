@@ -1369,8 +1369,16 @@
     const kecamatanKey = `${namaKabupaten}-${namaKecamatan}`;
     const hasKabupatenTier = Object.prototype.hasOwnProperty.call(tierKabupaten, kabupatenKey);
     const hasKecamatanTier = Object.prototype.hasOwnProperty.call(tierKecamatan, kecamatanKey);
-    const tierKabupatenValue = hasKabupatenTier ? tierKabupaten[kabupatenKey] : 0;
-    const tierKecamatanValue = hasKecamatanTier ? tierKecamatan[kecamatanKey] : 0;
+    // Tier manual tetap dipakai (termasuk nilai 0); wilayah yang belum terdaftar
+    // otomatis memakai Tier 1 agar seluruh Indonesia tetap memiliki ongkir.
+    const tierKabupatenValue =
+      tierKabupaten[kabupatenKey] !== undefined
+        ? tierKabupaten[kabupatenKey]
+        : 1;
+    const tierKecamatanValue =
+      tierKecamatan[kecamatanKey] !== undefined
+        ? tierKecamatan[kecamatanKey]
+        : 1;
 
     const kabupatenMultiplier = isJava
       ? KABUPATEN_TIER_RATE_JAWA
