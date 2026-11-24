@@ -1318,20 +1318,44 @@
   }
 
   function calculateAddressShipping() {
-    const province = normalizeRegionName(selectedRegionName("province"));
-    const regency = normalizeRegionName(selectedRegionName("regency"));
-    const district = normalizeRegionName(selectedRegionName("district"));
+    // Nama mentah berasal dari field "name" API Emsifa yang ditampilkan di option.
+    const rawProvince = selectedRegionName("province");
+    const rawRegency = selectedRegionName("regency");
+    const rawDistrict = selectedRegionName("district");
+    const province = normalizeRegionName(rawProvince);
+    const regency = normalizeRegionName(rawRegency);
+    const district = normalizeRegionName(rawDistrict);
 
     if (!province) return 0;
 
     if (!Object.prototype.hasOwnProperty.call(baseRateJawa, province)) {
+      console.log("[D'YFleur shipping] Wilayah di luar daftar tarif Jawa:", {
+        apiName: { province: rawProvince, regency: rawRegency, district: rawDistrict },
+        normalized: { province, regency, district },
+        appliedRate: OUTSIDE_JAVA_SHIPPING,
+      });
       return OUTSIDE_JAVA_SHIPPING;
     }
 
     const kabupatenKey = `${province}-${regency}`;
     const kecamatanKey = `${regency}-${district}`;
-    const kabupatenTier = tierKabupaten[kabupatenKey] ?? 0;
-    const kecamatanTier = tierKecamatan[kecamatanKey] ?? 0;
+    const hasKabupatenTier = Object.prototype.hasOwnProperty.call(tierKabupaten, kabupatenKey);
+    const hasKecamatanTier = Object.prototype.hasOwnProperty.call(tierKecamatan, kecamatanKey);
+    const kabupatenTier = hasKabupatenTier ? tierKabupaten[kabupatenKey] : 0;
+    const kecamatanTier = hasKecamatanTier ? tierKecamatan[kecamatanKey] : 0;
+
+    // Diagnostic sementara: cek nama API, hasil normalisasi, dan kecocokan key tier.
+    console.log("[D'YFleur shipping] Address match:", {
+      apiName: { province: rawProvince, regency: rawRegency, district: rawDistrict },
+      normalized: { province, regency, district },
+      keys: { province, kabupaten: kabupatenKey, kecamatan: kecamatanKey },
+      matches: {
+        province: Object.prototype.hasOwnProperty.call(baseRateJawa, province),
+        kabupaten: hasKabupatenTier,
+        kecamatan: hasKecamatanTier,
+      },
+      tiers: { kabupaten: kabupatenTier, kecamatan: kecamatanTier },
+    });
 
     return (
       baseRateJawa[province] +
@@ -1390,9 +1414,11 @@
     control.clear(true);
     control.clearOptions();
     control.addOption({ id: "", name: placeholder });
+    // Emsifa mengirim nama wilayah pada properti "name"; Tom Select memakai
+    // nilai ini sebagai label yang kemudian dinormalisasi saat hitung ongkir.
     control.addOptions(regions.map((region) => ({
       id: String(region.id),
-      name: region.name,
+      name: String(region.name ?? "").trim(),
     })));
     control.refreshOptions(false);
     control.enable();
