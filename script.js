@@ -237,7 +237,7 @@
       price: 340000,
       image: "assets/flowers/chair-UWMA.svg",
       index: "FEATURED PIECE / 001",
-      meta: "Bunga artifisial · Dekorasi ruangan",
+      meta: "Artificial flowers · Home décor",
       dimensions: "40 × 60 cm",
       icon: "✿",
     },
@@ -249,7 +249,7 @@
       price: 200000,
       image: "assets/flowers/chair-YY.svg",
       index: "CURATED PIECE / 002",
-      meta: "Bunga artifisial · Dekorasi dan hadiah",
+      meta: "Artificial flowers · Décor and gifting",
       dimensions: "38 × 43 cm",
       icon: "🌷",
     },
@@ -261,7 +261,7 @@
       price: 209000,
       image: "assets/flowers/chair-DN.svg",
       index: "CURATED PIECE / 003",
-      meta: "Bunga artifisial · Dekorasi dan hadiah",
+      meta: "Artificial flowers · Décor and gifting",
       dimensions: "60 × 43 cm",
       icon: "✳",
     },
@@ -535,7 +535,7 @@
 
     if (!cart.length) {
       cartItems.innerHTML =
-        '<div class="cart-empty-state"><span aria-hidden="true">✿</span><p>Keranjang Anda masih kosong.</p><small>Temukan rangkaian bunga yang sesuai untuk ruang atau momen spesial Anda.</small><a href="#shop" class="cart-continue-link">Jelajahi koleksi</a></div>';
+        '<div class="cart-empty-state"><span aria-hidden="true">✿</span><p>Your cart is currently empty.</p><small>Discover a floral arrangement for your space or a special moment.</small><a href="#shop" class="cart-continue-link">Explore the collection</a></div>';
     } else {
       cartItems.innerHTML = cart
         .map(
@@ -616,7 +616,7 @@
     } else cart.push(normalized);
 
     renderCart();
-    showToast(`${normalized.name} ditambahkan ke keranjang`);
+    showToast(`${normalized.name} successfully added to cart.`);
   }
 
   document.addEventListener("click", (event) => {
@@ -1513,8 +1513,8 @@
 
     if (checkoutShipping) {
       const label = calculatedShippingCost
-        ? `Ongkir berdasarkan alamat — ${money(calculatedShippingCost)}`
-        : "Ongkir belum dihitung";
+        ? `Shipping based on your address — ${money(calculatedShippingCost)}`
+        : "Shipping not yet calculated";
       checkoutShipping.replaceChildren(new Option(label, String(calculatedShippingCost), true, true));
       checkoutShipping.required = false;
       checkoutShipping.disabled = true;
@@ -1560,7 +1560,7 @@
     })));
     control.refreshOptions(false);
     control.enable();
-    setRegionStatus(level, `${regions.length.toLocaleString("id-ID")} wilayah tersedia · ketik untuk mencari`);
+    setRegionStatus(level, `${regions.length.toLocaleString("id-ID")} locations available · type to search`);
   }
 
   async function fetchRegions(level, endpoint, placeholder) {
@@ -1571,7 +1571,7 @@
     control.clear(true);
     control.clearOptions();
     control.disable();
-    setRegionStatus(level, "Memuat data wilayah...", "loading");
+    setRegionStatus(level, "Loading locations...", "loading");
 
     try {
       const response = await fetch(`${regionApiBase}/${endpoint}`, {
@@ -1579,7 +1579,7 @@
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const regions = await response.json();
-      if (!Array.isArray(regions)) throw new Error("Format data wilayah tidak valid.");
+      if (!Array.isArray(regions)) throw new Error("Invalid location data format.");
       if (requestVersion !== regionRequestVersion[level]) return false;
 
       fillRegionSelect(level, regions, placeholder);
@@ -1587,10 +1587,10 @@
     } catch (error) {
       if (requestVersion !== regionRequestVersion[level]) return false;
       control.clearOptions();
-      control.addOption({ id: "", name: "Data gagal dimuat" });
+      control.addOption({ id: "", name: "Failed to load data" });
       control.refreshOptions(false);
       control.disable();
-      setRegionStatus(level, "Data gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.", "error");
+      setRegionStatus(level, "Failed to load data. Please check your connection and reload the page.", "error");
       console.error(`Gagal memuat data ${level}:`, error);
       return false;
     }
@@ -1598,7 +1598,7 @@
 
   function initializeRegionSelects() {
     if (!window.TomSelect) {
-      setRegionStatus("province", "Fitur pencarian gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.", "error");
+      setRegionStatus("province", "Search could not be loaded. Please check your connection and reload the page.", "error");
       return;
     }
 
@@ -1612,42 +1612,42 @@
       allowEmptyOption: true,
       placeholder,
       render: {
-        no_results: () => '<div class="no-results">Wilayah tidak ditemukan</div>',
-        loading: () => '<div class="no-results">Memuat data...</div>',
+        no_results: () => '<div class="no-results">No locations found</div>',
+        loading: () => '<div class="no-results">Loading data...</div>',
       },
     });
 
-    regionControls.province = new TomSelect(regionSelects.province, selectConfig("Cari provinsi..."));
-    regionControls.regency = new TomSelect(regionSelects.regency, selectConfig("Pilih provinsi dahulu..."));
-    regionControls.district = new TomSelect(regionSelects.district, selectConfig("Pilih kabupaten/kota dahulu..."));
+    regionControls.province = new TomSelect(regionSelects.province, selectConfig("Search provinces..."));
+    regionControls.regency = new TomSelect(regionSelects.regency, selectConfig("Select a province first..."));
+    regionControls.district = new TomSelect(regionSelects.district, selectConfig("Select a city or regency first..."));
 
     regionControls.province.on("change", async (provinceId) => {
-      resetRegionSelect("regency", "Pilih provinsi terlebih dahulu", "Pilih provinsi terlebih dahulu");
-      resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+      resetRegionSelect("regency", "Select a province first", "Select a province first");
+      resetRegionSelect("district", "Select a city or regency first", "Select a city or regency first");
       updateShippingDisplay();
       if (!provinceId) return;
-      await fetchRegions("regency", `regencies/${encodeURIComponent(provinceId)}.json`, "Pilih kota/kabupaten...");
+      await fetchRegions("regency", `regencies/${encodeURIComponent(provinceId)}.json`, "Select a city or regency...");
     });
 
     regionControls.regency.on("change", async (regencyId) => {
-      resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+      resetRegionSelect("district", "Select a city or regency first", "Select a city or regency first");
       updateShippingDisplay();
       if (!regencyId) return;
-      await fetchRegions("district", `districts/${encodeURIComponent(regencyId)}.json`, "Pilih kecamatan...");
+      await fetchRegions("district", `districts/${encodeURIComponent(regencyId)}.json`, "Select a district...");
     });
 
     regionControls.district.on("change", updateShippingDisplay);
 
-    fetchRegions("province", "provinces.json", "Pilih provinsi...");
+    fetchRegions("province", "provinces.json", "Select a province...");
   }
 
   initializeRegionSelects();
 
   function resetCheckoutRegionFields() {
     regionControls.province?.clear(true);
-    setRegionStatus("province", "Pilih provinsi untuk memulai");
-    resetRegionSelect("regency", "Pilih provinsi terlebih dahulu", "Pilih provinsi terlebih dahulu");
-    resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+    setRegionStatus("province", "Select a province to begin");
+    resetRegionSelect("regency", "Select a province first", "Select a province first");
+    resetRegionSelect("district", "Select a city or regency first", "Select a city or regency first");
     calculatedShippingCost = 0;
     shippingBreakdown = null;
     updateShippingDisplay();
@@ -1778,14 +1778,14 @@
     if (!orderHistoryList) return;
     const orders = readArray(ORDER_STORAGE_KEY);
     if (!orders.length) {
-      orderHistoryList.innerHTML = '<p class="history-empty">Belum ada pesanan tersimpan di browser ini.</p>';
+      orderHistoryList.innerHTML = '<p class="history-empty">No orders have been saved in this browser yet.</p>';
       return;
     }
     orderHistoryList.innerHTML = orders.slice(0, 20).map((order) => {
       const date = order.createdAt ? new Date(order.createdAt) : null;
       const dateLabel = date && !Number.isNaN(date.getTime())
-        ? new Intl.DateTimeFormat("id-ID", { dateStyle: "medium", timeStyle: "short" }).format(date)
-        : "Tanggal tidak tersedia";
+        ? new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "short" }).format(date)
+        : "Date unavailable";
       const status = ORDER_STAGES[Math.min(Math.max(Number(order.statusIndex) || 0, 0), ORDER_STAGES.length - 1)];
       const itemSummary = (order.items || []).map((item) => `${escapeHTML(item.name)} ×${Math.max(1, Number(item.quantity) || 1)}`).join(" · ");
       return `<article class="history-order"><div class="history-order-top"><strong>${escapeHTML(order.orderId || "Order")}</strong><span>${escapeHTML(status)}</span></div><small>${escapeHTML(dateLabel)}</small><p>${itemSummary || "Order details unavailable"}</p><div class="history-order-bottom"><span>${money(Number(order.total) || ((order.items || []).reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 1), 0) + (Number(order.shipping) || 0)))}</span><small>${escapeHTML(order.customer?.name || "Guest")}</small></div></article>`;
@@ -1864,7 +1864,7 @@
     if (!cart.length || !checkoutForm.reportValidity()) return;
     const normalizedPhone = normalizeIndonesianPhone(customerPhoneInput?.value);
     if (!isValidIndonesianPhone(normalizedPhone)) {
-      customerPhoneInput?.setCustomValidity("Gunakan nomor WhatsApp Indonesia yang valid, contoh 081234567890.");
+      customerPhoneInput?.setCustomValidity("Enter a valid Indonesian WhatsApp number, e.g. 081234567890.");
       customerPhoneInput?.reportValidity();
       return;
     }
@@ -1904,7 +1904,7 @@
     const submitButton = $(".checkout-submit");
     if (!orderSaved) {
       if (submitButton) submitButton.disabled = false;
-      showToast("Pesanan gagal disimpan. Keranjang Anda tetap aman; coba lagi.");
+      showToast("Your order could not be saved. Your cart is safe; please try again.");
       return;
     }
 
@@ -1984,18 +1984,18 @@
     );
 
     const message = [
-      `Halo D’YFleur, saya ingin konfirmasi pesanan ${currentOrder.orderId}.`,
-      `Nama: ${customer.name}`,
+      `Hello D’YFleur, I would like to confirm order ${currentOrder.orderId}.`,
+      `Name: ${customer.name}`,
       `WhatsApp: ${customer.phone}`,
-      `Alamat: ${address}`,
-      `Catatan kurir: ${customer.notes || "-"}`,
-      `Pembayaran: ${currentOrder.payment}`,
-      `Pengiriman: ${currentOrder.shippingLabel}`,
+      `Address: ${address}`,
+      `Delivery notes: ${customer.notes || "-"}`,
+      `Payment: ${currentOrder.payment}`,
+      `Shipping: ${currentOrder.shippingLabel}`,
       ...itemLines,
       `Subtotal: ${money(currentOrder.subtotal)}`,
-      `Ongkir: ${money(currentOrder.shipping)}`,
+      `Shipping: ${money(currentOrder.shipping)}`,
       `TOTAL: ${money(currentOrder.total)}`,
-      "Catatan: pembayaran belum diverifikasi oleh sistem.",
+      "Note: payment has not been verified by the system.",
     ].join("\n");
 
     const feedback = $("#whatsappFeedback");
@@ -2003,7 +2003,7 @@
     if (!/^62\d{8,15}$/.test(internationalNumber)) {
       if (feedback)
         feedback.textContent =
-          "Nomor WhatsApp toko belum diatur. Isi WHATSAPP_NUMBER di script.js sebelum demo.";
+          "The store WhatsApp number has not been configured. Set WHATSAPP_NUMBER in script.js before the demo.";
       return;
     }
 
@@ -2014,10 +2014,10 @@
       popup.opener = null;
       if (feedback)
         feedback.textContent =
-          "Pesanan siap dikirim melalui WhatsApp. Periksa kembali detail sebelum mengirim.";
+          "Your order is ready to be sent via WhatsApp. Please review the details before sending.";
     } else if (feedback) {
       feedback.textContent =
-        "Browser memblokir tab baru. Izinkan pop-up lalu coba kembali.";
+        "Your browser blocked the new tab. Allow pop-ups and try again.";
     }
   });
 
