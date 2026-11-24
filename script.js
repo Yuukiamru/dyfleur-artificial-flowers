@@ -1255,6 +1255,136 @@
   const checkoutPanel = $("#checkoutPanel");
   const orderSuccess = $("#orderSuccess");
   const checkoutShipping = $("#checkoutShipping");
+  /* =====================================================
+     8A. INDONESIAN REGION CASCADING SEARCHABLE SELECTS
+  ===================================================== */
+
+  const regionApiBase = "https://www.emsifa.com/api-wilayah-indonesia/api";
+  const regionSelects = {
+    province: $("#provinsi"),
+    regency: $("#kabupaten"),
+    district: $("#kecamatan"),
+  };
+  const regionStatus = {
+    province: $("#provinsiStatus"),
+    regency: $("#kabupatenStatus"),
+    district: $("#kecamatanStatus"),
+  };
+  const regionControls = {};
+  const regionRequestVersion = { province: 0, regency: 0, district: 0 };
+
+  function setRegionStatus(level, message, state = "") {
+    const status = regionStatus[level];
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = state;
+  }
+
+  function resetRegionSelect(level, placeholder, statusMessage) {
+    const control = regionControls[level];
+    const select = regionSelects[level];
+    if (control) {
+      control.clear(true);
+      control.clearOptions();
+      control.disable();
+    } else if (select) {
+      select.replaceChildren(new Option(placeholder, ""));
+      select.disabled = true;
+    }
+    setRegionStatus(level, statusMessage);
+  }
+
+  function fillRegionSelect(level, regions, placeholder) {
+    const control = regionControls[level];
+    if (!control) return;
+    control.clear(true);
+    control.clearOptions();
+    control.addOption({ id: "", name: placeholder });
+    control.addOptions(regions.map((region) => ({
+      id: String(region.id),
+      name: region.name,
+    })));
+    control.refreshOptions(false);
+    control.enable();
+    setRegionStatus(level, `${regions.length.toLocaleString("id-ID")} wilayah tersedia · ketik untuk mencari`);
+  }
+
+  async function fetchRegions(level, endpoint, placeholder) {
+    const requestVersion = ++regionRequestVersion[level];
+    const control = regionControls[level];
+    if (!control) return false;
+
+    control.clear(true);
+    control.clearOptions();
+    control.disable();
+    setRegionStatus(level, "Memuat data wilayah...", "loading");
+
+    try {
+      const response = await fetch(`${regionApiBase}/${endpoint}`, {
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const regions = await response.json();
+      if (!Array.isArray(regions)) throw new Error("Format data wilayah tidak valid.");
+      if (requestVersion !== regionRequestVersion[level]) return false;
+
+      fillRegionSelect(level, regions, placeholder);
+      return true;
+    } catch (error) {
+      if (requestVersion !== regionRequestVersion[level]) return false;
+      control.clearOptions();
+      control.addOption({ id: "", name: "Data gagal dimuat" });
+      control.refreshOptions(false);
+      control.disable();
+      setRegionStatus(level, "Data gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.", "error");
+      console.error(`Gagal memuat data ${level}:`, error);
+      return false;
+    }
+  }
+
+  function initializeRegionSelects() {
+    if (!window.TomSelect) {
+      setRegionStatus("province", "Fitur pencarian gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.", "error");
+      return;
+    }
+
+    const selectConfig = (placeholder) => ({
+      valueField: "id",
+      labelField: "name",
+      searchField: ["name"],
+      create: false,
+      maxOptions: 1000,
+      closeAfterSelect: true,
+      allowEmptyOption: true,
+      placeholder,
+      render: {
+        no_results: () => '<div class="no-results">Wilayah tidak ditemukan</div>',
+        loading: () => '<div class="no-results">Memuat data...</div>',
+      },
+    });
+
+    regionControls.province = new TomSelect(regionSelects.province, selectConfig("Cari provinsi..."));
+    regionControls.regency = new TomSelect(regionSelects.regency, selectConfig("Pilih provinsi dahulu..."));
+    regionControls.district = new TomSelect(regionSelects.district, selectConfig("Pilih kabupaten/kota dahulu..."));
+
+    regionControls.province.on("change", async (provinceId) => {
+      resetRegionSelect("regency", "Pilih provinsi terlebih dahulu", "Pilih provinsi terlebih dahulu");
+      resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+      if (!provinceId) return;
+      await fetchRegions("regency", `regencies/${encodeURIComponent(provinceId)}.json`, "Pilih kota/kabupaten...");
+    });
+
+    regionControls.regency.on("change", async (regencyId) => {
+      resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+      if (!regencyId) return;
+      await fetchRegions("district", `districts/${encodeURIComponent(regencyId)}.json`, "Pilih kecamatan...");
+    });
+
+    fetchRegions("province", "provinces.json", "Pilih provinsi...");
+  }
+
+  initializeRegionSelects();
+
   const customerPhoneInput = $("#customerPhone");
   const successQrisCode = $("#successQrisCode");
   let currentOrder = null;
@@ -1481,9 +1611,9 @@
       customer: {
         name: String(data.get("customerName") || "").trim(),
         phone: normalizedPhone,
-        province: String(data.get("province") || "").trim(),
-        city: String(data.get("city") || "").trim(),
-        district: String(data.get("district") || "").trim(),
+        province: regionSelects.province?.selectedOptions[0]?.textContent.trim() || "",
+        city: regionSelects.regency?.selectedOptions[0]?.textContent.trim() || "",
+        district: regionSelects.district?.selectedOptions[0]?.textContent.trim() || "",
         postalCode: String(data.get("postalCode") || "").trim(),
         address: String(data.get("address") || "").trim(),
         notes: String(data.get("deliveryNotes") || "").trim(),
