@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="id">
+<html lang="en">
   <head>
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
     <meta charset="UTF-8" />
@@ -352,10 +352,10 @@
               </div>
             </div>
             <section class="material-catalog is-active" id="flowerCatalog" role="tabpanel" aria-labelledby="flowersTab">
-              <label class="category-select-label" for="flowerCategory">Category Flowers</label>
+              <label class="category-select-label" for="flowerCategory">Flower Category</label>
               <select class="category-select" id="flowerCategory" aria-label="Filter flowers by category">
                 <option value="all">All Flowers (37)</option>
-                <option value="addons">Add Ons Flower (5)</option>
+                <option value="addons">Floral Accents (5)</option>
                 <option value="carnation">Carnation (4)</option>
                 <option value="gerbera">Gerbera (4)</option>
                 <option value="hydrangea">Hydrangea (4)</option>
@@ -615,7 +615,7 @@
           type="button"
           disabled
         >
-          Continue to order <span>↗</span></button
+          Proceed to Checkout <span>↗</span></button
         ><small
           >Demo interface — checkout can be connected to WhatsApp or a payment
           service.</small
@@ -635,7 +635,7 @@
             <p class="eyebrow">THE FINAL STEP</p>
             <h2 id="checkoutTitle">Complete your <em>order.</em></h2>
             <p class="checkout-lead">
-              Checkout tanpa akun. Lengkapi alamat dan pilih metode pembayaran.
+              No account required. Complete your address and select a payment method.
             </p>
           </div>
           <button
@@ -656,7 +656,7 @@
               </p>
               <div class="checkout-fields">
                 <label
-                  >Nama penerima
+                  >Recipient Name
                   <input
                     id="customerName"
                     name="customerName"
@@ -664,11 +664,11 @@
                     autocomplete="name"
                     maxlength="80"
                     required
-                    placeholder="Nama lengkap penerima"
+                    placeholder="Full name"
                   />
                 </label>
                 <label
-                  >Nomor WhatsApp
+                  >WhatsApp Number
                   <input
                     id="customerPhone"
                     name="customerPhone"
@@ -682,28 +682,28 @@
                   />
                 </label>
                 <label class="region-field">
-                  Provinsi
+                  Province
                   <select id="provinsi" name="province" autocomplete="address-level1" required disabled>
-                    <option value="">Memuat data provinsi...</option>
+                    <option value="">Loading provinces...</option>
                   </select>
-                  <small class="region-field-status" id="provinsiStatus" role="status" aria-live="polite">Memuat data provinsi...</small>
+                  <small class="region-field-status" id="provinsiStatus" role="status" aria-live="polite">Loading provinces...</small>
                 </label>
                 <label class="region-field">
-                  Kota / Kabupaten
+                  City / Regency
                   <select id="kabupaten" name="city" autocomplete="address-level2" required disabled>
-                    <option value="">Pilih provinsi terlebih dahulu</option>
+                    <option value="">Select a province first</option>
                   </select>
-                  <small class="region-field-status" id="kabupatenStatus" role="status" aria-live="polite">Pilih provinsi terlebih dahulu</small>
+                  <small class="region-field-status" id="kabupatenStatus" role="status" aria-live="polite">Select a province first</small>
                 </label>
                 <label class="region-field">
-                  Kecamatan
+                  District
                   <select id="kecamatan" name="district" required disabled>
-                    <option value="">Pilih kabupaten/kota terlebih dahulu</option>
+                    <option value="">Select a city or regency first</option>
                   </select>
-                  <small class="region-field-status" id="kecamatanStatus" role="status" aria-live="polite">Pilih kabupaten/kota terlebih dahulu</small>
+                  <small class="region-field-status" id="kecamatanStatus" role="status" aria-live="polite">Select a city or regency first</small>
                 </label>
                 <label
-                  >Kode pos
+                  >Postal Code
                   <input
                     name="postalCode"
                     type="text"
@@ -711,27 +711,27 @@
                     pattern="[0-9]{5}"
                     maxlength="5"
                     required
-                    placeholder="5 digit kode pos"
+                    placeholder="5-digit postal code"
                   />
                 </label>
                 <label class="field-full"
-                  >Alamat lengkap
+                  >Full Address
                   <textarea
                     name="address"
                     rows="3"
                     maxlength="350"
                     autocomplete="street-address"
                     required
-                    placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan"
+                    placeholder="Street name, house number, neighborhood, and local area"
                   ></textarea>
                 </label>
                 <label class="field-full"
-                  >Catatan untuk kurir <span>(opsional)</span>
+                  >Delivery Notes <span>(opsional)</span>
                   <textarea
                     name="deliveryNotes"
                     rows="2"
                     maxlength="250"
-                    placeholder="Patokan rumah atau instruksi pengiriman"
+                    placeholder="Landmarks or delivery instructions"
                   ></textarea>
                 </label>
               </div>
@@ -742,10 +742,10 @@
                 02 / DELIVERY & PAYMENT
               </p>
               <select id="checkoutShipping" name="shipping" hidden aria-hidden="true" tabindex="-1">
-                <option value="0">Ongkir dihitung otomatis berdasarkan alamat</option>
+                <option value="0">Shipping is calculated automatically based on your address</option>
               </select>
 
-              <p class="checkout-label payment-title">Metode pembayaran</p>
+              <p class="checkout-label payment-title">Payment Method</p>
               <div class="payment-options">
                 <label class="payment-option">
                   <input
@@ -757,7 +757,7 @@
                   <span class="payment-symbol" aria-hidden="true">▤</span>
                   <span
                     ><strong>Bank Transfer</strong
-                    ><small>Konfirmasi transfer secara manual</small></span
+                    ><small>Bank transfer confirmation is handled manually</small></span
                   >
                 </label>
                 <label class="payment-option">
@@ -765,7 +765,7 @@
                   <span class="payment-symbol" aria-hidden="true">▦</span>
                   <span
                     ><strong>QRIS</strong
-                    ><small>Scan barcode untuk pembayaran QRIS</small></span
+                    ><small>Scan the QR code to pay with QRIS</small></span
                   >
                 </label>
                 <label class="payment-option">
@@ -777,13 +777,13 @@
                   <span class="payment-symbol" aria-hidden="true">₨</span>
                   <span
                     ><strong>Cash on Delivery</strong
-                    ><small>Bayar saat pesanan diterima (simulasi)</small></span
+                    ><small>Pay when your order arrives (simulation)</small></span
                   >
                 </label>
               </div>
               <div class="qris-code" id="qrisCode" hidden>
-                <p>Scan barcode QRIS ini untuk membayar</p>
-                <img src="assets/qr.svg" alt="Barcode pembayaran QRIS" />
+                <p>Scan this QR code to pay with QRIS</p>
+                <img src="assets/qr.svg" alt="QRIS payment code" />
               </div>
 
               <div
@@ -793,11 +793,11 @@
               ></div>
               <div class="checkout-price-summary">
                 <div>
-                  <span>Subtotal produk</span
+                  <span>Product Subtotal</span
                   ><strong id="checkoutSubtotal">Rp0</strong>
                 </div>
                 <div>
-                  <span>Ongkos kirim</span
+                  <span>Shipping Cost</span
                   ><strong id="checkoutShippingCost">Rp0</strong>
                 </div>
                 <div
@@ -808,13 +808,12 @@
 
                 </div>
                 <div class="checkout-grand-total">
-                  <span>Total pembayaran</span
+                  <span>Total Payment</span
                   ><strong id="checkoutGrandTotal">Rp0</strong>
                 </div>
               </div>
               <p class="checkout-disclaimer">
-                Demo akademik: belum ada transaksi pembayaran, verifikasi
-                transfer, atau tarif kurir sungguhan.
+                Academic demo: no actual payments, bank transfer verification, or live courier rates are processed.
               </p>
               <button class="button button-dark checkout-submit" type="submit">
                 Place order <span>↗</span>
@@ -833,15 +832,14 @@
           <p class="eyebrow">ORDER RECEIVED</p>
           <h3 id="successTitle">Your order is <em>in our hands.</em></h3>
           <p>
-            Terima kasih, <strong id="successOrderName"></strong>. Pesanan demo
-            lu sudah dicatat.
+            Thank you, <strong id="successOrderName"></strong>. Your demo order has been recorded.
           </p>
           <div class="order-reference">
             <span>ORDER NUMBER</span><strong id="successOrderNumber"></strong>
           </div>
           <div class="qris-code" id="successQrisCode" hidden>
-            <p>Scan barcode QRIS ini untuk membayar</p>
-            <img src="assets/qr.svg" alt="Barcode pembayaran QRIS" />
+            <p>Scan this QR code to pay with QRIS</p>
+            <img src="assets/qr.svg" alt="QRIS payment code" />
           </div>
           <div class="success-order-items" id="successOrderItems"></div>
           <div class="success-meta">
@@ -863,8 +861,7 @@
           <p class="panel-label tracking-heading">03 / ORDER DELIVERY STATUS</p>
           <div class="tracking-timeline" id="trackingTimeline"></div>
           <p class="checkout-disclaimer">
-            Status pengiriman bisa digerakkan untuk demo. Ini bukan pelacakan
-            kurir langsung.
+            Delivery status can be advanced for demonstration purposes. This is not live courier tracking.
           </p>
           <p
             class="checkout-disclaimer"
@@ -905,7 +902,7 @@
           <div><p class="eyebrow">YOUR PREVIOUS CHECKOUTS</p><h2 id="historyTitle">Order <em>history.</em></h2></div>
           <button class="cart-close" id="closeOrderHistory" type="button" aria-label="Close order history">×</button>
         </header>
-        <p class="history-note">Riwayat tersimpan di browser ini saja. Pesanan tidak tersinkron ke perangkat lain.</p>
+        <p class="history-note">Order history is stored only in this browser and is not synced across devices.</p>
         <div class="history-list" id="orderHistoryList" aria-live="polite"></div>
       </div>
     </dialog>
@@ -916,8 +913,8 @@
       href="https://wa.me/628881548329?text=Halo%20D%E2%80%99YFleur%2C%20saya%20ingin%20bertanya."
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Hubungi customer service D’YFleur via WhatsApp"
-      title="Hubungi customer service"
+      aria-label="Contact D’YFleur customer service via WhatsApp"
+      title="Contact customer service"
     >
       <img src="assets/CS.svg" alt="Customer Service" />
     </a>
