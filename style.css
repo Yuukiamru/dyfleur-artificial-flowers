@@ -138,6 +138,16 @@ img {
   object-fit: contain;
 }
 
+.brand-mark {
+  display: block;
+  flex: 0 0 67px;
+  width: 67px;
+  height: 63px;
+  background-color: currentColor;
+  -webkit-mask: url("assets/logo.svg") center / contain no-repeat;
+  mask: url("assets/logo.svg") center / contain no-repeat;
+}
+
 .main-nav {
   margin-left: auto;
 
@@ -6221,7 +6231,8 @@ html {
   color: var(--wine);
 }
 
-.site-header .brand img {
+.site-header .brand-mark {
+  flex-basis: 48px;
   width: 48px;
   height: 48px;
 }
@@ -6742,4 +6753,160 @@ label,
 
 .shop-search-label input::placeholder {
   color: var(--color-muted-accessible);
+}
+
+/* Adaptive foregrounds for the floating controls. */
+.site-header .brand,
+.site-header .brand-mark,
+.site-header .nav-link,
+.site-header .menu-toggle,
+.site-header .cart-button,
+.whatsapp-float {
+  transition:
+    color 0.3s ease,
+    fill 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.site-header .brand-mark {
+  transition: background-color 0.3s ease;
+}
+
+.site-header .cart-icon,
+.whatsapp-float img {
+  transition: filter 0.3s ease;
+}
+
+.site-header.theme-light {
+  border-color: rgba(255, 255, 255, 0.42);
+  background: rgba(53, 25, 35, 0.38);
+  color: var(--paper);
+}
+
+.site-header.theme-light.scrolled {
+  background: rgba(53, 25, 35, 0.72);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.18);
+}
+
+.site-header.theme-light .brand {
+  color: var(--paper);
+}
+
+.site-header.theme-light .nav-link,
+.site-header.theme-light .nav-link:hover,
+.site-header.theme-light .nav-link.active {
+  color: var(--paper);
+}
+
+.site-header.theme-light .nav-link::after {
+  background: currentColor;
+}
+
+.site-header.theme-light .cart-button,
+.site-header.theme-light .menu-toggle {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--paper);
+}
+
+.site-header.theme-light .menu-toggle span {
+  background: currentColor;
+}
+
+.site-header.theme-light .cart-icon {
+  filter: brightness(0) invert(1);
+}
+
+.site-header.theme-dark {
+  border-color: rgba(53, 25, 35, 0.2);
+  background: rgba(247, 242, 235, 0.62);
+  color: var(--wine);
+}
+
+.site-header.theme-dark.scrolled {
+  background: rgba(247, 242, 235, 0.86);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1);
+}
+
+.site-header.theme-dark .brand,
+.site-header.theme-dark .nav-link,
+.site-header.theme-dark .cart-button,
+.site-header.theme-dark .menu-toggle {
+  color: var(--wine);
+}
+
+.site-header.theme-dark .nav-link:hover,
+.site-header.theme-dark .nav-link.active {
+  color: var(--wine-2);
+}
+
+.site-header.theme-dark .nav-link::after {
+  background: currentColor;
+}
+
+.site-header.theme-dark .menu-toggle span {
+  background: currentColor;
+}
+
+.site-header.theme-light .nav-link:focus-visible,
+.site-header.theme-light .menu-toggle:focus-visible,
+.site-header.theme-light .cart-button:focus-visible,
+.whatsapp-float.theme-light:focus-visible {
+  outline-color: var(--paper);
+}
+
+.site-header.theme-dark .nav-link:focus-visible,
+.site-header.theme-dark .menu-toggle:focus-visible,
+.site-header.theme-dark .cart-button:focus-visible,
+.whatsapp-float.theme-dark:focus-visible {
+  outline-color: var(--wine);
+}
+
+.site-header.theme-dark .cart-icon {
+  filter: brightness(0) saturate(100%) invert(11%) sepia(25%) saturate(1800%)
+    hue-rotate(286deg) brightness(91%) contrast(96%);
+}
+
+.site-header.theme-light .main-nav .nav-link,
+.site-header.theme-light .main-nav .nav-link:hover,
+.site-header.theme-light .main-nav .nav-link.active {
+  color: var(--paper);
+}
+
+.site-header.theme-light .main-nav .nav-link::after {
+  background: currentColor;
+}
+
+.whatsapp-float.theme-light {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--paper);
+}
+
+.whatsapp-float.theme-light img {
+  filter: brightness(0) invert(1);
+}
+
+.whatsapp-float.theme-dark {
+  border-color: rgba(53, 25, 35, 0.2);
+  background: rgba(53, 25, 35, 0.14);
+  color: var(--wine);
+}
+
+.whatsapp-float.theme-dark img {
+  filter: brightness(0) saturate(100%) invert(11%) sepia(25%) saturate(1800%)
+    hue-rotate(286deg) brightness(91%) contrast(96%);
+}
+
+@media (max-width: 768px) {
+  .site-header.theme-light .main-nav {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(53, 25, 35, 0.82);
+  }
+
+  .site-header.theme-dark .main-nav {
+    background: rgba(247, 242, 235, 0.78);
+  }
 }

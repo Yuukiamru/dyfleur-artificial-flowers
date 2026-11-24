@@ -70,10 +70,52 @@
   const menuToggle = $("#menuToggle");
   const mainNav = $("#mainNav");
   const siteHeader = $("#top");
+  const serviceButton = $(".whatsapp-float");
+  const themeSections = $$("main > section[id], main > footer[id]");
+  let themeFrame = 0;
+
+  function getForegroundThemeAt(y) {
+    const section = themeSections.find((candidate) => {
+      const bounds = candidate.getBoundingClientRect();
+      return bounds.top <= y && bounds.bottom > y;
+    });
+
+    return section?.dataset.backgroundTheme === "dark" ? "light" : "dark";
+  }
+
+  function applyForegroundTheme(element, theme) {
+    if (!element) return;
+    element.classList.toggle("theme-light", theme === "light");
+    element.classList.toggle("theme-dark", theme === "dark");
+  }
+
+  function updateAdaptiveThemes() {
+    if (themeFrame) return;
+    themeFrame = window.requestAnimationFrame(() => {
+      themeFrame = 0;
+
+      if (siteHeader) {
+        const bounds = siteHeader.getBoundingClientRect();
+        applyForegroundTheme(
+          siteHeader,
+          getForegroundThemeAt(bounds.top + bounds.height / 2),
+        );
+      }
+
+      if (serviceButton) {
+        const bounds = serviceButton.getBoundingClientRect();
+        applyForegroundTheme(
+          serviceButton,
+          getForegroundThemeAt(bounds.top + bounds.height / 2),
+        );
+      }
+    });
+  }
 
   if (siteHeader) {
     const updateScrolledState = () => {
       siteHeader.classList.toggle("scrolled", window.scrollY > 50);
+      updateAdaptiveThemes();
     };
 
     updateScrolledState();
@@ -83,6 +125,7 @@
       updateScrolledState,
       { passive: true },
     );
+    window.addEventListener("resize", updateScrolledState, { passive: true });
   }
 
   function closeMenu() {
