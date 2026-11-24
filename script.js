@@ -1298,9 +1298,21 @@
     "KOTA CILEGON-CIBEBER": 2,
   };
 
-  const OUTSIDE_JAVA_SHIPPING = 45000;
-  const KABUPATEN_TIER_RATE = 2000;
-  const KECAMATAN_TIER_RATE = 500;
+  const provinsiJawa = [
+    "BANTEN",
+    "DKI JAKARTA",
+    "JAWA BARAT",
+    "JAWA TENGAH",
+    "DI YOGYAKARTA",
+    "JAWA TIMUR",
+  ];
+
+  // Base sementara untuk provinsi di luar Jawa; dapat diganti per provinsi nanti.
+  const baseRateLuarJawa = 45000;
+  const KABUPATEN_TIER_RATE_JAWA = 2000;
+  const KECAMATAN_TIER_RATE_JAWA = 500;
+  const KABUPATEN_TIER_RATE_LUAR_JAWA = 2500;
+  const KECAMATAN_TIER_RATE_LUAR_JAWA = 1000;
   let calculatedShippingCost = 0;
 
   function normalizeRegionName(value) {
@@ -1318,50 +1330,63 @@
   }
 
   function calculateAddressShipping() {
-    // Nama mentah berasal dari field "name" API Emsifa yang ditampilkan di option.
+    // Nama wilayah berasal dari field "name" API Emsifa.
     const rawProvince = selectedRegionName("province");
     const rawRegency = selectedRegionName("regency");
     const rawDistrict = selectedRegionName("district");
-    const province = normalizeRegionName(rawProvince);
+    const namaProvinsi = normalizeRegionName(rawProvince);
     const regency = normalizeRegionName(rawRegency);
     const district = normalizeRegionName(rawDistrict);
 
-    if (!province) return 0;
+    if (!namaProvinsi) return 0;
 
-    if (!Object.prototype.hasOwnProperty.call(baseRateJawa, province)) {
-      console.log("[D'YFleur shipping] Wilayah di luar daftar tarif Jawa:", {
-        apiName: { province: rawProvince, regency: rawRegency, district: rawDistrict },
-        normalized: { province, regency, district },
-        appliedRate: OUTSIDE_JAVA_SHIPPING,
-      });
-      return OUTSIDE_JAVA_SHIPPING;
-    }
+    const isJava = provinsiJawa.includes(namaProvinsi);
+    const baseProvinsi = isJava
+      ? (baseRateJawa[namaProvinsi] ?? 0)
+      : baseRateLuarJawa;
 
-    const kabupatenKey = `${province}-${regency}`;
+    const kabupatenKey = `${namaProvinsi}-${regency}`;
     const kecamatanKey = `${regency}-${district}`;
     const hasKabupatenTier = Object.prototype.hasOwnProperty.call(tierKabupaten, kabupatenKey);
     const hasKecamatanTier = Object.prototype.hasOwnProperty.call(tierKecamatan, kecamatanKey);
-    const kabupatenTier = hasKabupatenTier ? tierKabupaten[kabupatenKey] : 0;
-    const kecamatanTier = hasKecamatanTier ? tierKecamatan[kecamatanKey] : 0;
+    const tierKabupatenValue = hasKabupatenTier ? tierKabupaten[kabupatenKey] : 0;
+    const tierKecamatanValue = hasKecamatanTier ? tierKecamatan[kecamatanKey] : 0;
 
-    // Diagnostic sementara: cek nama API, hasil normalisasi, dan kecocokan key tier.
+    const kabupatenMultiplier = isJava
+      ? KABUPATEN_TIER_RATE_JAWA
+      : KABUPATEN_TIER_RATE_LUAR_JAWA;
+    const kecamatanMultiplier = isJava
+      ? KECAMATAN_TIER_RATE_JAWA
+      : KECAMATAN_TIER_RATE_LUAR_JAWA;
+
+    const totalShipping =
+      baseProvinsi +
+      tierKabupatenValue * kabupatenMultiplier +
+      tierKecamatanValue * kecamatanMultiplier;
+
+    // Diagnostic sementara untuk memeriksa nama API dan kecocokan key tier.
     console.log("[D'YFleur shipping] Address match:", {
       apiName: { province: rawProvince, regency: rawRegency, district: rawDistrict },
-      normalized: { province, regency, district },
-      keys: { province, kabupaten: kabupatenKey, kecamatan: kecamatanKey },
+      normalized: { province: namaProvinsi, regency, district },
+      regionGroup: isJava ? "Jawa" : "Luar Jawa",
+      keys: { province: namaProvinsi, kabupaten: kabupatenKey, kecamatan: kecamatanKey },
       matches: {
-        province: Object.prototype.hasOwnProperty.call(baseRateJawa, province),
+        provinceBase: isJava
+          ? Object.prototype.hasOwnProperty.call(baseRateJawa, namaProvinsi)
+          : true,
         kabupaten: hasKabupatenTier,
         kecamatan: hasKecamatanTier,
       },
-      tiers: { kabupaten: kabupatenTier, kecamatan: kecamatanTier },
+      baseProvinsi,
+      tiers: { kabupaten: tierKabupatenValue, kecamatan: tierKecamatanValue },
+      multipliers: {
+        kabupaten: kabupatenMultiplier,
+        kecamatan: kecamatanMultiplier,
+      },
+      totalShipping,
     });
 
-    return (
-      baseRateJawa[province] +
-      kabupatenTier * KABUPATEN_TIER_RATE +
-      kecamatanTier * KECAMATAN_TIER_RATE
-    );
+    return totalShipping;
   }
 
   function updateShippingDisplay() {
