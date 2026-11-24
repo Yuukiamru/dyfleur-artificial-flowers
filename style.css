@@ -7188,3 +7188,14 @@ label,
     will-change: auto;
   }
 }
+
+/* Keep the expanded mobile menu visually matched to the floating glass header. */
+@media (max-width: 768px) {
+  .site-header .main-nav.open {
+    border-color: inherit;
+    background: inherit;
+    box-shadow: inherit;
+    -webkit-backdrop-filter: inherit;
+    backdrop-filter: inherit;
+  }
+}
