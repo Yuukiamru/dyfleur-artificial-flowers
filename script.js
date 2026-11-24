@@ -1376,13 +1376,6 @@
       checkoutShipping.disabled = true;
     }
 
-    const shippingLabel = checkoutShipping?.closest(".checkout-section")?.querySelector(".checkout-label");
-    if (shippingLabel) shippingLabel.innerHTML = 'Ongkos kirim <span>(otomatis berdasarkan alamat)</span>';
-    const shippingHelper = checkoutShipping?.closest(".checkout-section")?.querySelector(".shipping-helper");
-    if (shippingHelper) {
-      shippingHelper.textContent = "Tarif dihitung otomatis dari provinsi, kabupaten/kota, dan kecamatan tujuan.";
-    }
-
     updateCheckoutTotals();
   }
 
