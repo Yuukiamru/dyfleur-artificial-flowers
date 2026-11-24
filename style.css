@@ -4458,6 +4458,9 @@ select:focus-visible {
   font-size: 10px;
 }
 .shipping-breakdown {
+  overflow-wrap: anywhere;
+  line-height: 1.55;
+  
   display: grid;
   gap: 6px;
   margin: -4px 0 8px;
