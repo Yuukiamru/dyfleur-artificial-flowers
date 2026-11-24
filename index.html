@@ -478,17 +478,23 @@
         </div>
 
         <div class="builder-checkout">
-          <div class="custom-bouquet-name-field">
-            <label for="customBouquetName">NAME YOUR BOUQUET</label>
-            <input
-              id="customBouquetName"
-              type="text"
-              maxlength="40"
-              autocomplete="off"
-              placeholder="e.g. A Promise in Bloom"
-              aria-describedby="customBouquetNameHint"
-            />
-            <small id="customBouquetNameHint">Give your arrangement a name (up to 40 characters).</small>
+          <div class="checkout-bar-wrapper">
+            <div class="custom-bouquet-name-field">
+              <label for="customBouquetName">NAME YOUR BOUQUET</label>
+              <input
+                id="customBouquetName"
+                type="text"
+                maxlength="40"
+                autocomplete="off"
+                placeholder="e.g. A Promise in Bloom"
+                aria-describedby="customBouquetNameHint"
+              />
+              <small id="customBouquetNameHint">Give your arrangement a name (up to 40 characters).</small>
+            </div>
+            <div class="builder-cart-actions">
+              <button class="button button-light" id="addBouquet" type="button" disabled>Add bouquet to cart <span>↗</span></button>
+              <button class="button button-dark" id="cancelBouquetEdit" type="button" hidden>Cancel editing</button>
+            </div>
           </div>
           <div class="checkout-summary">
             <span class="panel-label">YOUR CREATION</span
@@ -501,10 +507,6 @@
             ><strong id="builderTotal">Rp0</strong>
           </div>
 
-          <div class="builder-cart-actions">
-            <button class="button button-light" id="addBouquet" type="button" disabled>Add bouquet to cart <span>↗</span></button>
-            <button class="button button-dark" id="cancelBouquetEdit" type="button" hidden>Cancel editing</button>
-          </div>
         </div>
       </section>
 
