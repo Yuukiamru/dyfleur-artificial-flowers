@@ -1273,6 +1273,96 @@
   const regionControls = {};
   const regionRequestVersion = { province: 0, regency: 0, district: 0 };
 
+  /* =====================================================
+     8B. ADDRESS-BASED SHIPPING — JAVA + FLAT OUTSIDE JAVA
+  ===================================================== */
+
+  const baseRateJawa = {
+    "BANTEN": 5000,
+    "DKI JAKARTA": 10000,
+    "JAWA BARAT": 15000,
+    "JAWA TENGAH": 25000,
+    "DI YOGYAKARTA": 25000,
+    "JAWA TIMUR": 25000,
+  };
+
+  const tierKabupaten = {
+    "BANTEN-KOTA CILEGON": 0,
+    "BANTEN-KOTA SERANG": 1,
+    "BANTEN-KABUPATEN PANDEGLANG": 2,
+  };
+
+  const tierKecamatan = {
+    "KOTA CILEGON-PURWAKARTA": 0,
+    "KOTA CILEGON-CILEGON": 1,
+    "KOTA CILEGON-CIBEBER": 2,
+  };
+
+  const OUTSIDE_JAVA_SHIPPING = 45000;
+  const KABUPATEN_TIER_RATE = 2000;
+  const KECAMATAN_TIER_RATE = 500;
+  let calculatedShippingCost = 0;
+
+  function normalizeRegionName(value) {
+    return String(value || "")
+      .normalize("NFKD")
+      .replace(/[\\u0300-\\u036f]/g, "")
+      .trim()
+      .replace(/\\s+/g, " ")
+      .toLocaleUpperCase("id-ID");
+  }
+
+  function selectedRegionName(level) {
+    const select = regionSelects[level];
+    return select?.selectedOptions?.[0]?.textContent?.trim() || "";
+  }
+
+  function calculateAddressShipping() {
+    const province = normalizeRegionName(selectedRegionName("province"));
+    const regency = normalizeRegionName(selectedRegionName("regency"));
+    const district = normalizeRegionName(selectedRegionName("district"));
+
+    if (!province) return 0;
+
+    if (!Object.prototype.hasOwnProperty.call(baseRateJawa, province)) {
+      return OUTSIDE_JAVA_SHIPPING;
+    }
+
+    const kabupatenKey = `${province}-${regency}`;
+    const kecamatanKey = `${regency}-${district}`;
+    const kabupatenTier = tierKabupaten[kabupatenKey] ?? 0;
+    const kecamatanTier = tierKecamatan[kecamatanKey] ?? 0;
+
+    return (
+      baseRateJawa[province] +
+      kabupatenTier * KABUPATEN_TIER_RATE +
+      kecamatanTier * KECAMATAN_TIER_RATE
+    );
+  }
+
+  function updateShippingDisplay() {
+    calculatedShippingCost = calculateAddressShipping();
+
+    if (checkoutShipping) {
+      const label = calculatedShippingCost
+        ? `Ongkir berdasarkan alamat — ${money(calculatedShippingCost)}`
+        : "Pilih provinsi untuk menghitung ongkir";
+      checkoutShipping.replaceChildren(new Option(label, String(calculatedShippingCost), true, true));
+      checkoutShipping.required = false;
+      checkoutShipping.disabled = true;
+    }
+
+    const shippingLabel = checkoutShipping?.closest(".checkout-section")?.querySelector(".checkout-label");
+    if (shippingLabel) shippingLabel.innerHTML = 'Ongkos kirim <span>(otomatis berdasarkan alamat)</span>';
+    const shippingHelper = checkoutShipping?.closest(".checkout-section")?.querySelector(".shipping-helper");
+    if (shippingHelper) {
+      shippingHelper.textContent = "Tarif dihitung otomatis dari provinsi, kabupaten/kota, dan kecamatan tujuan.";
+    }
+
+    updateCheckoutTotals();
+  }
+
+
   function setRegionStatus(level, message, state = "") {
     const status = regionStatus[level];
     if (!status) return;
@@ -1370,15 +1460,19 @@
     regionControls.province.on("change", async (provinceId) => {
       resetRegionSelect("regency", "Pilih provinsi terlebih dahulu", "Pilih provinsi terlebih dahulu");
       resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+      updateShippingDisplay();
       if (!provinceId) return;
       await fetchRegions("regency", `regencies/${encodeURIComponent(provinceId)}.json`, "Pilih kota/kabupaten...");
     });
 
     regionControls.regency.on("change", async (regencyId) => {
       resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+      updateShippingDisplay();
       if (!regencyId) return;
       await fetchRegions("district", `districts/${encodeURIComponent(regencyId)}.json`, "Pilih kecamatan...");
     });
+
+    regionControls.district.on("change", updateShippingDisplay);
 
     fetchRegions("province", "provinces.json", "Pilih provinsi...");
   }
@@ -1390,6 +1484,8 @@
     setRegionStatus("province", "Pilih provinsi untuk memulai");
     resetRegionSelect("regency", "Pilih provinsi terlebih dahulu", "Pilih provinsi terlebih dahulu");
     resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+    calculatedShippingCost = 0;
+    updateShippingDisplay();
   }
 
 
@@ -1414,7 +1510,7 @@
   });
 
   function shippingValue() {
-    return Number(checkoutShipping?.value || 0);
+    return calculatedShippingCost;
   }
 
   function renderOrderItems(target, items) {
