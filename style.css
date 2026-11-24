@@ -7191,12 +7191,7 @@ label,
 
 /* Match the expanded mobile menu to the header's adaptive glass surface. */
 @media (max-width: 768px) {
-  /* The parent filter creates a backdrop root; move the blur to the dropdown while open. */
-  body.nav-open .site-header {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-
+  /* Keep the floating header's own glass blur active while the menu is open. */
   .site-header .main-nav.open {
     border-color: inherit;
     background: inherit;
