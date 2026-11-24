@@ -7346,3 +7346,25 @@ label,
   box-shadow: none;
   font: inherit;
 }
+
+/* Mobile menu glass fix: prevent the header from becoming the nav's backdrop root. */
+@media (max-width: 768px) {
+  body.nav-open .site-header {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  body.nav-open .site-header .main-nav.open {
+    -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+    backdrop-filter: blur(16px) saturate(160%) !important;
+    background: rgba(247, 242, 235, 0.42);
+  }
+
+  body.nav-open .site-header.theme-light .main-nav.open {
+    background: rgba(53, 25, 35, 0.42);
+  }
+
+  body.nav-open .site-header.theme-dark .main-nav.open {
+    background: rgba(247, 242, 235, 0.42);
+  }
+}
