@@ -1277,13 +1277,14 @@
      8B. ADDRESS-BASED SHIPPING — JAVA + FLAT OUTSIDE JAVA
   ===================================================== */
 
+  // Semua key provinsi memakai format cleanName() tanpa spasi atau simbol.
   const baseRateJawa = {
     "BANTEN": 5000,
-    "DKI JAKARTA": 10000,
-    "JAWA BARAT": 15000,
-    "JAWA TENGAH": 25000,
-    "DI YOGYAKARTA": 25000,
-    "JAWA TIMUR": 25000,
+    "DKIJAKARTA": 10000,
+    "JAWABARAT": 15000,
+    "JAWATENGAH": 25000,
+    "DIYOGYAKARTA": 25000,
+    "JAWATIMUR": 25000,
   };
 
   // Semua key kabupaten/kota memakai nama bersih tanpa awalan KABUPATEN/KOTA.
@@ -1303,11 +1304,11 @@
 
   const provinsiJawa = [
     "BANTEN",
-    "DKI JAKARTA",
-    "JAWA BARAT",
-    "JAWA TENGAH",
-    "DI YOGYAKARTA",
-    "JAWA TIMUR",
+    "DKIJAKARTA",
+    "JAWABARAT",
+    "JAWATENGAH",
+    "DIYOGYAKARTA",
+    "JAWATIMUR",
   ];
 
   // Base sementara untuk provinsi di luar Jawa; dapat diganti per provinsi nanti.
@@ -1319,15 +1320,12 @@
   let calculatedShippingCost = 0;
   let shippingBreakdown = null;
 
-  function normalizeRegionName(value) {
-    return String(value || "")
-      .normalize("NFKD")
-      .replace(/[\\u0300-\\u036f]/g, "")
-      .toLocaleUpperCase("id-ID")
-      .replace(/\\bKAB(?:UPATEN)?\\.?\\b/g, " ")
-      .replace(/\\bKOTA\\b/g, " ")
-      .replace(/[.]/g, " ")
-      .replace(/\\s+/g, " ")
+  function cleanName(str) {
+    if (!str) return "";
+    return String(str)
+      .toUpperCase()
+      .replace(/KABUPATEN|KAB\\.|KOTA/g, "")
+      .replace(/[^A-Z0-9]/g, "")
       .trim();
   }
 
@@ -1341,9 +1339,9 @@
     const rawProvince = selectedRegionName("province");
     const rawRegency = selectedRegionName("regency");
     const rawDistrict = selectedRegionName("district");
-    const namaProvinsi = normalizeRegionName(rawProvince);
-    const namaKabupaten = normalizeRegionName(rawRegency);
-    const namaKecamatan = normalizeRegionName(rawDistrict);
+    const namaProvinsi = cleanName(rawProvince);
+    const namaKabupaten = cleanName(rawRegency);
+    const namaKecamatan = cleanName(rawDistrict);
 
     // Log dijalankan setiap dropdown berubah, termasuk saat alamat belum lengkap.
     console.log("[D'YFleur shipping] API region names:", {
@@ -1411,10 +1409,13 @@
   }
 
   function formatShippingRegionName(value, prefix) {
-    const normalized = normalizeRegionName(value)
-      .replace(/^KABUPATEN\s+/, "")
-      .replace(/^KOTA\s+/, "");
-    return `${prefix} ${normalized.toLocaleLowerCase("id-ID").replace(/\b\p{L}/gu, (letter) => letter.toLocaleUpperCase("id-ID"))}`;
+    const displayName = String(value || "")
+      .replace(/\\bKABUPATEN\\b|\\bKAB\\.?\\b|\\bKOTA\\b/gi, "")
+      .replace(/\\s+/g, " ")
+      .trim()
+      .toLocaleLowerCase("id-ID")
+      .replace(/\\b\\p{L}/gu, (letter) => letter.toLocaleUpperCase("id-ID"));
+    return `${prefix} ${displayName}`;
   }
 
   function renderShippingBreakdown() {
