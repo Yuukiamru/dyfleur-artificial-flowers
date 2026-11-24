@@ -7220,3 +7220,100 @@ label,
     box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1);
   }
 }
+
+
+/* Checkout cascading region selectors — D'YFleur / Tom Select */
+.checkout-dialog .region-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.checkout-dialog .region-field-status {
+  min-height: 15px;
+  color: var(--color-muted-accessible);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.checkout-dialog .region-field-status[data-state="loading"] {
+  color: var(--wine-3);
+}
+
+.checkout-dialog .region-field-status[data-state="error"] {
+  color: #a13f4b;
+}
+
+.checkout-dialog .ts-wrapper {
+  width: 100%;
+  min-width: 0;
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.checkout-dialog .ts-control {
+  min-height: 46px;
+  padding: 11px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: none;
+  font: inherit;
+}
+
+.checkout-dialog .ts-wrapper.single .ts-control,
+.checkout-dialog .ts-wrapper.single.input-active .ts-control {
+  cursor: text;
+}
+
+.checkout-dialog .ts-wrapper.focus .ts-control {
+  border-color: var(--wine-3);
+  outline: 2px solid rgba(100, 47, 67, 0.18);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(100, 47, 67, 0.1);
+}
+
+.checkout-dialog .ts-wrapper.disabled .ts-control {
+  cursor: not-allowed;
+  opacity: 0.58;
+  background: rgba(247, 242, 235, 0.72);
+}
+
+.checkout-dialog .ts-dropdown {
+  z-index: 30;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 12px 30px rgba(53, 25, 35, 0.14);
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.checkout-dialog .ts-dropdown .option,
+.checkout-dialog .ts-dropdown .no-results {
+  padding: 10px 14px;
+}
+
+.checkout-dialog .ts-dropdown .active {
+  background: var(--rose-light);
+  color: var(--wine);
+}
+
+.checkout-dialog .ts-dropdown .selected {
+  background: rgba(100, 47, 67, 0.1);
+  color: var(--wine);
+}
+
+.checkout-dialog .ts-wrapper .ts-control input {
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+}
