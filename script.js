@@ -1410,7 +1410,7 @@
 
   function formatShippingRegionName(value, prefix) {
     const displayName = String(value || "")
-      .replace(/\\bKABUPATEN\\b|\\bKAB\\.?\\b|\\bKOTA\\b/gi, "")
+      .replace(/\\b(?:KABUPATEN|KAB\\.?)\\s*|\\bKOTA\\s*/gi, "")
       .replace(/\\s+/g, " ")
       .trim()
       .toLocaleLowerCase("id-ID")
