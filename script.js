@@ -133,6 +133,7 @@
     menuToggle.setAttribute("aria-expanded", "false");
     menuToggle.setAttribute("aria-label", "Open navigation");
     mainNav.classList.remove("open");
+    document.body.classList.remove("nav-open");
   }
 
   menuToggle?.addEventListener("click", () => {
@@ -143,6 +144,7 @@
       willOpen ? "Close navigation" : "Open navigation",
     );
     mainNav?.classList.toggle("open", willOpen);
+    document.body.classList.toggle("nav-open", willOpen);
   });
 
   $$(".nav-link").forEach((link) => {
@@ -236,7 +238,6 @@
       index: "FEATURED PIECE / 001",
       meta: "Bunga artifisial · Dekorasi ruangan",
       dimensions: "40 × 60 cm",
-      composition: "3 pink alstroemeria · 4 white gerbera / daisy",
       icon: "✿",
     },
     "blush-tulip": {
@@ -249,7 +250,6 @@
       index: "CURATED PIECE / 002",
       meta: "Bunga artifisial · Dekorasi dan hadiah",
       dimensions: "38 × 43 cm",
-      composition: "2 white lilies · 3 red roses",
       icon: "🌷",
     },
     "lavender-bloom": {
@@ -262,7 +262,6 @@
       index: "CURATED PIECE / 003",
       meta: "Bunga artifisial · Dekorasi dan hadiah",
       dimensions: "60 × 43 cm",
-      composition: "2 white lilies · 3 red roses · 5–6 pink tulips",
       icon: "✳",
     },
   };
@@ -273,7 +272,6 @@
   const shopIndex = $("#shopProductIndex");
   const shopMeta = $("#shopProductMeta");
   const shopDimensions = $("#shopProductDimensions");
-  const shopComposition = $("#shopProductComposition");
   const shopImage = $("#shopChairBouquet");
   const shopAddButton = $("#shopAddButton");
   const productCards = $$(".shop-product-card");
@@ -321,7 +319,6 @@
     if (shopPrice) shopPrice.textContent = money(product.price);
     if (shopMeta) shopMeta.textContent = product.meta;
     if (shopDimensions) shopDimensions.textContent = product.dimensions;
-    if (shopComposition) shopComposition.textContent = product.composition;
     if (shopAddButton) shopAddButton.dataset.addProduct = id;
 
     if (shopImage) {
@@ -456,6 +453,7 @@
 
   function openCart() {
     if (!cartDrawer || !cartBackdrop) return;
+    if (mainNav?.classList.contains("open")) closeMenu();
     lastFocusedElement = document.activeElement;
     cartDrawer.classList.add("open");
     cartDrawer.setAttribute("aria-hidden", "false");
@@ -1257,7 +1255,6 @@
   const orderSuccess = $("#orderSuccess");
   const checkoutShipping = $("#checkoutShipping");
   const customerPhoneInput = $("#customerPhone");
-  const qrisCode = $("#qrisCode");
   const successQrisCode = $("#successQrisCode");
   let currentOrder = null;
 
@@ -1331,7 +1328,10 @@
 
     closeCart(false);
     checkoutForm?.reset();
-    if (qrisCode) qrisCode.hidden = true;
+    if (successQrisCode) {
+      successQrisCode.hidden = true;
+      successQrisCode.classList.remove("is-visible");
+    }
     const submitButton = $(".checkout-submit");
     if (submitButton) submitButton.disabled = false;
     if (checkoutForm) checkoutForm.hidden = false;
@@ -1344,13 +1344,6 @@
   }
 
   $("#checkoutButton")?.addEventListener("click", openCheckout);
-  checkoutForm
-    ?.querySelectorAll('input[name="paymentMethod"]')
-    .forEach((input) => {
-      input.addEventListener("change", () => {
-        if (qrisCode) qrisCode.hidden = input.value !== "QRIS";
-      });
-    });
   checkoutShipping?.addEventListener("change", updateCheckoutTotals);
   $("#closeCheckout")?.addEventListener("click", () => checkoutDialog?.close());
   $("#closeCheckoutSuccess")?.addEventListener("click", () =>
@@ -1504,9 +1497,6 @@
       total: subtotal + shipping,
       statusIndex: 0,
     };
-    if (successQrisCode)
-      successQrisCode.hidden = currentOrder.payment !== "QRIS";
-
     const orderSaved = saveOrder(currentOrder);
     const submitButton = $(".checkout-submit");
     if (!orderSaved) {
@@ -1523,6 +1513,11 @@
     if (checkoutForm) checkoutForm.hidden = true;
     if (checkoutPanel) checkoutPanel.hidden = true;
     if (orderSuccess) orderSuccess.hidden = false;
+    if (successQrisCode) {
+      const showQrisCode = currentOrder.payment === "QRIS";
+      successQrisCode.hidden = !showQrisCode;
+      successQrisCode.classList.toggle("is-visible", showQrisCode);
+    }
 
     if ($("#successOrderNumber"))
       $("#successOrderNumber").textContent = currentOrder.orderId;
