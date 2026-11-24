@@ -1322,7 +1322,8 @@
       .replace(/[\u0300-\u036f]/g, "")
       .trim()
       .replace(/\s+/g, " ")
-      .toLocaleUpperCase("id-ID");
+      .toLocaleUpperCase("id-ID")
+      .replace(/^KAB(?:UPATEN)?\.?\s+/, "KABUPATEN ");
   }
 
   function selectedRegionName(level) {
@@ -1407,41 +1408,30 @@
     return totalShipping;
   }
 
+  function formatShippingRegionName(value, prefix) {
+    const normalized = normalizeRegionName(value)
+      .replace(/^KABUPATEN\s+/, "")
+      .replace(/^KOTA\s+/, "");
+    return `${prefix} ${normalized.toLocaleLowerCase("id-ID").replace(/\b\p{L}/gu, (letter) => letter.toLocaleUpperCase("id-ID"))}`;
+  }
+
   function renderShippingBreakdown() {
     const container = $("#shippingBreakdown");
     if (!container) return;
 
-    container.replaceChildren();
-    const rows = shippingBreakdown
-      ? [
-          ["Base provinsi", shippingBreakdown.baseProvinsi],
-          [
-            `Kabupaten/kota (Tier ${shippingBreakdown.kabupatenTier} × ${money(shippingBreakdown.kabupatenMultiplier)})`,
-            shippingBreakdown.kabupatenCost,
-          ],
-          [
-            `Kecamatan (Tier ${shippingBreakdown.kecamatanTier} × ${money(shippingBreakdown.kecamatanMultiplier)})`,
-            shippingBreakdown.kecamatanCost,
-          ],
-        ]
-      : null;
+    container.textContent = "";
+    if (!shippingBreakdown) return;
 
-    if (!rows) {
-      const message = document.createElement("span");
-      message.textContent = "Lengkapi provinsi, kabupaten/kota, dan kecamatan untuk menghitung ongkir.";
-      container.append(message);
-      return;
-    }
+    const provinceName = shippingBreakdown.province
+      .toLocaleLowerCase("id-ID")
+      .replace(/\b\p{L}/gu, (letter) => letter.toLocaleUpperCase("id-ID"));
+    const parts = [
+      `Base ${provinceName} (${money(shippingBreakdown.baseProvinsi)})`,
+      `${formatShippingRegionName(shippingBreakdown.regency, "Kab.")} (${money(shippingBreakdown.kabupatenCost)})`,
+      `${formatShippingRegionName(shippingBreakdown.district, "Kec.")} (${money(shippingBreakdown.kecamatanCost)})`,
+    ];
 
-    rows.forEach(([label, value]) => {
-      const row = document.createElement("div");
-      const name = document.createElement("span");
-      const amount = document.createElement("strong");
-      name.textContent = label;
-      amount.textContent = money(value);
-      row.append(name, amount);
-      container.append(row);
-    });
+    container.textContent = `${parts.join(" + ")} = ${money(calculatedShippingCost)}`;
   }
 
   function updateShippingDisplay() {
@@ -1450,7 +1440,7 @@
     if (checkoutShipping) {
       const label = calculatedShippingCost
         ? `Ongkir berdasarkan alamat — ${money(calculatedShippingCost)}`
-        : "Lengkapi alamat untuk menghitung ongkir";
+        : "Ongkir belum dihitung";
       checkoutShipping.replaceChildren(new Option(label, String(calculatedShippingCost), true, true));
       checkoutShipping.required = false;
       checkoutShipping.disabled = true;
@@ -1650,7 +1640,9 @@
     if ($("#checkoutShippingCost"))
       $("#checkoutShippingCost").textContent = money(shipping);
     if ($("#checkoutGrandTotal"))
-      $("#checkoutGrandTotal").textContent = money(subtotal + shipping);
+      $("#checkoutGrandTotal").textContent = money(
+        shippingBreakdown ? subtotal + shipping : 0,
+      );
 
     renderOrderItems($("#checkoutItems"), cart);
   }
@@ -1831,7 +1823,7 @@
       items: cart.map((item) => ({ ...item })),
       subtotal,
       shipping,
-      total: subtotal + shipping,
+      total: shippingBreakdown ? subtotal + shipping : 0,
       statusIndex: 0,
     };
     const orderSaved = saveOrder(currentOrder);
