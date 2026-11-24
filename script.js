@@ -1286,16 +1286,19 @@
     "JAWA TIMUR": 25000,
   };
 
+  // Semua key kabupaten/kota memakai nama bersih tanpa awalan KABUPATEN/KOTA.
   const tierKabupaten = {
-    "BANTEN-KOTA CILEGON": 0,
-    "BANTEN-KOTA SERANG": 1,
-    "BANTEN-KABUPATEN PANDEGLANG": 2,
+    "BANTEN-CILEGON": 0,
+    "BANTEN-SERANG": 1,
+    "BANTEN-PANDEGLANG": 2,
+    "BANTEN-TANGERANG": 3,
   };
 
+  // Key kecamatan juga memakai nama kabupaten/kota yang sudah dibersihkan.
   const tierKecamatan = {
-    "KOTA CILEGON-PURWAKARTA": 0,
-    "KOTA CILEGON-CILEGON": 1,
-    "KOTA CILEGON-CIBEBER": 2,
+    "CILEGON-PURWAKARTA": 0,
+    "CILEGON-CILEGON": 1,
+    "CILEGON-CIBEBER": 2,
   };
 
   const provinsiJawa = [
@@ -1319,11 +1322,13 @@
   function normalizeRegionName(value) {
     return String(value || "")
       .normalize("NFKD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim()
-      .replace(/\s+/g, " ")
+      .replace(/[\\u0300-\\u036f]/g, "")
       .toLocaleUpperCase("id-ID")
-      .replace(/^KAB(?:UPATEN)?\.?\s+/, "KABUPATEN ");
+      .replace(/\\bKAB(?:UPATEN)?\\.?\\b/g, " ")
+      .replace(/\\bKOTA\\b/g, " ")
+      .replace(/[.]/g, " ")
+      .replace(/\\s+/g, " ")
+      .trim();
   }
 
   function selectedRegionName(level) {
@@ -1332,16 +1337,27 @@
   }
 
   function calculateAddressShipping() {
-    // Nama wilayah berasal dari field "name" API Emsifa.
+    // Nama asli berasal dari field "name" API Emsifa yang dipakai sebagai label dropdown.
     const rawProvince = selectedRegionName("province");
     const rawRegency = selectedRegionName("regency");
     const rawDistrict = selectedRegionName("district");
     const namaProvinsi = normalizeRegionName(rawProvince);
-    const regency = normalizeRegionName(rawRegency);
-    const district = normalizeRegionName(rawDistrict);
+    const namaKabupaten = normalizeRegionName(rawRegency);
+    const namaKecamatan = normalizeRegionName(rawDistrict);
 
-    // Ongkir baru dihitung setelah ketiga tingkat alamat dipilih.
-    if (!namaProvinsi || !regency || !district) {
+    // Log dijalankan setiap dropdown berubah, termasuk saat alamat belum lengkap.
+    console.log("[D'YFleur shipping] API region names:", {
+      province: rawProvince,
+      regency: rawRegency,
+      district: rawDistrict,
+      normalized: {
+        province: namaProvinsi,
+        regency: namaKabupaten,
+        district: namaKecamatan,
+      },
+    });
+
+    if (!namaProvinsi || !namaKabupaten || !namaKecamatan) {
       shippingBreakdown = null;
       return 0;
     }
@@ -1351,8 +1367,8 @@
       ? (baseRateJawa[namaProvinsi] ?? 0)
       : baseRateLuarJawa;
 
-    const kabupatenKey = `${namaProvinsi}-${regency}`;
-    const kecamatanKey = `${regency}-${district}`;
+    const kabupatenKey = `${namaProvinsi}-${namaKabupaten}`;
+    const kecamatanKey = `${namaKabupaten}-${namaKecamatan}`;
     const hasKabupatenTier = Object.prototype.hasOwnProperty.call(tierKabupaten, kabupatenKey);
     const hasKecamatanTier = Object.prototype.hasOwnProperty.call(tierKecamatan, kecamatanKey);
     const tierKabupatenValue = hasKabupatenTier ? tierKabupaten[kabupatenKey] : 0;
@@ -1383,25 +1399,11 @@
       isJava,
     };
 
-    // Diagnostic sementara untuk memeriksa nama API dan kecocokan key tier.
-    console.log("[D'YFleur shipping] Address match:", {
-      apiName: { province: rawProvince, regency: rawRegency, district: rawDistrict },
-      normalized: { province: namaProvinsi, regency, district },
-      regionGroup: isJava ? "Jawa" : "Luar Jawa",
-      keys: { province: namaProvinsi, kabupaten: kabupatenKey, kecamatan: kecamatanKey },
-      matches: {
-        provinceBase: isJava
-          ? Object.prototype.hasOwnProperty.call(baseRateJawa, namaProvinsi)
-          : true,
-        kabupaten: hasKabupatenTier,
-        kecamatan: hasKecamatanTier,
-      },
-      baseProvinsi,
+    console.log("[D'YFleur shipping] Tier matching:", {
+      keys: { kabupaten: kabupatenKey, kecamatan: kecamatanKey },
+      matches: { kabupaten: hasKabupatenTier, kecamatan: hasKecamatanTier },
       tiers: { kabupaten: tierKabupatenValue, kecamatan: tierKecamatanValue },
-      multipliers: {
-        kabupaten: kabupatenMultiplier,
-        kecamatan: kecamatanMultiplier,
-      },
+      multipliers: { kabupaten: kabupatenMultiplier, kecamatan: kecamatanMultiplier },
       totalShipping,
     });
 
