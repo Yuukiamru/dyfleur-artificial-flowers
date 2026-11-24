@@ -1314,6 +1314,7 @@
   const KABUPATEN_TIER_RATE_LUAR_JAWA = 2500;
   const KECAMATAN_TIER_RATE_LUAR_JAWA = 1000;
   let calculatedShippingCost = 0;
+  let shippingBreakdown = null;
 
   function normalizeRegionName(value) {
     return String(value || "")
@@ -1338,7 +1339,11 @@
     const regency = normalizeRegionName(rawRegency);
     const district = normalizeRegionName(rawDistrict);
 
-    if (!namaProvinsi) return 0;
+    // Ongkir baru dihitung setelah ketiga tingkat alamat dipilih.
+    if (!namaProvinsi || !regency || !district) {
+      shippingBreakdown = null;
+      return 0;
+    }
 
     const isJava = provinsiJawa.includes(namaProvinsi);
     const baseProvinsi = isJava
@@ -1359,10 +1364,23 @@
       ? KECAMATAN_TIER_RATE_JAWA
       : KECAMATAN_TIER_RATE_LUAR_JAWA;
 
-    const totalShipping =
-      baseProvinsi +
-      tierKabupatenValue * kabupatenMultiplier +
-      tierKecamatanValue * kecamatanMultiplier;
+    const kabupatenCost = tierKabupatenValue * kabupatenMultiplier;
+    const kecamatanCost = tierKecamatanValue * kecamatanMultiplier;
+    const totalShipping = baseProvinsi + kabupatenCost + kecamatanCost;
+
+    shippingBreakdown = {
+      province: rawProvince,
+      regency: rawRegency,
+      district: rawDistrict,
+      baseProvinsi,
+      kabupatenTier: tierKabupatenValue,
+      kabupatenMultiplier,
+      kabupatenCost,
+      kecamatanTier: tierKecamatanValue,
+      kecamatanMultiplier,
+      kecamatanCost,
+      isJava,
+    };
 
     // Diagnostic sementara untuk memeriksa nama API dan kecocokan key tier.
     console.log("[D'YFleur shipping] Address match:", {
@@ -1389,18 +1407,56 @@
     return totalShipping;
   }
 
+  function renderShippingBreakdown() {
+    const container = $("#shippingBreakdown");
+    if (!container) return;
+
+    container.replaceChildren();
+    const rows = shippingBreakdown
+      ? [
+          ["Base provinsi", shippingBreakdown.baseProvinsi],
+          [
+            `Kabupaten/kota (Tier ${shippingBreakdown.kabupatenTier} × ${money(shippingBreakdown.kabupatenMultiplier)})`,
+            shippingBreakdown.kabupatenCost,
+          ],
+          [
+            `Kecamatan (Tier ${shippingBreakdown.kecamatanTier} × ${money(shippingBreakdown.kecamatanMultiplier)})`,
+            shippingBreakdown.kecamatanCost,
+          ],
+        ]
+      : null;
+
+    if (!rows) {
+      const message = document.createElement("span");
+      message.textContent = "Lengkapi provinsi, kabupaten/kota, dan kecamatan untuk menghitung ongkir.";
+      container.append(message);
+      return;
+    }
+
+    rows.forEach(([label, value]) => {
+      const row = document.createElement("div");
+      const name = document.createElement("span");
+      const amount = document.createElement("strong");
+      name.textContent = label;
+      amount.textContent = money(value);
+      row.append(name, amount);
+      container.append(row);
+    });
+  }
+
   function updateShippingDisplay() {
     calculatedShippingCost = calculateAddressShipping();
 
     if (checkoutShipping) {
       const label = calculatedShippingCost
         ? `Ongkir berdasarkan alamat — ${money(calculatedShippingCost)}`
-        : "Pilih provinsi untuk menghitung ongkir";
+        : "Lengkapi alamat untuk menghitung ongkir";
       checkoutShipping.replaceChildren(new Option(label, String(calculatedShippingCost), true, true));
       checkoutShipping.required = false;
       checkoutShipping.disabled = true;
     }
 
+    renderShippingBreakdown();
     updateCheckoutTotals();
   }
 
@@ -1529,6 +1585,7 @@
     resetRegionSelect("regency", "Pilih provinsi terlebih dahulu", "Pilih provinsi terlebih dahulu");
     resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
     calculatedShippingCost = 0;
+    shippingBreakdown = null;
     updateShippingDisplay();
   }
 
