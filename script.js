@@ -1311,8 +1311,60 @@
     "JAWATIMUR",
   ];
 
-  // Base sementara untuk provinsi di luar Jawa; dapat diganti per provinsi nanti.
-  const baseRateLuarJawa = 45000;
+  // Pengelompokan provinsi luar Jawa berdasarkan tier jarak dari Cilegon.
+  // Pencocokan memakai cleanName() agar spasi dan tanda baca tidak memengaruhi hasil.
+  const tierJarakLuarJawa = {
+    TIER_1: [
+      "LAMPUNG",
+      "SUMATERA SELATAN",
+      "BENGKULU",
+      "JAMBI",
+      "KEPULAUAN BANGKA BELITUNG",
+    ],
+    TIER_2: [
+      "RIAU",
+      "KEPULAUAN RIAU",
+      "SUMATERA BARAT",
+      "SUMATERA UTARA",
+      "ACEH",
+      "BALI",
+      "NUSA TENGGARA BARAT",
+    ],
+    TIER_3: [
+      "KALIMANTAN BARAT",
+      "KALIMANTAN TENGAH",
+      "KALIMANTAN SELATAN",
+      "KALIMANTAN TIMUR",
+      "KALIMANTAN UTARA",
+      "NUSA TENGGARA TIMUR",
+    ],
+    TIER_4: [
+      "SULAWESI SELATAN",
+      "SULAWESI BARAT",
+      "SULAWESI TENGGARA",
+      "SULAWESI TENGAH",
+      "GORONTALO",
+      "SULAWESI UTARA",
+      "MALUKU",
+      "MALUKU UTARA",
+    ],
+    TIER_5: [
+      "PAPUA",
+      "PAPUA BARAT",
+      "PAPUA BARAT DAYA",
+      "PAPUA TENGAH",
+      "PAPUA PEGUNUNGAN",
+      "PAPUA SELATAN",
+    ],
+  };
+
+  const hargaBaseLuarJawa = {
+    TIER_1: 25000,
+    TIER_2: 35000,
+    TIER_3: 45000,
+    TIER_4: 55000,
+    TIER_5: 80000,
+  };
   const KABUPATEN_TIER_RATE_JAWA = 2000;
   const KECAMATAN_TIER_RATE_JAWA = 500;
   const KABUPATEN_TIER_RATE_LUAR_JAWA = 2500;
@@ -1361,9 +1413,14 @@
     }
 
     const isJava = provinsiJawa.includes(namaProvinsi);
+    const matchedDistanceTier = isJava
+      ? null
+      : Object.entries(tierJarakLuarJawa).find(([, provinces]) =>
+          provinces.some((province) => cleanName(province) === namaProvinsi),
+        )?.[0] || "TIER_5";
     const baseProvinsi = isJava
       ? (baseRateJawa[namaProvinsi] ?? 0)
-      : baseRateLuarJawa;
+      : hargaBaseLuarJawa[matchedDistanceTier];
 
     const kabupatenKey = `${namaProvinsi}-${namaKabupaten}`;
     const kecamatanKey = `${namaKabupaten}-${namaKecamatan}`;
@@ -1396,6 +1453,7 @@
       regency: rawRegency,
       district: rawDistrict,
       baseProvinsi,
+      distanceTier: matchedDistanceTier,
       kabupatenTier: tierKabupatenValue,
       kabupatenMultiplier,
       kabupatenCost,
@@ -1409,6 +1467,8 @@
       keys: { kabupaten: kabupatenKey, kecamatan: kecamatanKey },
       matches: { kabupaten: hasKabupatenTier, kecamatan: hasKecamatanTier },
       tiers: { kabupaten: tierKabupatenValue, kecamatan: tierKecamatanValue },
+      distanceTier: matchedDistanceTier || "JAVA",
+      baseProvinsi,
       multipliers: { kabupaten: kabupatenMultiplier, kecamatan: kecamatanMultiplier },
       totalShipping,
     });
@@ -1436,8 +1496,11 @@
     const provinceName = shippingBreakdown.province
       .toLocaleLowerCase("id-ID")
       .replace(/\b\p{L}/gu, (letter) => letter.toLocaleUpperCase("id-ID"));
+    const baseLabel = shippingBreakdown.isJava
+      ? `Base ${provinceName}`
+      : `Base Jarak ${shippingBreakdown.distanceTier.replace("_", " ")}`;
     const parts = [
-      `Base ${provinceName} (${money(shippingBreakdown.baseProvinsi)})`,
+      `${baseLabel} (${money(shippingBreakdown.baseProvinsi)})`,
       `${formatShippingRegionName(shippingBreakdown.regency, "Kab.")} (${money(shippingBreakdown.kabupatenCost)})`,
       `${formatShippingRegionName(shippingBreakdown.district, "Kec.")} (${money(shippingBreakdown.kecamatanCost)})`,
     ];
