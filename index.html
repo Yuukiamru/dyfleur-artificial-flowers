@@ -36,11 +36,7 @@
   <body>
     <header class="site-header" id="top">
       <a class="brand" href="#home" aria-label="D’YFleur home">
-        <img
-          src="assets/logo.svg"
-          alt=""
-          onerror="this.hidden = true"
-        />
+        <span class="brand-mark" aria-hidden="true"></span>
 
         <span>D’YFleur</span>
       </a>
@@ -86,6 +82,7 @@
       <section
         class="hero section-screen"
         id="home"
+        data-background-theme="dark"
         aria-labelledby="heroTitle"
       >
         <div class="hero-grain" aria-hidden="true"></div>
@@ -158,7 +155,7 @@
 
       <!-- SHOP -->
 
-      <section class="shop section-pad" id="shop" aria-labelledby="shopTitle">
+      <section class="shop section-pad" id="shop" data-background-theme="light" aria-labelledby="shopTitle">
         <div class="section-heading shop-heading">
           <p class="eyebrow">THE D’YFLEUR COLLECTION</p>
 
@@ -327,6 +324,7 @@
       <section
         class="builder section-pad"
         id="builder"
+        data-background-theme="light"
         aria-labelledby="builderTitle"
       >
         <div class="section-heading builder-heading">
@@ -508,7 +506,7 @@
 
       <!-- ABOUT -->
 
-      <section class="about section-pad" id="about">
+      <section class="about section-pad" id="about" data-background-theme="light">
         <img
           class="about-mark about-mark-desktop"
           src="assets/logo-1.svg"
@@ -543,7 +541,7 @@
 
       <!-- CONTACT / FOOTER -->
 
-      <footer class="contact section-pad" id="contact">
+      <footer class="contact section-pad" id="contact" data-background-theme="dark">
         <div class="footer-main">
           <div>
             <p class="eyebrow">LET'S MAKE SOMETHING BEAUTIFUL</p>

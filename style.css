@@ -7018,3 +7018,70 @@ label,
     background: rgba(247, 242, 235, 0.78);
   }
 }
+
+
+/* Adaptive navbar + floating customer-service contrast */
+.site-header .brand-mark {
+  flex: 0 0 67px;
+  width: 67px;
+  height: 63px;
+  background-color: currentColor;
+  -webkit-mask: url("assets/logo.svg") center / contain no-repeat;
+  mask: url("assets/logo.svg") center / contain no-repeat;
+}
+
+.site-header .brand,
+.site-header .brand-mark,
+.site-header .nav-link,
+.site-header .cart-button,
+.site-header .menu-toggle,
+.site-header .cart-icon,
+.whatsapp-float,
+.whatsapp-float img {
+  transition:
+    color 0.3s ease,
+    fill 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    filter 0.3s ease;
+}
+
+/* Keep foregrounds readable against the declared section surfaces. */
+.site-header.theme-light,
+.site-header.theme-light .brand,
+.site-header.theme-light .nav-link,
+.site-header.theme-light .cart-button,
+.site-header.theme-light .menu-toggle,
+.whatsapp-float.theme-light {
+  color: #fffaf4;
+}
+
+.site-header.theme-dark,
+.site-header.theme-dark .brand,
+.site-header.theme-dark .nav-link,
+.site-header.theme-dark .cart-button,
+.site-header.theme-dark .menu-toggle,
+.whatsapp-float.theme-dark {
+  color: #351923;
+}
+
+.site-header.theme-light .brand-mark,
+.site-header.theme-dark .brand-mark {
+  background-color: currentColor;
+}
+
+@media (max-width: 767px) {
+  .site-header .brand-mark {
+    flex-basis: 60px;
+    width: 60px;
+    height: 64px;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-header .brand-mark {
+    flex-basis: 64px;
+    width: 64px;
+    height: 69px;
+  }
+}

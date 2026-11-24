@@ -80,6 +80,7 @@
       return bounds.top <= y && bounds.bottom > y;
     });
 
+    // "light" foreground belongs on dark surfaces; otherwise use dark ink.
     return section?.dataset.backgroundTheme === "dark" ? "light" : "dark";
   }
 
