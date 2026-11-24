@@ -28,7 +28,11 @@
       rel="stylesheet"
     />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" />
+
     <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js" defer></script>
 
     <script src="script.js" defer></script>
   </head>
@@ -675,37 +679,26 @@
                     placeholder="08xxxxxxxxxx"
                   />
                 </label>
-                <label
-                  >Provinsi
-                  <input
-                    name="province"
-                    type="text"
-                    autocomplete="address-level1"
-                    maxlength="80"
-                    required
-                    placeholder="Provinsi"
-                  />
+                <label class="region-field">
+                  Provinsi
+                  <select id="provinsi" name="province" autocomplete="address-level1" required disabled>
+                    <option value="">Memuat data provinsi...</option>
+                  </select>
+                  <small class="region-field-status" id="provinsiStatus" role="status" aria-live="polite">Memuat data provinsi...</small>
                 </label>
-                <label
-                  >Kota / Kabupaten
-                  <input
-                    name="city"
-                    type="text"
-                    autocomplete="address-level2"
-                    maxlength="80"
-                    required
-                    placeholder="Kota atau kabupaten"
-                  />
+                <label class="region-field">
+                  Kota / Kabupaten
+                  <select id="kabupaten" name="city" autocomplete="address-level2" required disabled>
+                    <option value="">Pilih provinsi terlebih dahulu</option>
+                  </select>
+                  <small class="region-field-status" id="kabupatenStatus" role="status" aria-live="polite">Pilih provinsi terlebih dahulu</small>
                 </label>
-                <label
-                  >Kecamatan
-                  <input
-                    name="district"
-                    type="text"
-                    maxlength="80"
-                    required
-                    placeholder="Kecamatan"
-                  />
+                <label class="region-field">
+                  Kecamatan
+                  <select id="kecamatan" name="district" required disabled>
+                    <option value="">Pilih kabupaten/kota terlebih dahulu</option>
+                  </select>
+                  <small class="region-field-status" id="kecamatanStatus" role="status" aria-live="polite">Pilih kabupaten/kota terlebih dahulu</small>
                 </label>
                 <label
                   >Kode pos
