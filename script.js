@@ -1385,6 +1385,14 @@
 
   initializeRegionSelects();
 
+  function resetCheckoutRegionFields() {
+    regionControls.province?.clear(true);
+    setRegionStatus("province", "Pilih provinsi untuk memulai");
+    resetRegionSelect("regency", "Pilih provinsi terlebih dahulu", "Pilih provinsi terlebih dahulu");
+    resetRegionSelect("district", "Pilih kabupaten/kota terlebih dahulu", "Pilih kabupaten/kota terlebih dahulu");
+  }
+
+
   const customerPhoneInput = $("#customerPhone");
   const successQrisCode = $("#successQrisCode");
   let currentOrder = null;
@@ -1459,6 +1467,7 @@
 
     closeCart(false);
     checkoutForm?.reset();
+    resetCheckoutRegionFields();
     if (successQrisCode) {
       successQrisCode.hidden = true;
       successQrisCode.classList.remove("is-visible");
