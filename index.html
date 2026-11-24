@@ -739,15 +739,9 @@
               <p class="panel-label" id="paymentHeading">
                 02 / DELIVERY & PAYMENT
               </p>
-              <label class="checkout-label" for="checkoutShipping"
-                >Zona pengiriman <span>(tarif simulasi)</span></label
-              >
-              <select id="checkoutShipping" name="shipping" required>
-                <option value="12000">Zona dekat — Rp12.000</option>
-                <option value="20000">Zona menengah — Rp20.000</option>
-                <option value="30000">Zona jauh — Rp30.000</option>
+              <select id="checkoutShipping" name="shipping" hidden aria-hidden="true" tabindex="-1">
+                <option value="0">Ongkir dihitung otomatis berdasarkan alamat</option>
               </select>
-              <p class="shipping-helper">Pilih zona sebagai estimasi demo. Tarif belum dihitung otomatis dari alamat.</p>
 
               <p class="checkout-label payment-title">Metode pembayaran</p>
               <div class="payment-options">
