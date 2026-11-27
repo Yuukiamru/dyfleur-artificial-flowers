@@ -352,7 +352,7 @@
       index: "CURATED PIECE / 003",
       meta: "Artificial flowers · Décor and gifting",
       dimensions: "60 × 43 cm",
-      icon: "✳",
+      icon: "flower",
     },
   };
 
