@@ -236,6 +236,13 @@
     { title: "Our Values & Promise", kicker: "MADE WITH INTENTION", number: "05", text: "Aesthetic excellence, thoughtful craftsmanship, and lasting beauty shape every decision we make. We promise to create floral pieces with care, so the moments and sentiments they represent can remain part of your space for years to come." },
   ];
 
+  const aboutPalette = [
+    { name: "Warm Ivory", hex: "#F7F2EB", meaning: "Purity & Timelessness" },
+    { name: "Muted Blush", hex: "#EED5D2", meaning: "Softness & Grace" },
+    { name: "Soft Rose", hex: "#C9959A", meaning: "Elegance & Warmth" },
+    { name: "Deep Burgundy", hex: "#351923", meaning: "Depth & Luxury" },
+  ];
+
   const aboutSection = $("#about");
   const aboutContent = $("#dynamic-content", aboutSection || document);
   const stackContainer = $(".stack-container", aboutSection || document);
@@ -247,10 +254,19 @@
     const item = aboutData[index];
     window.clearTimeout(contentTransitionTimer);
     const render = () => {
+      aboutSection?.classList.toggle("is-color-philosophy", item.number === "03");
       aboutContent.innerHTML = `
         <p class="eyebrow about-kicker">${escapeHTML(item.kicker)} <span>${item.number} / 05</span></p>
         <h2 class="about-title">${escapeHTML(item.title)}</h2>
         <p class="about-description">${escapeHTML(item.text)}</p>
+        ${item.number === "03" ? `<div class="about-color-grid" aria-label="D’YFleur brand color palette">
+          ${aboutPalette.map((color) => `<article class="about-color-item">
+            <span class="about-color-swatch" style="--swatch-color: ${color.hex}" aria-hidden="true"></span>
+            <h3 class="about-color-name">${escapeHTML(color.name)}</h3>
+            <p class="about-color-hex">${escapeHTML(color.hex)}</p>
+            <p class="about-color-meaning">${escapeHTML(color.meaning)}</p>
+          </article>`).join("")}
+        </div>` : ""}
         ${item.number === "05" ? `<div class="about-values-icons" aria-label="Our values"><div>${iconSvg("diamond")}<span>Aesthetic Excellence</span></div><div>${iconSvg("needle")}<span>Intentional Craftsmanship</span></div><div>${iconSvg("infinity")}<span>Everlasting Connections</span></div></div>` : ""}
         <a class="text-link about-contact-link" href="#contact">A little more about us ${iconSvg("arrow-up-right", "ui-icon ui-icon-inline")}</a>`;
       aboutContent.classList.remove("is-fading-out");
