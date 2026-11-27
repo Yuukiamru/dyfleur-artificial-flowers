@@ -328,7 +328,7 @@
       index: "FEATURED PIECE / 001",
       meta: "Artificial flowers · Home décor",
       dimensions: "40 × 60 cm",
-      icon: "✿",
+      icon: "flower",
     },
     "blush-tulip": {
       name: "The Lily of Silent Release",
@@ -340,7 +340,7 @@
       index: "CURATED PIECE / 002",
       meta: "Artificial flowers · Décor and gifting",
       dimensions: "38 × 43 cm",
-      icon: "🌷",
+      icon: "flower",
     },
     "lavender-bloom": {
       name: "The Blush of Everlasting Love",
@@ -378,7 +378,7 @@
         fallback = document.createElement("span");
         fallback.className = "shop-card-fallback";
         fallback.setAttribute("aria-hidden", "true");
-        fallback.textContent = product.icon;
+        fallback.innerHTML = iconSvg("flower", "ui-icon ui-icon-illustration");
         image.after(fallback);
       }
     }, { once: true });
@@ -518,7 +518,7 @@
     .map((item) => ({
       name: item.name,
       price: Number(item.price),
-      icon: String(item.icon || "✿"),
+      icon: String(item.icon || "flower"),
       image: cartItemImage(item),
       quantity: Math.min(99, Math.max(1, Math.floor(Number(item.quantity) || 1))),
       detail: String(item.detail || ""),
@@ -681,7 +681,7 @@
     const normalized = {
       name: String(item.name || "D’YFleur item"),
       price: Number(item.price),
-      icon: String(item.icon || "✿"),
+      icon: String(item.icon || "flower"),
       image: cartItemImage(item),
       quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
       detail: String(item.detail || ""),
@@ -792,52 +792,52 @@
 
   const flowerData = {
     // Catalog prices are provisional demo values until final prices are supplied.
-    "addons-babys-breath": { name: "Baby's Breath", price: 7000, category: "addons", image: "assets/flowers/add-ons-flower/babys-breath.png", glyph: "✳", size: 48 },
-    "addons-chamomile": { name: "Chamomile", price: 6000, category: "addons", image: "assets/flowers/add-ons-flower/chamomile.png", glyph: "✿", size: 48 },
-    "addons-million-stars": { name: "Million Stars", price: 7000, category: "addons", image: "assets/flowers/add-ons-flower/million-stars.png", glyph: "✳", size: 48 },
-    "addons-statice": { name: "Statice", price: 6000, category: "addons", image: "assets/flowers/add-ons-flower/statice.png", glyph: "✿", size: 48 },
-    "addons-wax-flower": { name: "Wax Flower", price: 6000, category: "addons", image: "assets/flowers/add-ons-flower/wax-flower.png", glyph: "✳", size: 48 },
+    "addons-babys-breath": { name: "Baby's Breath", price: 7000, category: "addons", image: "assets/flowers/add-ons-flower/babys-breath.png", glyph: "flower", size: 48 },
+    "addons-chamomile": { name: "Chamomile", price: 6000, category: "addons", image: "assets/flowers/add-ons-flower/chamomile.png", glyph: "flower", size: 48 },
+    "addons-million-stars": { name: "Million Stars", price: 7000, category: "addons", image: "assets/flowers/add-ons-flower/million-stars.png", glyph: "flower", size: 48 },
+    "addons-statice": { name: "Statice", price: 6000, category: "addons", image: "assets/flowers/add-ons-flower/statice.png", glyph: "flower", size: 48 },
+    "addons-wax-flower": { name: "Wax Flower", price: 6000, category: "addons", image: "assets/flowers/add-ons-flower/wax-flower.png", glyph: "flower", size: 48 },
 
-    "carnation-pink": { name: "Pink Carnation", price: 11000, category: "carnation", image: "assets/flowers/Carnation/pink-carnation.png", glyph: "✿", size: 58 },
-    "carnation-purple": { name: "Purple Carnation", price: 11000, category: "carnation", image: "assets/flowers/Carnation/purple-carnation.png", glyph: "✿", size: 58 },
-    "carnation-red": { name: "Red Carnation", price: 11000, category: "carnation", image: "assets/flowers/Carnation/red-carnation.png", glyph: "✿", size: 58 },
-    "carnation-white": { name: "White Carnation", price: 11000, category: "carnation", image: "assets/flowers/Carnation/white carnation.png", glyph: "✿", size: 58 },
+    "carnation-pink": { name: "Pink Carnation", price: 11000, category: "carnation", image: "assets/flowers/Carnation/pink-carnation.png", glyph: "flower", size: 58 },
+    "carnation-purple": { name: "Purple Carnation", price: 11000, category: "carnation", image: "assets/flowers/Carnation/purple-carnation.png", glyph: "flower", size: 58 },
+    "carnation-red": { name: "Red Carnation", price: 11000, category: "carnation", image: "assets/flowers/Carnation/red-carnation.png", glyph: "flower", size: 58 },
+    "carnation-white": { name: "White Carnation", price: 11000, category: "carnation", image: "assets/flowers/Carnation/white carnation.png", glyph: "flower", size: 58 },
     
-    "gerbera-orange": { name: "Orange Gerbera", price: 11000, category: "gerbera", image: "assets/flowers/Gerberas/orange-gerbera.png", glyph: "✿", size: 58 },
-    "gerbera-pink": { name: "Pink Gerbera", price: 11000, category: "gerbera", image: "assets/flowers/Gerberas/pink-gerbera.png", glyph: "✿", size: 58 },
-    "gerbera-red": { name: "Red Gerbera", price: 11000, category: "gerbera", image: "assets/flowers/Gerberas/red-gerbera.png", glyph: "✿", size: 58 },
-    "gerbera-white": { name: "White Gerbera", price: 11000, category: "gerbera", image: "assets/flowers/Gerberas/white-gerbera.png", glyph: "✿", size: 58 },
+    "gerbera-orange": { name: "Orange Gerbera", price: 11000, category: "gerbera", image: "assets/flowers/Gerberas/orange-gerbera.png", glyph: "flower", size: 58 },
+    "gerbera-pink": { name: "Pink Gerbera", price: 11000, category: "gerbera", image: "assets/flowers/Gerberas/pink-gerbera.png", glyph: "flower", size: 58 },
+    "gerbera-red": { name: "Red Gerbera", price: 11000, category: "gerbera", image: "assets/flowers/Gerberas/red-gerbera.png", glyph: "flower", size: 58 },
+    "gerbera-white": { name: "White Gerbera", price: 11000, category: "gerbera", image: "assets/flowers/Gerberas/white-gerbera.png", glyph: "flower", size: 58 },
     
-    "hydrangea-white": { name: "White Hydrangea", price: 20000, category: "hydrangea", image: "assets/flowers/Hydrangeas/white-hydrangea.png", glyph: "✿", size: 66 },
-    "hydrangea-purple": { name: "Purple Hydrangea", price: 20000, category: "hydrangea", image: "assets/flowers/Hydrangeas/purple-hydrangea.png", glyph: "✿", size: 62 },
-    "hydrangea-pink": { name: "Pink Hydrangea", price: 20000, category: "hydrangea", image: "assets/flowers/Hydrangeas/pink-hydrangea.png", glyph: "✿", size: 62 },
-    "hydrangea-blue": { name: "Blue Hydrangea", price: 20000, category: "hydrangea", image: "assets/flowers/Hydrangeas/blue hydrangea.png", glyph: "✿", size: 58 },
+    "hydrangea-white": { name: "White Hydrangea", price: 20000, category: "hydrangea", image: "assets/flowers/Hydrangeas/white-hydrangea.png", glyph: "flower", size: 66 },
+    "hydrangea-purple": { name: "Purple Hydrangea", price: 20000, category: "hydrangea", image: "assets/flowers/Hydrangeas/purple-hydrangea.png", glyph: "flower", size: 62 },
+    "hydrangea-pink": { name: "Pink Hydrangea", price: 20000, category: "hydrangea", image: "assets/flowers/Hydrangeas/pink-hydrangea.png", glyph: "flower", size: 62 },
+    "hydrangea-blue": { name: "Blue Hydrangea", price: 20000, category: "hydrangea", image: "assets/flowers/Hydrangeas/blue hydrangea.png", glyph: "flower", size: 58 },
     
-    "lily-orange": { name: "Orange Lily", price: 12000, category: "lily", image: "assets/flowers/Lilies/orange-lily.png", glyph: "✿", color: "#d98b58", size: 60 },
-    "lily-pink": { name: "Pink Lily", price: 12000, category: "lily", image: "assets/flowers/Lilies/pink-lily.png", glyph: "✿", color: "#d98b9c", size: 58 },
-    "lily-white": { name: "White Lily", price: 12000, category: "lily", image: "assets/flowers/Lilies/white-lily.png", glyph: "✿", color: "#e9e1c9", size: 58 },
-    "lily-yellow": { name: "Yellow Lily", price: 12000, category: "lily", image: "assets/flowers/Lilies/yellow-lily.png", glyph: "✿", color: "#e3c45e", size: 60 },
+    "lily-orange": { name: "Orange Lily", price: 12000, category: "lily", image: "assets/flowers/Lilies/orange-lily.png", glyph: "flower", color: "#d98b58", size: 60 },
+    "lily-pink": { name: "Pink Lily", price: 12000, category: "lily", image: "assets/flowers/Lilies/pink-lily.png", glyph: "flower", color: "#d98b9c", size: 58 },
+    "lily-white": { name: "White Lily", price: 12000, category: "lily", image: "assets/flowers/Lilies/white-lily.png", glyph: "flower", color: "#e9e1c9", size: 58 },
+    "lily-yellow": { name: "Yellow Lily", price: 12000, category: "lily", image: "assets/flowers/Lilies/yellow-lily.png", glyph: "flower", color: "#e3c45e", size: 60 },
     
-    "peony-pink": { name: "Pink Peony", price: 15000, category: "peonies", image: "assets/flowers/Peonies/pink-peony.png", glyph: "✿", color: "#d98b9c", size: 62 },
-    "peony-white": { name: "White Peony", price: 15000, category: "peonies", image: "assets/flowers/Peonies/white-peony.png", glyph: "✿", color: "#eee7d8", size: 62 },
-    "peony-red": { name: "Red Peony", price: 15000, category: "peonies", image: "assets/flowers/Peonies/red-peony.png", glyph: "✿", color: "#a94358", size: 62 },
+    "peony-pink": { name: "Pink Peony", price: 15000, category: "peonies", image: "assets/flowers/Peonies/pink-peony.png", glyph: "flower", color: "#d98b9c", size: 62 },
+    "peony-white": { name: "White Peony", price: 15000, category: "peonies", image: "assets/flowers/Peonies/white-peony.png", glyph: "flower", color: "#eee7d8", size: 62 },
+    "peony-red": { name: "Red Peony", price: 15000, category: "peonies", image: "assets/flowers/Peonies/red-peony.png", glyph: "flower", color: "#a94358", size: 62 },
     
-    "rose-peach": { name: "Peach Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/peach-rose.png", glyph: "✿", color: "#e8a17f", size: 54 },
-    "rose-pink": { name: "Pink Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/pink-rose.png", glyph: "✿", color: "#d98b9c", size: 54 },
-    "rose-white": { name: "White Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/white-rose.png", glyph: "✿", color: "#eee7d8", size: 54 },
-    "rose-yellow": { name: "Yellow Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/yellow-rose.png", glyph: "✿", color: "#e3c45e", size: 54 },
-    "rose-red": { name: "Red Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/red-rose.png", glyph: "✿", color: "#a94358", size: 54 },
+    "rose-peach": { name: "Peach Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/peach-rose.png", glyph: "flower", color: "#e8a17f", size: 54 },
+    "rose-pink": { name: "Pink Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/pink-rose.png", glyph: "flower", color: "#d98b9c", size: 54 },
+    "rose-white": { name: "White Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/white-rose.png", glyph: "flower", color: "#eee7d8", size: 54 },
+    "rose-yellow": { name: "Yellow Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/yellow-rose.png", glyph: "flower", color: "#e3c45e", size: 54 },
+    "rose-red": { name: "Red Rose", price: 12000, category: "roses", image: "assets/flowers/Roses/red-rose.png", glyph: "flower", color: "#a94358", size: 54 },
     
-    "sunflower": { name: "Sunflower", price: 10000, category: "sunflower", image: "assets/flowers/sunflower/sunflower.png", glyph: "✿", color: "#e2b64c", size: 66 },
+    "sunflower": { name: "Sunflower", price: 10000, category: "sunflower", image: "assets/flowers/sunflower/sunflower.png", glyph: "flower", color: "#e2b64c", size: 66 },
     
-    "tulip-purple": { name: "Purple Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/purple-tulip.png", glyph: "🌷", size: 52 },
-    "tulip-pink": { name: "Pink Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/pink-tulip.png", glyph: "🌷", size: 52 },
-    "tulip-white": { name: "White Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/white-tulip.png", glyph: "🌷", size: 52 },
-    "tulip-yellow": { name: "Yellow Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/yellow-tulip.png", glyph: "🌷", color: "#e3c45e", size: 52 },
-    "tulip-red": { name: "Red Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/red-tulip.png", glyph: "🌷", color: "#a94358", size: 52 },
+    "tulip-purple": { name: "Purple Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/purple-tulip.png", glyph: "flower", size: 52 },
+    "tulip-pink": { name: "Pink Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/pink-tulip.png", glyph: "flower", size: 52 },
+    "tulip-white": { name: "White Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/white-tulip.png", glyph: "flower", size: 52 },
+    "tulip-yellow": { name: "Yellow Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/yellow-tulip.png", glyph: "flower", color: "#e3c45e", size: 52 },
+    "tulip-red": { name: "Red Tulip", price: 10000, category: "tulip", image: "assets/flowers/Tulips/red-tulip.png", glyph: "flower", color: "#a94358", size: 52 },
     
-    "oncidium-orchid": { name: "Oncidium Orchid", price: 12000, category: "greenery", image: "assets/flowers/orchid/oncidium-orchid.png", glyph: "❧", color: "#8caa91", size: 58 },
-    "vanda-orchid": { name: "Vanda Orchid", price: 12000, category: "greenery", image: "assets/flowers/orchid/vanda-orchid.png", glyph: "❧", color: "#6f936e", size: 58 },
+    "oncidium-orchid": { name: "Oncidium Orchid", price: 12000, category: "greenery", image: "assets/flowers/orchid/oncidium-orchid.png", glyph: "flower", color: "#8caa91", size: 58 },
+    "vanda-orchid": { name: "Vanda Orchid", price: 12000, category: "greenery", image: "assets/flowers/orchid/vanda-orchid.png", glyph: "flower", color: "#6f936e", size: 58 },
   };
   const selectedFlowers = [];
   // Per-stem adjustments stay aligned with selectedFlowers by array index.
@@ -1091,7 +1091,7 @@
       const layer = autoArrangeEnabled ? index + 1 : adjustment.layer;
       const width = flower.category === "addons" || flower.category === "greenery" ? 30 : flower.category === "hydrangea" ? 38 : 34;
       const selected = index === selectedFlowerIndex && !autoArrangeEnabled;
-      const image = flower.image ? `<img src="${flower.image}" alt="">` : `<span class="preview-fallback" style="--fallback-color:${flower.color || '#bd8d9a'}">${flower.glyph}</span>`;
+      const image = flower.image ? `<img src="${flower.image}" alt="">` : `<span class="preview-fallback" style="--fallback-color:${flower.color || '#bd8d9a'}">${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span>`;
       return `<button class="preview-bloom${selected ? " is-selected" : ""}" type="button" data-preview-index="${index}" aria-label="Select ${escapeHTML(getInstanceLabel(index))}" aria-pressed="${selected}" style="--flower-x:${x}%;--flower-y:${y}%;--flower-angle:${angle}deg;--flower-scale:${scale};--flower-layer:${layer};--flower-width:${width}px">${image}</button>`;
     }).join("");
     $$(".preview-bloom", previewBlooms).sort((a, b) => Number(a.style.getPropertyValue("--flower-layer")) - Number(b.style.getPropertyValue("--flower-layer"))).forEach((bloom) => {
