@@ -8017,7 +8017,7 @@ h6 {
   line-height: 1.6;
 }
 
-.hero-editorial-title {
+.hero.hero-editorial .hero-editorial-title {
   max-width: 560px;
   margin: 0 0 1.5rem;
   color: var(--wine);
@@ -8028,7 +8028,7 @@ h6 {
   letter-spacing: -.035em;
 }
 
-.hero-editorial-title em {
+.hero.hero-editorial .hero-editorial-title em {
   color: var(--wine-3);
   font-weight: 400;
 }
