@@ -7808,3 +7808,16 @@ a:hover > .ui-icon {
   .about-values-icons { gap: 8px; }
   .about-values-icons span { font-size: 8px; }
 }
+
+
+.customer-service-icon {
+  width: 23px;
+  height: 23px;
+  flex: 0 0 23px;
+  color: currentColor;
+  transition: color .22s ease, transform .22s ease;
+}
+.whatsapp-float:hover .customer-service-icon {
+  color: var(--wine-3);
+  transform: scale(1.08);
+}
