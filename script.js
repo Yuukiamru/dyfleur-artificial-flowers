@@ -263,6 +263,7 @@
   }
 
   function arrangeAboutCards() {
+    const orderedCards = Array.from(stackContainer.children);
     const blurLevels = [0, 5, 15, 20, 20];
     const offsets = [
       [0, 0, -2, 1],
@@ -271,9 +272,9 @@
       [45, -24, 5, .925],
       [57, -30, -6, .9],
     ];
-    stackCards.forEach((card, depth) => {
+    orderedCards.forEach((card, depth) => {
       const [x, y, rotation, scale] = offsets[depth] || offsets[4];
-      card.style.zIndex = String(stackCards.length - depth);
+      card.style.zIndex = String(orderedCards.length - depth);
       card.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg) scale(${scale})`;
       card.style.filter = `blur(${blurLevels[depth] ?? 20}px)`;
       card.style.opacity = depth > 3 ? ".72" : "1";
@@ -283,9 +284,9 @@
   }
 
   function activateAboutCard(card) {
-    const clickedIndex = stackCards.indexOf(card);
-    if (clickedIndex < 0) return;
-    if (clickedIndex === 0) stackContainer.appendChild(card);
+    const clickedDepth = Array.from(stackContainer.children).indexOf(card);
+    if (clickedDepth < 0) return;
+    if (clickedDepth === 0) stackContainer.appendChild(card);
     else stackContainer.insertBefore(card, stackContainer.firstElementChild);
     arrangeAboutCards();
     updateContent(Number(card.dataset.index));
