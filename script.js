@@ -251,7 +251,8 @@
         <p class="eyebrow about-kicker">${escapeHTML(item.kicker)} <span>${item.number} / 05</span></p>
         <h2 class="about-title">${escapeHTML(item.title)}</h2>
         <p class="about-description">${escapeHTML(item.text)}</p>
-        <a class="text-link about-contact-link" href="#contact">A little more about us '+iconSvg("arrow-up-right", "ui-icon ui-icon-inline")+'</a>`;
+        ${item.number === "05" ? `<div class="about-values-icons" aria-label="Our values"><div>${iconSvg("diamond")}<span>Aesthetic Excellence</span></div><div>${iconSvg("needle")}<span>Intentional Craftsmanship</span></div><div>${iconSvg("infinity")}<span>Everlasting Connections</span></div></div>` : ""}
+        <a class="text-link about-contact-link" href="#contact">A little more about us ${iconSvg("arrow-up-right", "ui-icon ui-icon-inline")}</a>`;
       aboutContent.classList.remove("is-fading-out");
       aboutContent.classList.add("is-fading-in");
     };
@@ -622,8 +623,7 @@
     }
 
     if (!cart.length) {
-      cartItems.innerHTML =
-        '<div class="cart-empty-state"><span aria-hidden="true">✿</span><p>Your cart is currently empty.</p><small>Discover a floral arrangement for your space or a special moment.</small><a href="#shop" class="cart-continue-link">Explore the collection</a></div>';
+      cartItems.innerHTML = `<div class="cart-empty-state"><span aria-hidden="true">${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span><p>Your cart is currently empty.</p><small>Discover a floral arrangement for your space or a special moment.</small><a href="#shop" class="cart-continue-link">Explore the collection</a></div>`;
     } else {
       cartItems.innerHTML = cart
         .map(
@@ -901,7 +901,7 @@
 
         return `
         <article class="flower-option" data-flower="${id}">
-          <span class="flower-thumb" aria-hidden="true">${flower.image ? `<img src="${flower.image}" alt="" loading="lazy"><span>${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span>` : `<span class="flower-fallback" style="--fallback-color:${flower.color || '#bd8d9a'}">${flower.glyph}</span>`}</span>
+          <span class="flower-thumb" aria-hidden="true">${flower.image ? `<img src="${flower.image}" alt="" loading="lazy"><span>${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span>` : `<span class="flower-fallback" style="--fallback-color:${flower.color || '#bd8d9a'}">${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span>`}</span>
           <span class="flower-info">
             <strong>${escapeHTML(flower.name)}</strong>
             <small>${money(flower.price)} / stem</small>
@@ -1075,7 +1075,7 @@
     });
     if (!count) {
       previewBlooms.innerHTML =
-        '<div class="empty-preview"><span>✿</span><p>Your bouquet starts here</p><small>Select blooms to add them</small></div>';
+        `<div class="empty-preview"><span>${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span><p>Your bouquet starts here</p><small>Select blooms to add them</small></div>`;
       return;
     }
 
