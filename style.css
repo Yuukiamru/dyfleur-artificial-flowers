@@ -7517,3 +7517,102 @@ label,
     padding-top: 15px;
   }
 }
+
+
+
+/* D’YFleur — Split-screen interactive About card stack */
+.about.about-split-wrapper {
+  position: relative; display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+  align-items: center; gap: clamp(42px, 8vw, 120px);
+  min-height: 680px;
+  padding: clamp(76px, 9vw, 124px) max(7%, calc((100vw - 1240px) / 2));
+  overflow: hidden;
+  background: radial-gradient(ellipse at 82% 48%, rgba(225,190,194,.34), transparent 42%), var(--ivory);
+  color: var(--wine); isolation: isolate;
+}
+.about-split-wrapper::before {
+  content: ""; position: absolute; width: 420px; height: 420px;
+  right: -180px; top: -170px; border: 1px solid rgba(100,47,67,.09);
+  border-radius: 50%; pointer-events: none;
+}
+.about-content-left {
+  position: relative; z-index: 2; max-width: 510px; min-width: 0;
+  opacity: 1; transform: translateY(0);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.about-content-left.is-fading-out {
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.about-content-left.is-fading-in { animation: aboutContentReveal 300ms ease both; }
+@keyframes aboutContentReveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.about-kicker {
+  display: flex; align-items: center; gap: 14px; margin: 0 0 26px;
+  color: var(--wine-3); font-size: 9px; font-weight: 600; letter-spacing: .2em;
+}
+.about-kicker span { color: #b68b94; white-space: nowrap; }
+.about-title {
+  max-width: 540px; margin: 0 0 26px; color: var(--wine);
+  font-family: var(--serif); font-size: clamp(58px,7.2vw,100px);
+  font-weight: 400; line-height: .91; letter-spacing: -.065em;
+}
+.about-description {
+  max-width: 440px; margin: 0 0 34px; color: var(--muted);
+  font-family: var(--sans); font-size: 13px; font-weight: 400; line-height: 2;
+}
+.about-contact-link { color: var(--wine); }
+.about-cards-right {
+  position: relative; z-index: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; min-width: 0; padding: 30px 54px 12px 12px;
+}
+.stack-container {
+  position: relative; width: min(100%,440px); aspect-ratio: 4 / 5; isolation: isolate;
+}
+.stack-card {
+  position: absolute; inset: 0; display: block; width: 100%; height: 100%;
+  box-sizing: border-box; overflow: hidden; padding: 10px 10px 48px;
+  border: 1px solid rgba(75,37,48,.1); border-radius: 24px;
+  background: #fffaf6;
+  box-shadow: 0 24px 60px rgba(53,25,35,.16), 0 4px 12px rgba(53,25,35,.08);
+  cursor: pointer; transform-origin: 50% 75%; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .6s cubic-bezier(.34,1.56,.64,1), filter .6s ease, opacity .6s ease, box-shadow .35s ease;
+}
+.stack-card::before, .stack-card::after, .stack-card img, .stack-card span, .stack-card * { pointer-events: none; }
+.stack-card img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  border-radius: 16px; background: #ead9d8; -webkit-user-drag: none;
+}
+.stack-card-caption {
+  position: absolute; right: 20px; bottom: 18px; left: 20px;
+  color: #6b3b4a; font-family: var(--sans); font-size: 9px;
+  font-weight: 600; letter-spacing: .17em; text-align: center;
+}
+.stack-card.is-front { box-shadow: 0 28px 68px rgba(53,25,35,.2), 0 5px 15px rgba(53,25,35,.1); }
+.stack-card:focus-visible { outline: 3px solid #9d6878; outline-offset: 7px; }
+.stack-instruction {
+  align-self: flex-end; margin: 30px 2px 0 0; color: #98717b;
+  font-size: 8px; font-weight: 600; letter-spacing: .18em;
+}
+.stack-instruction span { margin-left: 8px; color: var(--wine); }
+@media (max-width: 900px) {
+  .about.about-split-wrapper { grid-template-columns: minmax(0,1fr) minmax(300px,.95fr); gap: 30px; min-height: 600px; padding-right: 6%; padding-left: 6%; }
+  .about-cards-right { padding-right: 30px; }
+  .about-title { font-size: clamp(54px,7vw,76px); }
+}
+@media (max-width: 680px) {
+  .about.about-split-wrapper { grid-template-columns: minmax(0,1fr); gap: 26px; min-height: 0; padding: 76px 7% 82px; }
+  .about-content-left { max-width: none; }
+  .about-title { font-size: clamp(56px,14vw,76px); }
+  .about-description { max-width: 560px; font-size: 12px; line-height: 1.9; }
+  .about-cards-right { padding: 12px 20px 0 0; }
+  .stack-container { width: min(82%,360px); }
+  .stack-instruction { margin-top: 24px; font-size: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-content-left, .about-content-left.is-fading-out, .stack-card { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
