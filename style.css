@@ -7936,3 +7936,549 @@ a:hover > .ui-icon {
     flex-basis: 80px;
   }
 }
+
+
+/* =====================================================
+   D’YFLEUR — TOTAL EDITORIAL UI POLISH
+   Hero, About Story Stack, Color Palette, Design Language
+===================================================== */
+
+/* Shared section rhythm and centered content width. */
+.section-pad {
+  padding-block: 120px;
+  padding-inline: max(5%, calc((100vw - 1200px) / 2));
+}
+
+.section-heading,
+.shop-layout,
+.builder-workspace,
+.footer-main,
+.footer-bottom {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--serif);
+  font-weight: 400;
+}
+
+/* -----------------------------------------------------
+   HERO — split-screen editorial cover
+----------------------------------------------------- */
+.hero.hero-editorial {
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: clamp(3rem, 6vw, 5rem);
+  min-height: min(860px, 100svh);
+  padding: 118px max(5%, calc((100vw - 1200px) / 2)) 72px;
+  overflow: hidden;
+  background: var(--ivory);
+  color: var(--wine);
+  isolation: isolate;
+}
+
+.hero.hero-editorial::before,
+.hero.hero-editorial .hero-grain,
+.hero.hero-editorial .hero-flower,
+.hero.hero-editorial .hero-bottom-note,
+.hero.hero-editorial .scroll-cue {
+  display: none;
+}
+
+.hero-editorial-copy {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 500px;
+  margin: 0;
+  padding-block: 2rem;
+}
+
+.hero-editorial-copy .hero-eyebrow {
+  margin: 0 0 1.75rem;
+  color: var(--wine-3);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  line-height: 1.6;
+}
+
+.hero-editorial-title {
+  max-width: 560px;
+  margin: 0 0 1.5rem;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: clamp(3.25rem, 5.2vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.hero-editorial-title em {
+  color: var(--wine-3);
+  font-weight: 400;
+}
+
+.hero-editorial-description {
+  max-width: 430px;
+  margin: 0 0 2.25rem;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.85;
+  letter-spacing: .01em;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 52px;
+  padding: 0 25px;
+  border: 1px solid rgba(53, 25, 35, .62);
+  border-radius: 0;
+  background: transparent;
+  color: var(--wine);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: color .25s ease, background .25s ease, border-color .25s ease;
+}
+
+.hero-cta:hover {
+  border-color: var(--wine);
+  background: var(--wine);
+  color: var(--ivory);
+  transform: none;
+}
+
+.hero-cta:hover .ui-icon {
+  color: currentColor;
+  transform: translate(2px, -2px);
+}
+
+.hero-editorial-note {
+  margin: 4.5rem 0 0;
+  color: #9a8586;
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  line-height: 1.5;
+}
+
+.hero-editorial-media {
+  position: relative;
+  width: 100%;
+  height: min(690px, 74vh);
+  min-height: 480px;
+  margin: 0;
+  overflow: hidden;
+  background: #4b202c;
+}
+
+.hero-editorial-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 68%, rgba(35, 13, 21, .32));
+  pointer-events: none;
+}
+
+.hero-editorial-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.86) contrast(1.03);
+  transition: transform 1.1s cubic-bezier(.2,.7,.2,1);
+}
+
+.hero-editorial-media:hover img {
+  transform: scale(1.025);
+}
+
+.hero-editorial-media figcaption {
+  position: absolute;
+  z-index: 1;
+  right: 24px;
+  bottom: 22px;
+  left: 24px;
+  color: rgba(255, 250, 246, .88);
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  line-height: 1.5;
+}
+
+/* -----------------------------------------------------
+   ABOUT — four-card split screen
+----------------------------------------------------- */
+.about.about-split-wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 4rem;
+  width: 100%;
+  max-width: none;
+  min-height: 760px;
+  padding: 120px max(5%, calc((100vw - 1200px) / 2));
+  overflow: hidden;
+  background: #F7F2EB;
+  color: var(--wine);
+  isolation: isolate;
+  transition: background-color .35s ease, color .35s ease;
+}
+
+.about.about-split-wrapper::before {
+  display: none;
+}
+
+.about-content-left {
+  width: 100%;
+  max-width: 560px;
+  min-width: 0;
+}
+
+.about-cards-right {
+  width: 100%;
+  min-width: 0;
+  padding: 20px 38px 12px 0;
+}
+
+.stack-container {
+  width: min(100%, 440px);
+  aspect-ratio: 4 / 5;
+  margin-inline: auto;
+}
+
+.stack-card {
+  border-radius: 24px;
+}
+
+.stack-card img {
+  object-position: center;
+}
+
+.stack-instruction {
+  margin-top: 2rem;
+  color: #98717b;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: .16em;
+  line-height: 1.6;
+}
+
+/* Four-column brand palette, arranged like an editorial brand guide. */
+.about.about-split-wrapper.is-color-philosophy {
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, .85fr);
+  gap: 4rem;
+  background: #F7F2EB;
+  color: var(--wine);
+}
+
+.about-split-wrapper.is-color-philosophy .about-content-left {
+  max-width: none;
+}
+
+.about-color-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+  width: 100%;
+  margin: 2.25rem 0 2rem;
+  text-align: center;
+}
+
+.about-color-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.about-color-swatch {
+  width: 80px;
+  height: 80px;
+  flex: 0 0 80px;
+  margin: 0 auto 1rem;
+  border: 1px solid rgba(53, 25, 35, .12);
+  border-radius: 50%;
+  background: var(--swatch-color);
+  box-shadow: 0 10px 24px rgba(53, 25, 35, .11);
+}
+
+.about-color-name {
+  margin: 0 0 .4rem;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.about-color-hex {
+  margin: 0 0 .35rem;
+  color: #666;
+  font-family: var(--sans);
+  font-size: .85rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.about-color-meaning {
+  max-width: 140px;
+  margin: 0;
+  color: #77666a;
+  font-family: var(--sans);
+  font-size: .875rem;
+  font-weight: 300;
+  line-height: 1.55;
+  text-align: center;
+}
+
+/* -----------------------------------------------------
+   DESIGN LANGUAGE — dark burgundy glassmorphism
+----------------------------------------------------- */
+.about.about-split-wrapper.is-design-language {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  gap: 4rem;
+  background: #351923;
+  color: #F7F2EB;
+}
+
+.about-split-wrapper.is-design-language .about-content-left {
+  max-width: 620px;
+}
+
+.about-design-glass {
+  width: 100%;
+  padding: clamp(2rem, 4vw, 3.25rem);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .1);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 70px rgba(13, 5, 9, .18);
+}
+
+.is-design-language .about-kicker {
+  color: rgba(247, 242, 235, .72);
+}
+
+.is-design-language .about-kicker span {
+  color: rgba(247, 242, 235, .55);
+}
+
+.is-design-language .about-title {
+  color: #F7F2EB;
+}
+
+.is-design-language .about-description,
+.is-design-language .about-values-description {
+  color: rgba(247, 242, 235, .82);
+}
+
+.about-values-promise {
+  margin: 2.5rem 0 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, .2);
+}
+
+.about-values-label {
+  margin: 0 0 .9rem;
+  color: #EED5D2;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  line-height: 1.5;
+}
+
+.about-values-description {
+  max-width: 500px;
+  margin: 0 0 1.5rem;
+  color: rgba(247, 242, 235, .82);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+.is-design-language .about-values-icons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  max-width: 100%;
+  margin: 0;
+}
+
+.is-design-language .about-values-icons > div {
+  align-items: flex-start;
+  gap: .65rem;
+  color: #EED5D2;
+}
+
+.is-design-language .about-values-icons .ui-icon {
+  width: 25px;
+  height: 25px;
+  flex-basis: 25px;
+  color: #EED5D2;
+}
+
+.is-design-language .about-values-icons span {
+  color: rgba(247, 242, 235, .85);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.is-design-language .about-contact-link {
+  color: #F7F2EB;
+  border-color: rgba(247, 242, 235, .6);
+}
+
+.is-design-language .about-contact-link:hover {
+  color: #EED5D2;
+}
+
+/* Responsive art direction. */
+@media (max-width: 980px) {
+  .hero.hero-editorial {
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: 2.5rem;
+    padding-inline: 5%;
+  }
+
+  .hero-editorial-media {
+    height: 620px;
+    min-height: 420px;
+  }
+
+  .about.about-split-wrapper,
+  .about.about-split-wrapper.is-color-philosophy,
+  .about.about-split-wrapper.is-design-language {
+    gap: 3rem;
+    padding-inline: 5%;
+  }
+
+  .about-color-grid {
+    gap: 1rem;
+  }
+
+  .about-color-swatch {
+    width: 72px;
+    height: 72px;
+    flex-basis: 72px;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero.hero-editorial {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    gap: 2.25rem;
+    padding: 116px 7% 56px;
+  }
+
+  .hero-editorial-copy {
+    max-width: 600px;
+    padding-block: 1rem 0;
+  }
+
+  .hero-editorial-title {
+    max-width: 520px;
+    font-size: clamp(3rem, 12vw, 4.25rem);
+  }
+
+  .hero-editorial-description {
+    max-width: 520px;
+  }
+
+  .hero-editorial-note {
+    margin-top: 2.5rem;
+  }
+
+  .hero-editorial-media {
+    height: min(125vw, 560px);
+    min-height: 360px;
+  }
+
+  .about.about-split-wrapper,
+  .about.about-split-wrapper.is-color-philosophy,
+  .about.about-split-wrapper.is-design-language {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+    min-height: 0;
+    padding: 88px 7%;
+  }
+
+  .about-content-left,
+  .about-split-wrapper.is-color-philosophy .about-content-left,
+  .about-split-wrapper.is-design-language .about-content-left {
+    max-width: none;
+  }
+
+  .about-cards-right {
+    padding: 0 18px 0 0;
+  }
+
+  .stack-container {
+    width: min(82%, 380px);
+  }
+
+  .about-color-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.25rem;
+  }
+
+  .about-design-glass {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero.hero-editorial {
+    padding-inline: 6%;
+  }
+
+  .hero-editorial-title {
+    font-size: clamp(2.8rem, 13vw, 3.5rem);
+  }
+
+  .about-values-promise {
+    margin-top: 2rem;
+  }
+
+  .is-design-language .about-values-icons {
+    gap: .75rem;
+  }
+
+  .is-design-language .about-values-icons span {
+    font-size: 11px;
+  }
+}
