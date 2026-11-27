@@ -7545,7 +7545,7 @@ label,
   opacity: 0; transform: translateY(8px);
   transition: opacity 200ms ease, transform 200ms ease;
 }
-.about-content-left.is-fading-in { animation: aboutContentReveal 300ms ease both; }
+.about-content-left.is-fading-in { animation: aboutContentReveal 200ms ease both; }
 @keyframes aboutContentReveal {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
