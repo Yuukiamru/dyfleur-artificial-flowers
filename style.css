@@ -7821,3 +7821,118 @@ a:hover > .ui-icon {
   color: var(--wine-3);
   transform: scale(1.08);
 }
+
+
+/* =====================================================
+   ABOUT US — EDITORIAL COLOR PHILOSOPHY GRID
+===================================================== */
+
+/* Keep the complete About experience on a clean, consistent ivory canvas. */
+.about.about-split-wrapper {
+  background: var(--ivory);
+}
+
+.about.about-split-wrapper::before {
+  display: none;
+}
+
+/* Give the four-swatch slide enough horizontal room while retaining its photo stack. */
+.about.about-split-wrapper.is-color-philosophy {
+  grid-template-columns: minmax(0, 1.95fr) minmax(280px, 0.85fr);
+  gap: clamp(24px, 4vw, 64px);
+  background: #F7F2EB;
+}
+
+.about-split-wrapper.is-color-philosophy .about-content-left {
+  max-width: none;
+  width: 100%;
+}
+
+.about-color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  margin: 2rem 0 2.25rem;
+  text-align: center;
+}
+
+.about-color-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.about-color-swatch {
+  display: block;
+  width: 88px;
+  height: 88px;
+  flex: 0 0 88px;
+  margin: 0 auto 1.1rem;
+  border: 1px solid rgba(53, 25, 35, 0.12);
+  border-radius: 50%;
+  background: var(--swatch-color);
+  box-shadow:
+    0 12px 28px rgba(53, 25, 35, 0.10),
+    0 3px 8px rgba(53, 25, 35, 0.05);
+}
+
+.about-color-name {
+  margin: 0 0 0.45rem;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.about-color-hex {
+  margin: 0 0 0.5rem;
+  color: #666;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.about-color-meaning {
+  max-width: 150px;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .about.about-split-wrapper.is-color-philosophy {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+  }
+  .about-split-wrapper.is-color-philosophy .about-content-left {
+    max-width: none;
+  }
+  .about-color-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .about.about-split-wrapper.is-color-philosophy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .about-color-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1.75rem 1.25rem;
+  }
+  .about-color-swatch {
+    width: 80px;
+    height: 80px;
+    flex-basis: 80px;
+  }
+}
