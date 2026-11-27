@@ -35,6 +35,9 @@
         })[char],
     );
 
+  function iconSvg(name, className = "ui-icon") {
+    return '<svg class="' + className + '" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-' + name + '"></use></svg>';
+  }
   function readArray(key) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || "[]");
@@ -248,7 +251,7 @@
         <p class="eyebrow about-kicker">${escapeHTML(item.kicker)} <span>${item.number} / 05</span></p>
         <h2 class="about-title">${escapeHTML(item.title)}</h2>
         <p class="about-description">${escapeHTML(item.text)}</p>
-        <a class="text-link about-contact-link" href="#contact">A little more about us <span>↗</span></a>`;
+        <a class="text-link about-contact-link" href="#contact">A little more about us '+iconSvg("arrow-up-right", "ui-icon ui-icon-inline")+'</a>`;
       aboutContent.classList.remove("is-fading-out");
       aboutContent.classList.add("is-fading-in");
     };
@@ -590,7 +593,7 @@
       const layer = legacyLayout ? index + 1 : (Number(entry.layer) || index + 1);
       const image = flower.image
         ? `<img src="${escapeHTML(flower.image)}" alt="" loading="lazy">`
-        : `<span class="cart-preview-fallback">${escapeHTML(flower.glyph || "✿")}</span>`;
+        : `<span class="cart-preview-fallback">${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span>`;
       return `<span class="cart-preview-bloom" style="--flower-x:${x}%;--flower-y:${y}%;--flower-angle:${angle}deg;--flower-scale:${scale};--flower-layer:${layer};--flower-width:${width}px">${image}</span>`;
     }).join("");
     const wrappingBack = ["1", "2", "3"].includes(wrappingId)
@@ -628,8 +631,8 @@
             const hasDesign = Array.isArray(item.configuration?.flowers) && item.configuration.flowers.length > 0;
             const expanded = item.previewExpanded === true;
             const imageContent = item.image
-              ? `<img class="cart-item-image" src="${escapeHTML(item.image)}" alt="" loading="lazy"><span class="cart-item-image-fallback" hidden>${escapeHTML(item.icon || "✿")}</span>`
-              : escapeHTML(item.icon || "✿");
+              ? `<img class="cart-item-image" src="${escapeHTML(item.image)}" alt="" loading="lazy"><span class="cart-item-image-fallback" hidden>${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span>`
+              : iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration");
             const designPreview = hasDesign
               ? renderCartBouquetPreview(item.configuration, expanded)
               : `<div class="cart-item-art" aria-hidden="true">${imageContent}</div>`;
@@ -641,13 +644,13 @@
             ${item.detail ? `<small class="cart-item-detail">${escapeHTML(item.detail)}</small>` : ""}
             ${hasDesign ? `<div class="cart-item-design-actions"><button class="cart-preview-toggle" type="button" data-cart-action="preview" data-cart-index="${index}" aria-expanded="${expanded}">${expanded ? "Hide design" : "View design"}</button><button class="cart-edit-button" type="button" data-cart-action="edit" data-cart-index="${index}">Edit bouquet</button></div>` : ""}
             <div class="cart-quantity-control" aria-label="Quantity controls">
-              <button type="button" data-cart-action="decrease" data-cart-index="${index}" aria-label="Decrease ${escapeHTML(item.name)} quantity" ${item.quantity <= 1 ? "disabled" : ""}>−</button>
+              <button type="button" data-cart-action="decrease" data-cart-index="${index}" aria-label="Decrease ${escapeHTML(item.name)} quantity" ${item.quantity <= 1 ? "disabled" : ""}>${iconSvg("minus")}</button>
               <output>${item.quantity}</output>
-              <button type="button" data-cart-action="increase" data-cart-index="${index}" aria-label="Increase ${escapeHTML(item.name)} quantity" ${item.quantity >= 99 ? "disabled" : ""}>+</button>
+              <button type="button" data-cart-action="increase" data-cart-index="${index}" aria-label="Increase ${escapeHTML(item.name)} quantity" ${item.quantity >= 99 ? "disabled" : ""}>${iconSvg("plus")}</button>
             </div>
           </div>
           <span class="cart-item-price">${money(item.price * item.quantity)}</span>
-          <button class="cart-remove" type="button" data-cart-action="remove" data-cart-index="${index}" aria-label="Remove ${escapeHTML(item.name)}">×</button>
+          <button class="cart-remove" type="button" data-cart-action="remove" data-cart-index="${index}" aria-label="Remove ${escapeHTML(item.name)}">${iconSvg("close")}</button>
         </article>
       `;
           },
@@ -898,15 +901,15 @@
 
         return `
         <article class="flower-option" data-flower="${id}">
-          <span class="flower-thumb" aria-hidden="true">${flower.image ? `<img src="${flower.image}" alt="" loading="lazy"><span>${flower.glyph}</span>` : `<span class="flower-fallback" style="--fallback-color:${flower.color || '#bd8d9a'}">${flower.glyph}</span>`}</span>
+          <span class="flower-thumb" aria-hidden="true">${flower.image ? `<img src="${flower.image}" alt="" loading="lazy"><span>${iconSvg("flower", "ui-icon ui-icon-flower ui-icon-illustration")}</span>` : `<span class="flower-fallback" style="--fallback-color:${flower.color || '#bd8d9a'}">${flower.glyph}</span>`}</span>
           <span class="flower-info">
             <strong>${escapeHTML(flower.name)}</strong>
             <small>${money(flower.price)} / stem</small>
           </span>
           <span class="quantity-control">
-            <button type="button" class="quantity-button" data-qty-change="-1" data-flower-id="${id}" aria-label="Remove one ${escapeHTML(flower.name)}" ${quantity === 0 ? "disabled" : ""}>−</button>
+            <button type="button" class="quantity-button" data-qty-change="-1" data-flower-id="${id}" aria-label="Remove one ${escapeHTML(flower.name)}" ${quantity === 0 ? "disabled" : ""}>${iconSvg("minus")}</button>
             <output class="quantity-value" aria-label="${quantity} selected">${quantity}</output>
-            <button type="button" class="quantity-button" data-qty-change="1" data-flower-id="${id}" aria-label="Add one ${escapeHTML(flower.name)}" ${atLimit ? "disabled" : ""}>+</button>
+            <button type="button" class="quantity-button" data-qty-change="1" data-flower-id="${id}" aria-label="Add one ${escapeHTML(flower.name)}" ${atLimit ? "disabled" : ""}>${iconSvg("plus")}</button>
           </span>
         </article>
       `;
@@ -948,7 +951,7 @@
       <button type="button" class="wrapping-option ${wrapping.value === paper.value ? "is-selected" : ""}" data-wrap-value="${paper.value}" aria-pressed="${wrapping.value === paper.value}">
         <span class="wrapping-option-preview" aria-hidden="true">${paper.asset ? `<img class="option-wrap-back" src="assets/WRAPPING/BACK/${paper.asset}.svg" alt=""><img class="option-wrap-front" src="assets/WRAPPING/FRONT/${paper.asset}.svg" alt="">` : `<span class="wrapping-swatch wrapping-swatch-none"><i></i></span>`}</span>
         <span class="wrapping-option-info"><strong>${escapeHTML(paper.name)}</strong><small>${escapeHTML(paper.description)}</small><em>${money(paper.price)}</em></span>
-        <span class="wrapping-check" aria-hidden="true">✓</span>
+        <span class="wrapping-check" aria-hidden="true">${iconSvg("check")}</span>
       </button>
     `).join("");
   }
@@ -1005,7 +1008,7 @@
     const addBouquetButton = $("#addBouquet");
     const cancelEditButton = $("#cancelBouquetEdit");
     if (addBouquetButton) {
-      addBouquetButton.innerHTML = editingCartIndex === null ? 'Add bouquet to cart <span>↗</span>' : 'Update cart item <span>✓</span>';
+      addBouquetButton.innerHTML = editingCartIndex === null ? 'Add bouquet to cart '+iconSvg("arrow-up-right", "ui-icon ui-icon-inline")+'' : 'Update cart item '+iconSvg("check", "ui-icon ui-icon-inline")+'';
       addBouquetButton.disabled = count === 0;
     }
     if (cancelEditButton) cancelEditButton.hidden = editingCartIndex === null;
@@ -1910,7 +1913,7 @@
           : index === order.statusIndex
             ? "current"
             : "";
-      const marker = index < order.statusIndex ? "✓" : String(index + 1);
+      const marker = index < order.statusIndex ? iconSvg("check") : String(index + 1);
       return `
         <div class="tracking-step ${state}">
           <span class="tracking-dot">${marker}</span>
