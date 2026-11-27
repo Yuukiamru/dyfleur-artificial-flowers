@@ -1008,7 +1008,7 @@
     const addBouquetButton = $("#addBouquet");
     const cancelEditButton = $("#cancelBouquetEdit");
     if (addBouquetButton) {
-      addBouquetButton.innerHTML = editingCartIndex === null ? 'Add bouquet to cart '+iconSvg("arrow-up-right", "ui-icon ui-icon-inline")+'' : 'Update cart item '+iconSvg("check", "ui-icon ui-icon-inline")+'';
+      addBouquetButton.innerHTML = editingCartIndex === null ? 'Add bouquet to cart '+iconSvg("shopping-bag-plus", "ui-icon ui-icon-inline builder-add-icon")+'' : 'Update cart item '+iconSvg("check", "ui-icon ui-icon-inline")+'';
       addBouquetButton.disabled = count === 0;
     }
     if (cancelEditButton) cancelEditButton.hidden = editingCartIndex === null;
