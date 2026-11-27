@@ -7973,3 +7973,10 @@ p:not(.eyebrow):not(.panel-label):not(.hero-tagline):not(.about-kicker):not(.sta
     font-size: 0.95rem;
   }
 }
+
+
+/* Keep heading contrast on the two dark photographic/brand surfaces. */
+.hero h1,
+.footer-main h2 {
+  color: var(--ivory);
+}
