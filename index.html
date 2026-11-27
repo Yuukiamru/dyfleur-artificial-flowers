@@ -104,80 +104,36 @@
     </header>
 
     <main>
-      <!-- HERO -->
+      <!-- HERO / EDITORIAL SPLIT SCREEN -->
 
       <section
-        class="hero section-screen"
+        class="hero hero-editorial section-screen"
         id="home"
-        data-background-theme="dark"
+        data-background-theme="light"
         aria-labelledby="heroTitle"
       >
-        <div class="hero-grain" aria-hidden="true"></div>
-
-        <div class="hero-copy">
+        <div class="hero-editorial-copy">
           <p class="eyebrow hero-eyebrow">ARTIFICIAL FLOWERS · MADE TO LAST</p>
-
-          <h1 id="heroTitle">D’YFleur</h1>
-
-          <p class="hero-tagline">
-            FLOWERS THAT<br />STAY BEAUTIFUL<br />FOREVER.
+          <h1 id="heroTitle" class="hero-editorial-title">Beauty beyond <em>the moment</em></h1>
+          <p class="hero-editorial-description">
+            Thoughtfully crafted floral pieces that preserve the beauty of a
+            moment and bring a lasting sense of elegance into your space.
           </p>
-
-          <a class="text-link hero-link" href="#shop"
-            >Explore the collection <svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-arrow-up-right"></use></svg></a
-          >
+          <a class="button hero-cta" href="#shop">
+            Explore Collection
+            <svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-arrow-up-right"></use></svg>
+          </a>
+          <p class="hero-editorial-note">TIMELESS BLOOMS, THOUGHTFULLY ARRANGED</p>
         </div>
 
-        <div class="hero-flower hero-lily" aria-hidden="true">
+        <figure class="hero-editorial-media">
           <img
-            src="assets/flowers/lilly.svg"
-            alt=""
-            onerror="
-              this.style.display = 'none';
-
-              this.nextElementSibling.style.display = 'block';
-            "
+            src="https://images.unsplash.com/photo-1596438459194-f28b2b0a440e?q=80&w=1000&auto=format&fit=crop"
+            alt="Deep burgundy roses photographed in soft, moody light"
+            fetchpriority="high"
           />
-
-          <span class="asset-fallback lily-fallback" aria-hidden="true"><svg class="ui-icon ui-icon-illustration" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-flower"></use></svg></span>
-        </div>
-
-        <div class="hero-flower hero-tulip" aria-hidden="true">
-          <img
-            src="assets/flowers/tulip.svg"
-            alt=""
-            onerror="
-              this.style.display = 'none';
-
-              this.nextElementSibling.style.display = 'block';
-            "
-          />
-
-          <span class="asset-fallback tulip-fallback" aria-hidden="true"><svg class="ui-icon ui-icon-illustration" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-flower"></use></svg></span>
-        </div>
-
-        <div class="hero-flower hero-purple" aria-hidden="true">
-          <img
-            src="assets/flowers/purple.svg"
-            alt=""
-            onerror="
-              this.style.display = 'none';
-
-              this.nextElementSibling.style.display = 'block';
-            "
-          />
-
-          <span class="asset-fallback purple-fallback" aria-hidden="true"><svg class="ui-icon ui-icon-illustration" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-flower"></use></svg></span>
-        </div>
-
-        <div class="hero-bottom-note">
-          <span>01 / COLLECTION</span
-          ><span>TIMELESS BLOOMS, THOUGHTFULLY ARRANGED</span>
-        </div>
-
-        <a class="scroll-cue" href="#shop" aria-label="Scroll to shop"
-          ><span></span>SCROLL</a
-        >
+          <figcaption>01 / THE ART OF LASTING BEAUTY</figcaption>
+        </figure>
       </section>
 
       <!-- SHOP -->
@@ -534,24 +490,20 @@
         <div class="about-cards-right">
           <div class="stack-container" aria-label="Explore the D’YFleur story">
             <div class="stack-card is-front" data-index="0" role="button" tabindex="0" aria-label="Our Story">
-              <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1100&q=85" alt="Soft blush flowers arranged in a natural bouquet" draggable="false" />
+              <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?q=80&w=800&auto=format&fit=crop" alt="Soft blush pink flowers arranged in an elegant bouquet" draggable="false" />
               <span class="stack-card-caption" aria-hidden="true">01 / OUR STORY</span>
             </div>
             <div class="stack-card" data-index="1" role="button" tabindex="0" aria-label="Logo Philosophy">
-              <img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=1100&q=85" alt="Elegant close-up of delicate pale flowers" draggable="false" />
+              <img src="https://images.unsplash.com/photo-1596438459194-f28b2b0a440e?q=80&w=800&auto=format&fit=crop" alt="Deep burgundy roses in moody editorial lighting" draggable="false" />
               <span class="stack-card-caption" aria-hidden="true">02 / LOGO PHILOSOPHY</span>
             </div>
             <div class="stack-card" data-index="2" role="button" tabindex="0" aria-label="Color Philosophy">
-              <img src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?auto=format&fit=crop&w=1100&q=85" alt="Romantic pink and ivory floral composition" draggable="false" />
+              <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=800&auto=format&fit=crop" alt="Neutral-toned floral bouquet with understated styling" draggable="false" />
               <span class="stack-card-caption" aria-hidden="true">03 / COLOR PHILOSOPHY</span>
             </div>
             <div class="stack-card" data-index="3" role="button" tabindex="0" aria-label="Design Language">
-              <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1100&q=85" alt="Minimal white floral arrangement with soft light" draggable="false" />
+              <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?q=80&w=800&auto=format&fit=crop" alt="Minimal single-stem floral composition" draggable="false" />
               <span class="stack-card-caption" aria-hidden="true">04 / DESIGN LANGUAGE</span>
-            </div>
-            <div class="stack-card" data-index="4" role="button" tabindex="0" aria-label="Our Values and Promise">
-              <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=1100&q=85" alt="Thoughtfully arranged pastel flowers" draggable="false" />
-              <span class="stack-card-caption" aria-hidden="true">05 / OUR PROMISE</span>
             </div>
           </div>
           <p class="stack-instruction">SELECT A CARD TO EXPLORE OUR STORY <svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow-up-right"></use></svg></p>
