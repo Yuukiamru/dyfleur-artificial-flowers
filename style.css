@@ -8144,10 +8144,7 @@ p:not(.eyebrow):not(.panel-label):not(.hero-tagline):not(.about-kicker):not(.sta
 
 /* Minimum readable text size: all non-SVG text is at least 14px.
    Explicit H1–H3 scale and body copy above retain their responsive sizes. */
-.editorial-type :not(svg):not(svg *) {
-  font-size: max(0.875rem, 1em);
-}
-
+/* Text-size declarations below were normalized to a 14px minimum above this system. */
 .editorial-type h1,
 .editorial-type .hero h1 {
   font-size: var(--type-h1);
