@@ -200,7 +200,7 @@
     );
 
     $$(
-      ".section-heading, .shop-layout, .builder-workspace, .builder-checkout, .about-copy, .footer-main",
+      ".section-heading, .shop-layout, .builder-workspace, .builder-checkout, .about-content-left, .about-cards-right, .footer-main",
     ).forEach((element) => {
       element.classList.add("reveal");
       revealObserver.observe(element);
@@ -222,6 +222,90 @@
     toast.classList.add("show");
     window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+  }
+
+  /* ABOUT / INTERACTIVE CARD STACK */
+  const aboutData = [
+    { title: "Our Story", kicker: "THE STORY BEHIND D’YFLEUR", number: "01", text: "Born from a simple belief that beauty should never be limited by time, D’YFleur creates lasting floral pieces that preserve the feeling behind every thoughtful gesture. Each arrangement is made to bring a little meaning and quiet beauty into everyday spaces." },
+    { title: "Logo Philosophy", kicker: "A MARK WITH MEANING", number: "02", text: "The D’YFleur emblem brings together a graceful floral silhouette and a distinctive mark. Its organic lines reflect the character of a bloom, while its considered simplicity expresses the care, identity, and timeless intention behind our brand." },
+    { title: "Color Philosophy", kicker: "THE D’YFLEUR PALETTE", number: "03", text: "Our palette is intentionally restrained: warm ivory, muted blush, and deep burgundy. These tones create a sense of warmth and refinement, allowing every floral piece to feel considered without competing for attention." },
+    { title: "Design Language", kicker: "FORM, BALANCE & DETAIL", number: "04", text: "We believe in the art of subtlety. Balanced proportions, delicate details, and thoughtful composition guide our design language, creating arrangements that feel graceful, personal, and at home in meaningful spaces." },
+    { title: "Our Values & Promise", kicker: "MADE WITH INTENTION", number: "05", text: "Aesthetic excellence, thoughtful craftsmanship, and lasting beauty shape every decision we make. We promise to create floral pieces with care, so the moments and sentiments they represent can remain part of your space for years to come." },
+  ];
+
+  const aboutSection = $("#about");
+  const aboutContent = $("#dynamic-content", aboutSection || document);
+  const stackContainer = $(".stack-container", aboutSection || document);
+  const stackCards = stackContainer ? $$(".stack-card", stackContainer) : [];
+  let contentTransitionTimer = null;
+
+  function updateContent(index, immediate = false) {
+    if (!aboutContent || !aboutData[index]) return;
+    const item = aboutData[index];
+    window.clearTimeout(contentTransitionTimer);
+    const render = () => {
+      aboutContent.innerHTML = `
+        <p class="eyebrow about-kicker">${escapeHTML(item.kicker)} <span>${item.number} / 05</span></p>
+        <h2 class="about-title">${escapeHTML(item.title)}</h2>
+        <p class="about-description">${escapeHTML(item.text)}</p>
+        <a class="text-link about-contact-link" href="#contact">A little more about us <span>↗</span></a>`;
+      aboutContent.classList.remove("is-fading-out");
+      aboutContent.classList.add("is-fading-in");
+    };
+    if (immediate) {
+      render();
+      aboutContent.classList.remove("is-fading-in");
+      return;
+    }
+    aboutContent.classList.remove("is-fading-in");
+    aboutContent.classList.add("is-fading-out");
+    contentTransitionTimer = window.setTimeout(render, 200);
+  }
+
+  function arrangeAboutCards() {
+    const blurLevels = [0, 5, 15, 20, 20];
+    const offsets = [
+      [0, 0, -2, 1],
+      [17, -9, 3, .975],
+      [32, -17, -4, .95],
+      [45, -24, 5, .925],
+      [57, -30, -6, .9],
+    ];
+    stackCards.forEach((card, depth) => {
+      const [x, y, rotation, scale] = offsets[depth] || offsets[4];
+      card.style.zIndex = String(stackCards.length - depth);
+      card.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg) scale(${scale})`;
+      card.style.filter = `blur(${blurLevels[depth] ?? 20}px)`;
+      card.style.opacity = depth > 3 ? ".72" : "1";
+      card.classList.toggle("is-front", depth === 0);
+      card.setAttribute("aria-pressed", String(depth === 0));
+    });
+  }
+
+  function activateAboutCard(card) {
+    const clickedIndex = stackCards.indexOf(card);
+    if (clickedIndex < 0) return;
+    if (clickedIndex === 0) stackContainer.appendChild(card);
+    else stackContainer.insertBefore(card, stackContainer.firstElementChild);
+    arrangeAboutCards();
+    updateContent(Number(card.dataset.index));
+  }
+
+  stackCards.forEach((card) => {
+    card.addEventListener("click", (event) => {
+      const targetCard = event.currentTarget.closest(".stack-card");
+      if (targetCard) activateAboutCard(targetCard);
+    });
+    card.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      activateAboutCard(event.currentTarget);
+    });
+  });
+
+  if (stackCards.length) {
+    arrangeAboutCards();
+    updateContent(0, true);
   }
 
   /* =====================================================
