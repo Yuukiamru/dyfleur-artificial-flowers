@@ -231,9 +231,8 @@
   const aboutData = [
     { title: "Our Story", kicker: "THE STORY BEHIND D’YFLEUR", number: "01", text: "Born from a simple belief that beauty should never be limited by time, D’YFleur creates lasting floral pieces that preserve the feeling behind every thoughtful gesture. Each arrangement is made to bring a little meaning and quiet beauty into everyday spaces." },
     { title: "Logo Philosophy", kicker: "A MARK WITH MEANING", number: "02", text: "The D’YFleur emblem brings together a graceful floral silhouette and a distinctive mark. Its organic lines reflect the character of a bloom, while its considered simplicity expresses the care, identity, and timeless intention behind our brand." },
-    { title: "Color Philosophy", kicker: "THE D’YFLEUR PALETTE", number: "03", text: "Our palette is intentionally restrained: warm ivory, muted blush, and deep burgundy. These tones create a sense of warmth and refinement, allowing every floral piece to feel considered without competing for attention." },
+    { title: "Color Philosophy", kicker: "THE D’YFLEUR PALETTE", number: "03", text: "Our palette is intentionally restrained: warm ivory, muted blush, soft rose, and deep burgundy. These tones create a sense of warmth and refinement, allowing every floral piece to feel considered without competing for attention." },
     { title: "Design Language", kicker: "FORM, BALANCE & DETAIL", number: "04", text: "We believe in the art of subtlety. Balanced proportions, delicate details, and thoughtful composition guide our design language, creating arrangements that feel graceful, personal, and at home in meaningful spaces." },
-    { title: "Our Values & Promise", kicker: "MADE WITH INTENTION", number: "05", text: "Aesthetic excellence, thoughtful craftsmanship, and lasting beauty shape every decision we make. We promise to create floral pieces with care, so the moments and sentiments they represent can remain part of your space for years to come." },
   ];
 
   const aboutPalette = [
@@ -252,31 +251,52 @@
   function updateContent(index, immediate = false) {
     if (!aboutContent || !aboutData[index]) return;
     const item = aboutData[index];
+    const isColorSlide = item.number === "03";
+    const isDesignSlide = item.number === "04";
     window.clearTimeout(contentTransitionTimer);
+
     const render = () => {
-      aboutSection?.classList.toggle("is-color-philosophy", item.number === "03");
+      aboutSection?.classList.toggle("is-color-philosophy", isColorSlide);
+      aboutSection?.classList.toggle("is-design-language", isDesignSlide);
+      if (aboutSection) {
+        aboutSection.dataset.backgroundTheme = isDesignSlide ? "dark" : "light";
+      }
+      updateAdaptiveThemes();
+
       aboutContent.innerHTML = `
-        <p class="eyebrow about-kicker">${escapeHTML(item.kicker)} <span>${item.number} / 05</span></p>
-        <h2 class="about-title">${escapeHTML(item.title)}</h2>
-        <p class="about-description">${escapeHTML(item.text)}</p>
-        ${item.number === "03" ? `<div class="about-color-grid" aria-label="D’YFleur brand color palette">
-          ${aboutPalette.map((color) => `<article class="about-color-item">
-            <span class="about-color-swatch" style="--swatch-color: ${color.hex}" aria-hidden="true"></span>
-            <h3 class="about-color-name">${escapeHTML(color.name)}</h3>
-            <p class="about-color-hex">${escapeHTML(color.hex)}</p>
-            <p class="about-color-meaning">${escapeHTML(color.meaning)}</p>
-          </article>`).join("")}
-        </div>` : ""}
-        ${item.number === "05" ? `<div class="about-values-icons" aria-label="Our values"><div>${iconSvg("diamond")}<span>Aesthetic Excellence</span></div><div>${iconSvg("needle")}<span>Intentional Craftsmanship</span></div><div>${iconSvg("infinity")}<span>Everlasting Connections</span></div></div>` : ""}
-        <a class="text-link about-contact-link" href="#contact">A little more about us ${iconSvg("arrow-up-right", "ui-icon ui-icon-inline")}</a>`;
+        ${isDesignSlide ? '<div class="about-design-glass">' : ""}
+          <p class="eyebrow about-kicker">${escapeHTML(item.kicker)} <span>${item.number} / 04</span></p>
+          <h2 class="about-title">${escapeHTML(item.title)}</h2>
+          <p class="about-description">${escapeHTML(item.text)}</p>
+          ${isColorSlide ? `<div class="about-color-grid" aria-label="D’YFleur brand color palette">
+            ${aboutPalette.map((color) => `<article class="about-color-item">
+              <span class="about-color-swatch" style="--swatch-color: ${color.hex}" aria-hidden="true"></span>
+              <h3 class="about-color-name">${escapeHTML(color.name)}</h3>
+              <p class="about-color-hex">${escapeHTML(color.hex)}</p>
+              <p class="about-color-meaning">${escapeHTML(color.meaning)}</p>
+            </article>`).join("")}
+          </div>` : ""}
+          ${isDesignSlide ? `<div class="about-values-promise">
+            <p class="about-values-label">OUR VALUES & PROMISE</p>
+            <p class="about-values-description">Aesthetic excellence, thoughtful craftsmanship, and lasting beauty shape every decision we make. We create every floral piece with care and intention.</p>
+            <div class="about-values-icons" aria-label="Our values">
+              <div>${iconSvg("diamond")}<span>Aesthetic Excellence</span></div>
+              <div>${iconSvg("needle")}<span>Intentional Craftsmanship</span></div>
+              <div>${iconSvg("infinity")}<span>Everlasting Connections</span></div>
+            </div>
+          </div>` : ""}
+          <a class="text-link about-contact-link" href="#contact">A little more about us ${iconSvg("arrow-up-right", "ui-icon ui-icon-inline")}</a>
+        ${isDesignSlide ? "</div>" : ""}`;
       aboutContent.classList.remove("is-fading-out");
       aboutContent.classList.add("is-fading-in");
     };
+
     if (immediate) {
       render();
       aboutContent.classList.remove("is-fading-in");
       return;
     }
+
     aboutContent.classList.remove("is-fading-in");
     aboutContent.classList.add("is-fading-out");
     contentTransitionTimer = window.setTimeout(render, 200);
@@ -284,20 +304,19 @@
 
   function arrangeAboutCards() {
     const orderedCards = Array.from(stackContainer.children);
-    const blurLevels = [0, 5, 15, 20, 20];
+    const blurLevels = [0, 5, 15, 20];
     const offsets = [
       [0, 0, -2, 1],
-      [17, -9, 3, .975],
-      [32, -17, -4, .95],
-      [45, -24, 5, .925],
-      [57, -30, -6, .9],
+      [18, -10, 3, .975],
+      [34, -19, -4, .95],
+      [50, -28, 5, .925],
     ];
     orderedCards.forEach((card, depth) => {
       const [x, y, rotation, scale] = offsets[depth] || offsets[4];
       card.style.zIndex = String(orderedCards.length - depth);
       card.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg) scale(${scale})`;
       card.style.filter = `blur(${blurLevels[depth] ?? 20}px)`;
-      card.style.opacity = depth > 3 ? ".72" : "1";
+      card.style.opacity = depth === 3 ? ".82" : "1";
       card.classList.toggle("is-front", depth === 0);
       card.setAttribute("aria-pressed", String(depth === 0));
     });
