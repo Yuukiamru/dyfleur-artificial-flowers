@@ -7821,3 +7821,149 @@ a:hover > .ui-icon {
   color: var(--wine-3);
   transform: scale(1.08);
 }
+
+
+/* =====================================================
+   D’YFLEUR — FASHION EDITORIAL TYPOGRAPHY SYSTEM
+===================================================== */
+:root {
+  --serif: "Bodoni Moda", serif;
+  --sans: "Inter", sans-serif;
+  --burgundy: var(--wine);
+  --text-secondary: var(--muted);
+}
+
+html,
+body {
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+}
+
+/* All semantic headings use Bodoni Moda. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.brand,
+.shop-product-copy h3,
+.shop-stage-copy h3,
+.about-title,
+.footer-main h2,
+.checkout-dialog-header h2,
+.history-dialog-header h2,
+.cart-header h2,
+.order-success h3,
+.mini-product h4 {
+  font-family: "Bodoni Moda", serif;
+  font-weight: 400;
+}
+
+/* Main display title scale. */
+h1,
+.hero h1 {
+  font-family: "Bodoni Moda", serif;
+  font-size: clamp(3rem, 5vw, 5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--burgundy);
+}
+
+/* Editorial section heading scale. */
+h2,
+.section-heading h2,
+.builder-heading h2,
+.about-title,
+.footer-main h2,
+.checkout-dialog-header h2,
+.history-dialog-header h2,
+.cart-header h2 {
+  font-family: "Bodoni Moda", serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--burgundy);
+}
+
+/* Body copy keeps a single readable sans-serif rhythm. */
+p:not(.eyebrow):not(.panel-label):not(.hero-tagline):not(.about-kicker):not(.stack-instruction) {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+}
+
+.about-description,
+.section-intro,
+.product-description,
+.checkout-dialog .checkout-lead,
+.checkout-dialog .checkout-disclaimer,
+.checkout-dialog .checkout-items-empty {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+}
+
+/* Keep display labels and CTAs crisp, restrained, and consistent. */
+.nav-link,
+.button,
+.text-link,
+.footer-email {
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* The former Montserrat hero tagline now follows the body typeface. */
+.hero-tagline {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.85rem, 1.35vw, 1rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.1em;
+}
+
+/* Checkout and About copy remain comfortable at narrower widths. */
+.checkout-dialog .checkout-lead,
+.checkout-dialog .checkout-disclaimer,
+.about-description {
+  line-height: 1.7;
+}
+
+@media (max-width: 680px) {
+  h2,
+  .section-heading h2,
+  .builder-heading h2,
+  .about-title,
+  .footer-main h2,
+  .checkout-dialog-header h2,
+  .history-dialog-header h2,
+  .cart-header h2 {
+    font-size: 2.25rem;
+  }
+
+  p:not(.eyebrow):not(.panel-label):not(.hero-tagline):not(.about-kicker):not(.stack-instruction),
+  .about-description,
+  .section-intro,
+  .product-description,
+  .checkout-dialog .checkout-lead,
+  .checkout-dialog .checkout-disclaimer {
+    font-size: 0.95rem;
+  }
+}
