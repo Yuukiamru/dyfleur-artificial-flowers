@@ -7464,3 +7464,52 @@ label,
     transform: none;
   }
 }
+
+
+/* Refined arrangement studio spacing after removing helper copy. */
+@media (min-width: 901px) {
+  .arrangement-panel {
+    padding: 22px 20px;
+  }
+
+  .bouquet-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .arrangement-mode-block {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(53, 25, 35, .1);
+  }
+
+  .editor-selection-row {
+    margin-top: 0;
+  }
+
+  .flower-controls {
+    gap: 0;
+  }
+
+  .editor-control-groups {
+    gap: 14px;
+  }
+
+  .editor-control-group {
+    padding-bottom: 13px;
+    border-bottom: 1px solid rgba(53, 25, 35, .1);
+  }
+
+  .editor-control-group:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .wrapping-size-editor {
+    margin-top: 2px;
+    padding-top: 15px;
+  }
+}
