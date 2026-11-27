@@ -520,7 +520,7 @@ img {
 
   margin: 0;
 
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--sans);
 
   font-size: clamp(12px, 1.35vw, 18px);
 
@@ -7984,7 +7984,7 @@ h6 {
   align-items: center;
   gap: clamp(3rem, 6vw, 5rem);
   min-height: min(860px, 100svh);
-  padding: 118px max(5%, calc((100vw - 1200px) / 2)) 72px;
+  padding: 120px max(5%, calc((100vw - 1200px) / 2));
   overflow: hidden;
   background: var(--ivory);
   color: var(--wine);
