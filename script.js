@@ -289,7 +289,7 @@
     if (clickedDepth === 0) stackContainer.appendChild(card);
     else stackContainer.insertBefore(card, stackContainer.firstElementChild);
     arrangeAboutCards();
-    updateContent(Number(card.dataset.index));
+    updateContent(Number(stackContainer.firstElementChild.dataset.index));
   }
 
   stackCards.forEach((card) => {
