@@ -72,6 +72,7 @@
 
   const menuToggle = $("#menuToggle");
   const mainNav = $("#mainNav");
+  const menuCloseButton = $("#menuClose");
   const siteHeader = $("#top");
   const serviceButton = $(".whatsapp-float");
   const themeSections = $$("main > section[id], main > footer[id]");
@@ -138,18 +139,32 @@
     menuToggle.setAttribute("aria-expanded", "false");
     menuToggle.setAttribute("aria-label", "Open navigation");
     mainNav.classList.remove("open");
+    mainNav.setAttribute("aria-hidden", "true");
     document.body.classList.remove("nav-open");
   }
 
+  function openMenu() {
+    if (!menuToggle || !mainNav) return;
+    menuToggle.setAttribute("aria-expanded", "true");
+    menuToggle.setAttribute("aria-label", "Close navigation");
+    mainNav.setAttribute("aria-hidden", "false");
+    mainNav.classList.add("open");
+    document.body.classList.add("nav-open");
+    menuCloseButton?.focus({ preventScroll: true });
+  }
+
   menuToggle?.addEventListener("click", () => {
-    const willOpen = menuToggle.getAttribute("aria-expanded") !== "true";
-    menuToggle.setAttribute("aria-expanded", String(willOpen));
-    menuToggle.setAttribute(
-      "aria-label",
-      willOpen ? "Close navigation" : "Open navigation",
-    );
-    mainNav?.classList.toggle("open", willOpen);
-    document.body.classList.toggle("nav-open", willOpen);
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  menuCloseButton?.addEventListener("click", () => {
+    closeMenu();
+    menuToggle?.focus({ preventScroll: true });
   });
 
   $$(".nav-link").forEach((link) => {
