@@ -7593,6 +7593,12 @@ label,
   font-weight: 600; letter-spacing: .17em; text-align: center;
 }
 .stack-card.is-front { box-shadow: 0 28px 68px rgba(53,25,35,.2), 0 5px 15px rgba(53,25,35,.1); }
+.stack-card[data-index="1"] img {
+  object-fit: contain;
+  padding: 17%;
+  background: radial-gradient(circle at 50% 46%, #fffaf6 0%, #f2e5e2 72%, #ead9d8 100%);
+}
+
 .stack-card:focus-visible { outline: 3px solid #9d6878; outline-offset: 7px; }
 .stack-instruction {
   align-self: flex-end; margin: 30px 2px 0 0; color: #98717b;
