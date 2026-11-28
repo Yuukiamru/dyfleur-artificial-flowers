@@ -139,7 +139,7 @@
     menuToggle.setAttribute("aria-expanded", "false");
     menuToggle.setAttribute("aria-label", "Open navigation");
     mainNav.classList.remove("open");
-    mainNav.setAttribute("aria-hidden", "true");
+    mainNav.setAttribute("aria-hidden", String(window.matchMedia("(max-width: 768px)").matches));
     document.body.classList.remove("nav-open");
   }
 
