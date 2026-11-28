@@ -9103,3 +9103,110 @@ h6 {
     max-height: none;
   }
 }
+
+
+/* -----------------------------------------------------
+   ABOUT — stable section rhythm and compact color tiles
+----------------------------------------------------- */
+.about.about-split-wrapper {
+  box-sizing: border-box;
+  min-height: 740px;
+  padding-block: 88px;
+  align-content: center;
+  transition:
+    grid-template-columns 650ms cubic-bezier(.22, 1, .36, 1),
+    gap 650ms cubic-bezier(.22, 1, .36, 1),
+    background-color 650ms ease;
+}
+
+.about.about-split-wrapper.is-color-philosophy,
+.about.about-split-wrapper.is-design-language {
+  min-height: 740px;
+}
+
+.about-color-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.2vw, 18px);
+  margin: 1.25rem 0 1.5rem;
+  align-items: stretch;
+}
+
+.about-color-item {
+  justify-content: flex-start;
+  padding: 13px 9px 14px;
+  border: 1px solid rgba(53, 25, 35, .09);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .52);
+}
+
+.about-color-swatch {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  margin-bottom: .8rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 14px rgba(53, 25, 35, .09);
+}
+
+.about-color-name {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.about-color-hex {
+  margin-bottom: .35rem;
+  font-size: .72rem;
+  letter-spacing: .07em;
+}
+
+.about-color-meaning {
+  max-width: 132px;
+  font-size: .76rem;
+  line-height: 1.45;
+}
+
+.about-design-glass {
+  padding: clamp(1.5rem, 2.6vw, 2.25rem);
+  border-radius: 18px;
+}
+
+.about-values-promise {
+  margin: 1.65rem 0 1.2rem;
+  padding-top: 1.15rem;
+}
+
+.about-values-description {
+  margin-bottom: 1.1rem;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .about.about-split-wrapper,
+  .about.about-split-wrapper.is-color-philosophy,
+  .about.about-split-wrapper.is-design-language {
+    min-height: 700px;
+  }
+
+  .about-color-grid {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  .about.about-split-wrapper,
+  .about.about-split-wrapper.is-color-philosophy,
+  .about.about-split-wrapper.is-design-language {
+    min-height: 0;
+    padding-block: 88px;
+  }
+
+  .about-color-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .about-color-item {
+    padding: 14px 10px;
+  }
+}
