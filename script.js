@@ -502,6 +502,34 @@
 
   shopPrev?.addEventListener("click", () => moveShopCarousel(-1));
   shopNext?.addEventListener("click", () => moveShopCarousel(1));
+
+  // Mobile swipe: horizontal gestures rotate the existing three-card carousel.
+  if (shopViewport) {
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    let swipePointerId = null;
+
+    shopViewport.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" || event.button !== 0) return;
+      swipeStartX = event.clientX;
+      swipeStartY = event.clientY;
+      swipePointerId = event.pointerId;
+    }, { passive: true });
+
+    shopViewport.addEventListener("pointerup", (event) => {
+      if (swipePointerId !== event.pointerId) return;
+      const deltaX = event.clientX - swipeStartX;
+      const deltaY = event.clientY - swipeStartY;
+      swipePointerId = null;
+
+      if (Math.abs(deltaX) < 42 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+      moveShopCarousel(deltaX < 0 ? 1 : -1);
+    }, { passive: true });
+
+    shopViewport.addEventListener("pointercancel", () => {
+      swipePointerId = null;
+    }, { passive: true });
+  }
   shopPagination?.addEventListener("click", (event) => {
     const dot = event.target.closest("[data-carousel-product]");
     if (dot) showShopProduct(dot.dataset.carouselProduct);
