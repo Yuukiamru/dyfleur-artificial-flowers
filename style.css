@@ -9210,3 +9210,56 @@ h6 {
     padding: 14px 10px;
   }
 }
+
+/* -----------------------------------------------------
+   SECTION SPACING + ANCHOR ALIGNMENT
+   Keep the fixed navbar clear without stacking large
+   top margins and section padding.
+----------------------------------------------------- */
+html {
+  scroll-padding-top: 120px;
+}
+
+#home,
+#shop,
+#about,
+#builder,
+#contact {
+  scroll-margin-top: 120px;
+}
+
+/* The hero already has internal top padding for the fixed navbar. */
+#home.hero.hero-editorial {
+  min-height: max(680px, calc(100svh - 24px));
+}
+
+/* Shop heading should sit directly below the navbar after anchor navigation. */
+#shop.shop {
+  padding-top: 0;
+  padding-bottom: 88px;
+}
+
+#shop .shop-heading {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+/* Keep the shop content centered on wide laptop and desktop screens. */
+#shop .shop-heading,
+#shop .shop-carousel-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+@media (max-width: 640px) {
+  #shop.shop {
+    padding-top: 0;
+    padding-bottom: 72px;
+  }
+
+  #shop .shop-heading {
+    margin-top: 0;
+  }
+}
+
