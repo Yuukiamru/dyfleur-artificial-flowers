@@ -231,8 +231,9 @@
   const aboutData = [
     { title: "Our Story", kicker: "THE STORY BEHIND D’YFLEUR", number: "01", text: "Born from a simple belief that beauty should never be limited by time, D’YFleur creates lasting floral pieces that preserve the feeling behind every thoughtful gesture. Each arrangement is made to bring a little meaning and quiet beauty into everyday spaces." },
     { title: "Logo Philosophy", kicker: "A MARK WITH MEANING", number: "02", text: "The D’YFleur emblem brings together a graceful floral silhouette and a distinctive mark. Its organic lines reflect the character of a bloom, while its considered simplicity expresses the care, identity, and timeless intention behind our brand." },
-    { title: "Color Philosophy", kicker: "THE D’YFLEUR PALETTE", number: "03", text: "Our palette is intentionally restrained: warm ivory, muted blush, soft rose, and deep burgundy. These tones create a sense of warmth and refinement, allowing every floral piece to feel considered without competing for attention." },
+    { title: "Color Philosophy", kicker: "THE D’YFLEUR PALETTE", number: "03", text: "Our palette is intentionally restrained: warm ivory, muted blush, and deep burgundy. These tones create a sense of warmth and refinement, allowing every floral piece to feel considered without competing for attention." },
     { title: "Design Language", kicker: "FORM, BALANCE & DETAIL", number: "04", text: "We believe in the art of subtlety. Balanced proportions, delicate details, and thoughtful composition guide our design language, creating arrangements that feel graceful, personal, and at home in meaningful spaces." },
+    { title: "Our Values & Promise", kicker: "MADE WITH INTENTION", number: "05", text: "Aesthetic excellence, thoughtful craftsmanship, and lasting beauty shape every decision we make. We promise to create floral pieces with care, so the moments and sentiments they represent can remain part of your space for years to come." },
   ];
 
   const aboutPalette = [
