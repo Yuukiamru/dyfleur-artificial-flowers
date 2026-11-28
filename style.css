@@ -9028,3 +9028,30 @@ h6 {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Shop visual fixes: clear navbar space and keep the purchase action inside the card */
+#shop.shop {
+  padding-top: 140px;
+  scroll-margin-top: 140px;
+}
+
+#shop .product-card {
+  overflow: visible;
+  padding-bottom: 3rem;
+}
+
+#shop .carousel-add-button {
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  #shop.shop {
+    padding-top: 140px;
+  }
+
+  #shop .product-card {
+    padding-bottom: 3rem;
+  }
+}
