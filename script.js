@@ -397,14 +397,16 @@
   const shopNext = $(".nav-arrow.next");
   const shopPagination = $("#shopCarouselPagination");
   const shopProductIds = Object.keys(shopProducts);
-  let activeProductIndex = 0;
+
+  // Order positions: [left, active, right]. Product 0 starts in the center.
+  let products = [shopProductIds.length - 1, 0, 1].filter((index) => index < shopProductIds.length);
 
   function renderShopCarousel() {
     if (!shopTrack) return;
     shopTrack.innerHTML = shopProductIds.map((id, index) => {
       const product = shopProducts[id];
       return `
-        <article class="product-card${index === activeProductIndex ? " active" : ""}" data-product-id="${escapeHTML(id)}" aria-label="${escapeHTML(product.name)}">
+        <article class="product-card" data-product-id="${escapeHTML(id)}" aria-label="${escapeHTML(product.name)}">
           <div class="product-card-copy">
             <span class="product-index">${escapeHTML(product.index)}</span>
             <p class="eyebrow">FLOWERS FOR FOREVER</p>
@@ -428,60 +430,89 @@
           </div>
         </article>`;
     }).join("");
+
     if (shopPagination) {
       shopPagination.innerHTML = shopProductIds.map((id, index) =>
-        `<button type="button" class="carousel-dot${index === activeProductIndex ? " is-active" : ""}" data-carousel-index="${index}" aria-label="Go to product ${index + 1}" aria-current="${index === activeProductIndex ? "true" : "false"}"></button>`
+        `<button type="button" class="carousel-dot" data-carousel-product="${escapeHTML(id)}" aria-label="Go to ${escapeHTML(shopProducts[id].name)}"></button>`
       ).join("");
     }
-    updateShopCarousel();
+    render();
   }
 
-  function updateShopCarousel() {
-    if (!shopTrack || !shopViewport) return;
+  function render() {
+    if (!shopTrack) return;
+
     const cards = [...shopTrack.querySelectorAll(".product-card")];
-    cards.forEach((card, index) => {
-      const active = index === activeProductIndex;
-      card.classList.toggle("active", active);
-      card.classList.toggle("is-prev", index === activeProductIndex - 1);
-      card.classList.toggle("is-next", index === activeProductIndex + 1);
-      card.setAttribute("aria-hidden", String(!active));
-      card.querySelectorAll("button").forEach((button) => { button.tabIndex = active ? 0 : -1; });
+    const positionClasses = ["left", "active", "right"];
+
+    cards.forEach((card) => {
+      const productIndex = shopProductIds.indexOf(card.dataset.productId);
+      const position = products.indexOf(productIndex);
+      const role = positionClasses[position] || "offscreen";
+
+      card.classList.remove("left", "active", "right", "offscreen", "is-prev", "is-next");
+      card.classList.add(role);
+      card.setAttribute("aria-hidden", String(role !== "active"));
+      card.querySelectorAll("button").forEach((button) => {
+        button.tabIndex = role === "active" ? 0 : -1;
+      });
     });
-    const activeCard = cards[activeProductIndex];
-    if (activeCard) {
-      const offset = shopViewport.clientWidth / 2 - (activeCard.offsetLeft + activeCard.offsetWidth / 2);
-      shopTrack.style.transform = `translate3d(${offset}px, 0, 0)`;
-    }
-    shopPagination?.querySelectorAll(".carousel-dot").forEach((dot, index) => {
-      dot.classList.toggle("is-active", index === activeProductIndex);
-      dot.setAttribute("aria-current", String(index === activeProductIndex));
+
+    shopPagination?.querySelectorAll(".carousel-dot").forEach((dot) => {
+      const active = dot.dataset.carouselProduct === shopProductIds[products[1]];
+      dot.classList.toggle("is-active", active);
+      dot.setAttribute("aria-current", String(active));
     });
-    if (shopPrev) shopPrev.disabled = activeProductIndex === 0;
-    if (shopNext) shopNext.disabled = activeProductIndex === shopProductIds.length - 1;
+
+    if (shopPrev) shopPrev.disabled = false;
+    if (shopNext) shopNext.disabled = false;
   }
 
   function moveShopCarousel(direction) {
-    const nextIndex = Math.max(0, Math.min(shopProductIds.length - 1, activeProductIndex + direction));
-    if (nextIndex === activeProductIndex) return;
-    activeProductIndex = nextIndex;
-    updateShopCarousel();
+    if (products.length < 2) return;
+
+    if (direction > 0) {
+      const first = products.shift();
+      products.push(first);
+    } else {
+      const last = products.pop();
+      products.unshift(last);
+    }
+    render();
+  }
+
+  function showShopProduct(productId) {
+    const targetIndex = shopProductIds.indexOf(productId);
+    if (targetIndex < 0 || products[1] === targetIndex) return;
+
+    // Rotate until the requested product occupies the center slot.
+    while (products[1] !== targetIndex) {
+      const currentPosition = products.indexOf(targetIndex);
+      if (currentPosition === 2) {
+        const first = products.shift();
+        products.push(first);
+      } else {
+        const last = products.pop();
+        products.unshift(last);
+      }
+    }
+    render();
   }
 
   shopPrev?.addEventListener("click", () => moveShopCarousel(-1));
   shopNext?.addEventListener("click", () => moveShopCarousel(1));
   shopPagination?.addEventListener("click", (event) => {
-    const dot = event.target.closest("[data-carousel-index]");
-    if (!dot) return;
-    activeProductIndex = Number(dot.dataset.carouselIndex);
-    updateShopCarousel();
+    const dot = event.target.closest("[data-carousel-product]");
+    if (dot) showShopProduct(dot.dataset.carouselProduct);
   });
   shopTrack?.addEventListener("click", (event) => {
+    if (event.target.closest("[data-add-product]")) return;
     const card = event.target.closest(".product-card");
-    if (!card || card.classList.contains("active")) return;
-    const index = shopProductIds.indexOf(card.dataset.productId);
-    if (index >= 0) { activeProductIndex = index; updateShopCarousel(); }
+    if (card && !card.classList.contains("active")) {
+      showShopProduct(card.dataset.productId);
+    }
   });
-  window.addEventListener("resize", updateShopCarousel);
+  window.addEventListener("resize", render);
   renderShopCarousel();
 
   /* =====================================================
