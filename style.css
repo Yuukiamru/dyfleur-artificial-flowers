@@ -8736,7 +8736,7 @@ h6 {
 /* Final Hero fixes: prevent legacy nowrap rules from crossing the grid. */
 .hero.hero-editorial {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(2rem, 5vw, 5rem);
+  gap: clamp(2rem, 5vw, 6rem);
   overflow: visible;
 }
 
