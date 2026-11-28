@@ -119,6 +119,7 @@
   if (siteHeader) {
     const updateScrolledState = () => {
       siteHeader.classList.toggle("scrolled", window.scrollY > 50);
+      siteHeader.classList.toggle("compact-island", window.scrollY > 100);
       updateAdaptiveThemes();
     };
 
