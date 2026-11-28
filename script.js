@@ -117,20 +117,34 @@
     });
   }
 
-  if (siteHeader) {
-    const updateScrolledState = () => {
-      siteHeader.classList.toggle("scrolled", window.scrollY > 50);
-      siteHeader.classList.toggle("compact-island", window.scrollY > 100);
-      updateAdaptiveThemes();
-    };
+  function updateScrolledState() {
+    if (!siteHeader) return;
 
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const isMenuOpen = menuToggle?.getAttribute("aria-expanded") === "true";
+    const pastCompactThreshold = window.scrollY > 100;
+
+    siteHeader.classList.toggle("scrolled", window.scrollY > 50);
+
+    // Keep the existing desktop compact header behavior separate from mobile.
+    siteHeader.classList.toggle(
+      "compact-island",
+      !isMobile && pastCompactThreshold,
+    );
+
+    // Mobile morphs into a compact centered island only while the menu is closed.
+    siteHeader.classList.toggle(
+      "mobile-island-compact",
+      isMobile && pastCompactThreshold && !isMenuOpen,
+    );
+
+    updateAdaptiveThemes();
+  }
+
+  if (siteHeader) {
     updateScrolledState();
 
-    window.addEventListener(
-      "scroll",
-      updateScrolledState,
-      { passive: true },
-    );
+    window.addEventListener("scroll", updateScrolledState, { passive: true });
     window.addEventListener("resize", updateScrolledState, { passive: true });
   }
 
@@ -141,15 +155,19 @@
     mainNav.classList.remove("open");
     mainNav.setAttribute("aria-hidden", String(window.matchMedia("(max-width: 768px)").matches));
     document.body.classList.remove("nav-open");
+    updateScrolledState();
   }
 
   function openMenu() {
     if (!menuToggle || !mainNav) return;
+    // Expand the capsule before revealing the full-screen navigation layer.
+    siteHeader?.classList.remove("mobile-island-compact");
     menuToggle.setAttribute("aria-expanded", "true");
     menuToggle.setAttribute("aria-label", "Close navigation");
     mainNav.setAttribute("aria-hidden", "false");
     mainNav.classList.add("open");
     document.body.classList.add("nav-open");
+    updateScrolledState();
     menuCloseButton?.focus({ preventScroll: true });
   }
 
