@@ -9055,3 +9055,51 @@ h6 {
     padding-bottom: 3rem;
   }
 }
+
+
+/* Shop carousel: prevent the heading and product actions from being clipped */
+#shop .shop-heading {
+  position: relative;
+  margin-top: 96px;
+}
+
+#shop .carousel-viewport {
+  height: 680px;
+}
+
+#shop .product-card {
+  height: 590px;
+  min-height: 590px;
+  box-sizing: border-box;
+}
+
+#shop .product-card-copy {
+  align-self: center;
+}
+
+@media (max-width: 900px) and (min-width: 641px) {
+  #shop .carousel-viewport {
+    height: 660px;
+  }
+
+  #shop .product-card {
+    height: 580px;
+    min-height: 580px;
+  }
+}
+
+@media (max-width: 640px) {
+  #shop .shop-heading {
+    margin-top: 36px;
+  }
+
+  #shop .carousel-viewport {
+    height: 780px;
+  }
+
+  #shop .product-card {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+}
