@@ -2146,6 +2146,9 @@
     }
   });
 
+  // Initial builder catalog render: populate Flowers and Wrapping on first page load.
+  renderBuilder();
+
   /* =====================================================
      12. KEYBOARD SUPPORT
   ===================================================== */
