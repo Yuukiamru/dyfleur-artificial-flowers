@@ -62,7 +62,7 @@
     <symbol id="icon-message-circle" viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2V11.5A7.5 7.5 0 0 1 11 4h1.5a7.5 7.5 0 0 1 7.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 11h8M8 14.5h5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
     <header class="site-header" id="top">
-      <a class="brand" href="#home" aria-label="D’YFleur home">
+      <a class="brand" href="#home" aria-label="Expand D’YFleur navigation" aria-expanded="false" aria-controls="mainNav">
         <span class="brand-mark" aria-hidden="true"></span>
 
         <span>D’YFleur</span>
@@ -79,16 +79,30 @@
         <svg class="menu-icon menu-icon-open" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-menu"></use></svg><svg class="menu-icon menu-icon-close" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-close"></use></svg>
       </button>
 
-      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-        <a class="nav-link active" href="#home">Home</a>
-
-        <a class="nav-link" href="#shop">Shop</a>
-
-        <a class="nav-link" href="#builder">Custom Bouquet</a>
-
-        <a class="nav-link" href="#about">About Us</a>
-
-        <a class="nav-link" href="#contact">Contact</a>
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation" aria-hidden="false">
+        <div class="mobile-nav-top">
+          <a class="mobile-nav-brand" href="#home" aria-label="D’YFleur home">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span>D’YFleur</span>
+          </a>
+          <button class="mobile-nav-close" id="menuClose" type="button" aria-label="Close navigation">
+            <svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="main-nav-content">
+          <a class="nav-link active" href="#home">Home</a>
+          <a class="nav-link" href="#shop">Shop</a>
+          <a class="nav-link" href="#builder">Custom Bouquet</a>
+          <a class="nav-link" href="#about">About Us</a>
+          <a class="nav-link" href="#contact">Contact</a>
+        </div>
+        <div class="mobile-nav-footer">
+          <a class="mobile-nav-instagram" href="https://www.instagram.com/dwhyfleur.co/" target="_blank" rel="noopener noreferrer">
+            <svg class="ui-icon" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instagram"></use></svg>
+            <span>@dwhyfleur.co</span>
+          </a>
+          <p>Artificial flowers, made to last.</p>
+        </div>
       </nav>
 
       <button
@@ -138,170 +152,22 @@
         </div>
       </section>
 
-      <!-- SHOP -->
+      <!-- SHOP / CENTER CAROUSEL -->
 
       <section class="shop section-pad" id="shop" data-background-theme="light" aria-labelledby="shopTitle">
         <div class="section-heading shop-heading">
           <p class="eyebrow">THE D’YFLEUR COLLECTION</p>
-
           <h2 id="shopTitle">Our <em>Collection</em></h2>
-
-          <p class="section-intro">
-            Thoughtful floral pieces that bring warmth and beauty to every
-            corner.
-          </p>
+          <p class="section-intro">Thoughtful floral pieces that bring warmth and beauty to every corner.</p>
         </div>
-
-        <div class="shop-layout">
-          <div class="shop-list-column">
-            <div class="shop-tools" aria-label="Filter products">
-              <label class="shop-search-label" for="shopSearch">
-                <span class="sr-only">Search products</span>
-                <input id="shopSearch" type="search" placeholder="Search collection..." autocomplete="off" />
-              </label>
-              <label class="shop-sort-label" for="shopSort">
-                <span class="sr-only">Sort products</span>
-                <select id="shopSort">
-                  <option value="featured">Featured</option>
-                  <option value="price-asc">Price: low to high</option>
-                  <option value="price-desc">Price: high to low</option>
-                  <option value="name">Name: A–Z</option>
-                </select>
-              </label>
-            </div>
-            <p class="shop-results" id="shopResults" aria-live="polite">3 pieces in the collection</p>
-          <div
-            class="shop-product-list"
-            role="group"
-            aria-label="Choose a product"
-          >
-            <!-- UNTIL WE MEET AGAIN -->
-            <button
-              class="shop-product-card is-selected"
-              type="button"
-              data-shop-product="white-lily"
-              aria-pressed="true"
-            >
-              <img
-                class="shop-card-art"
-                src="assets/flowers/until-we-meet-again.svg"
-                alt=""
-                loading="lazy"
-              />
-
-              <span class="shop-card-info">
-                <strong>A Promise of Spring</strong>
-                <small>Rp340.000</small>
-              </span>
-
-              <span class="shop-card-check" aria-hidden="true"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-check"></use></svg></span>
-            </button>
-
-            <!-- BLUSH TULIP -->
-            <button
-              class="shop-product-card"
-              type="button"
-              data-shop-product="blush-tulip"
-              aria-pressed="false"
-            >
-              <img
-                class="shop-card-art"
-                src="assets/flowers/The-Lily-of-Silent-Release.svg"
-                alt=""
-                loading="lazy"
-              />
-
-              <span class="shop-card-info">
-                <strong>The Lily of Silent Release</strong>
-                <small>Rp200.000</small>
-              </span>
-
-              <span class="shop-card-check" aria-hidden="true"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-check"></use></svg></span>
-            </button>
-
-            <!-- LAVENDER BLOOM -->
-            <button
-              class="shop-product-card"
-              type="button"
-              data-shop-product="lavender-bloom"
-              aria-pressed="false"
-            >
-              <img
-                class="shop-card-art"
-                src="assets/flowers/DN-shop.svg"
-                alt=""
-                loading="lazy"
-              />
-
-              <span class="shop-card-info">
-                <strong>The Blush of Everlasting Love</strong>
-                <small>Rp209.000</small>
-              </span>
-
-              <span class="shop-card-check" aria-hidden="true"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-check"></use></svg></span>
-            </button>
+        <div class="shop-carousel-wrapper" aria-label="Featured collection carousel">
+          <button class="nav-arrow prev" type="button" aria-label="Previous product">❮</button>
+          <div class="carousel-viewport">
+            <div class="carousel-track" id="shopCarouselTrack" aria-live="polite"></div>
           </div>
-          </div>
-
-          <!-- PRODUCT PREVIEW -->
-
-          <div class="shop-product-stage">
-            <div class="shop-stage-copy">
-              <span class="product-index" id="shopProductIndex"
-                >FEATURED PIECE / 001</span
-              >
-              <p class="eyebrow">FLOWERS FOR FOREVER</p>
-              <h3 id="shopProductName">A Promise of Spring</h3>
-              <p class="product-description" id="shopProductDescription">
-                A delicate arrangement inspired by a heartfelt gesture, symbolizing sincere affection, new beginnings, and the beauty of love that blooms unexpectedly.
-              </p>
-              <div class="product-price" id="shopProductPrice">Rp340.000</div>
-              <p class="product-meta" id="shopProductMeta">Made to order · Decorative artificial flowers</p>
-              <div class="shop-product-details" aria-label="Bouquet details">
-                <div class="shop-detail-row">
-                  <span>Dimensions <small>(W × H)</small></span>
-                  <strong id="shopProductDimensions">40 × 60 cm</strong>
-                </div>
-                <div class="shop-detail-row shop-composition-row">
-                  <span>Main flowers</span>
-                  <strong id="shopProductComposition">3 pink alstroemeria · 4 white gerbera / daisy</strong>
-                </div>
-                <p class="shop-detail-note">Approximate dimensions; flower arrangement may vary slightly.</p>
-              </div>
-              <button
-                class="button button-dark"
-                type="button"
-                id="shopAddButton"
-                data-add-product="white-lily"
-              >
-                Add to Cart <svg class="ui-icon ui-icon-inline shop-add-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shopping-bag-plus"></use></svg>
-              </button>
-            </div>
-            <div class="chair-display">
-              <div class="display-orbit orbit-one"></div>
-              <div class="display-orbit orbit-two"></div>
-              <div class="chair-image-wrap">
-                <div class="chair-fallback" aria-hidden="true">
-                  <div class="chair-back"></div>
-                  <div class="chair-seat"></div>
-                  <div class="chair-leg leg-one"></div>
-                  <div class="chair-leg leg-two"></div>
-                  <div class="chair-leg leg-three"></div>
-                  <div class="chair-leg leg-four"></div>
-                </div>
-                <img
-                  class="chair-bouquet"
-                  id="shopChairBouquet"
-                  src="assets/flowers/lilly.svg"
-                  alt="White lily arrangement"
-                  onerror="this.style.display = 'none'"
-                />
-                <span class="bouquet-fallback" aria-hidden="true"><svg class="ui-icon ui-icon-flower" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-flower"></use></svg></span>
-              </div>
-              <span class="display-caption">A little beauty, every day.</span>
-            </div>
-          </div>
+          <button class="nav-arrow next" type="button" aria-label="Next product">❯</button>
         </div>
+        <div class="carousel-pagination" id="shopCarouselPagination" aria-label="Carousel position"></div>
       </section>
 
       <!-- BOUQUET BUILDER -->
@@ -754,7 +620,7 @@
               </div>
               <div class="qris-code" id="qrisCode" hidden>
                 <p>Scan this QR code to pay with QRIS</p>
-                <img src="assets/qr.svg" alt="QRIS payment code" />
+                <img src="./assets/qr.svg?v=5b8132e" width="300" height="300" alt="QRIS payment code" />
               </div>
 
               <div
@@ -810,7 +676,7 @@
           </div>
           <div class="qris-code" id="successQrisCode" hidden>
             <p>Scan this QR code to pay with QRIS</p>
-            <img src="assets/qr.svg" alt="QRIS payment code" />
+            <img src="./assets/qr.svg?v=5b8132e" width="300" height="300" alt="QRIS payment code" />
           </div>
           <div class="success-order-items" id="successOrderItems"></div>
           <div class="success-meta">

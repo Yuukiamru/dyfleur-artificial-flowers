@@ -71,7 +71,9 @@
   ===================================================== */
 
   const menuToggle = $("#menuToggle");
+  const brand = $(".site-header .brand");
   const mainNav = $("#mainNav");
+  const menuCloseButton = $("#menuClose");
   const siteHeader = $("#top");
   const serviceButton = $(".whatsapp-float");
   const themeSections = $$("main > section[id], main > footer[id]");
@@ -116,39 +118,101 @@
     });
   }
 
-  if (siteHeader) {
-    const updateScrolledState = () => {
-      siteHeader.classList.toggle("scrolled", window.scrollY > 50);
-      updateAdaptiveThemes();
-    };
+  function updateScrolledState() {
+    if (!siteHeader) return;
 
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const isMenuOpen = menuToggle?.getAttribute("aria-expanded") === "true";
+    const pastCompactThreshold = window.scrollY > 100;
+
+    siteHeader.classList.toggle("scrolled", window.scrollY > 50);
+
+    // Desktop keeps its existing compact-header behavior.
+    siteHeader.classList.toggle(
+      "compact-island",
+      !isMobile && pastCompactThreshold,
+    );
+
+    if (isMobile) {
+      siteHeader.classList.toggle(
+        "mobile-logo-only",
+        !siteHeader.classList.contains("mobile-nav-expanded") && !isMenuOpen,
+      );
+      siteHeader.classList.remove("mobile-island-compact");
+    } else {
+      siteHeader.classList.remove("mobile-logo-only", "mobile-nav-expanded");
+      brand?.setAttribute("aria-expanded", "false");
+    }
+
+    updateAdaptiveThemes();
+  }
+
+  if (siteHeader) {
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      siteHeader.classList.add("mobile-logo-only");
+    }
     updateScrolledState();
 
-    window.addEventListener(
-      "scroll",
-      updateScrolledState,
-      { passive: true },
-    );
+    window.addEventListener("scroll", () => {
+      if (
+        window.matchMedia("(max-width: 768px)").matches &&
+        window.scrollY > 100 &&
+        menuToggle?.getAttribute("aria-expanded") !== "true"
+      ) {
+        siteHeader.classList.remove("mobile-nav-expanded");
+        brand?.setAttribute("aria-expanded", "false");
+      }
+      updateScrolledState();
+    }, { passive: true });
     window.addEventListener("resize", updateScrolledState, { passive: true });
   }
+
+  brand?.addEventListener("click", (event) => {
+    if (!window.matchMedia("(max-width: 768px)").matches) return;
+    event.preventDefault();
+    if (menuToggle?.getAttribute("aria-expanded") === "true") return;
+
+    const willExpand = !siteHeader?.classList.contains("mobile-nav-expanded");
+    siteHeader?.classList.toggle("mobile-nav-expanded", willExpand);
+    brand.setAttribute("aria-expanded", String(willExpand));
+    updateScrolledState();
+  });
 
   function closeMenu() {
     if (!menuToggle || !mainNav) return;
     menuToggle.setAttribute("aria-expanded", "false");
     menuToggle.setAttribute("aria-label", "Open navigation");
     mainNav.classList.remove("open");
+    mainNav.setAttribute("aria-hidden", String(window.matchMedia("(max-width: 768px)").matches));
     document.body.classList.remove("nav-open");
+    updateScrolledState();
+  }
+
+  function openMenu() {
+    if (!menuToggle || !mainNav) return;
+    // Expand the capsule before revealing the full-screen navigation layer.
+    siteHeader?.classList.remove("mobile-island-compact");
+    menuToggle.setAttribute("aria-expanded", "true");
+    menuToggle.setAttribute("aria-label", "Close navigation");
+    mainNav.setAttribute("aria-hidden", "false");
+    mainNav.classList.add("open");
+    document.body.classList.add("nav-open");
+    updateScrolledState();
+    menuCloseButton?.focus({ preventScroll: true });
   }
 
   menuToggle?.addEventListener("click", () => {
-    const willOpen = menuToggle.getAttribute("aria-expanded") !== "true";
-    menuToggle.setAttribute("aria-expanded", String(willOpen));
-    menuToggle.setAttribute(
-      "aria-label",
-      willOpen ? "Close navigation" : "Open navigation",
-    );
-    mainNav?.classList.toggle("open", willOpen);
-    document.body.classList.toggle("nav-open", willOpen);
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  menuCloseButton?.addEventListener("click", () => {
+    closeMenu();
+    menuToggle?.focus({ preventScroll: true });
   });
 
   $$(".nav-link").forEach((link) => {
@@ -349,10 +413,6 @@
     updateContent(0, true);
   }
 
-  /* =====================================================
-     5. SHOP PRODUCT SELECTION
-  ===================================================== */
-
   const shopProducts = {
     "white-lily": {
       name: "A Promise of Spring",
@@ -364,6 +424,7 @@
       index: "FEATURED PIECE / 001",
       meta: "Artificial flowers · Home décor",
       dimensions: "40 × 60 cm",
+      composition: "3 pink alstroemeria · 4 white gerbera / daisy",
       icon: "flower",
     },
     "blush-tulip": {
@@ -376,6 +437,7 @@
       index: "CURATED PIECE / 002",
       meta: "Artificial flowers · Décor and gifting",
       dimensions: "38 × 43 cm",
+      composition: "White lily arrangement",
       icon: "flower",
     },
     "lavender-bloom": {
@@ -388,132 +450,162 @@
       index: "CURATED PIECE / 003",
       meta: "Artificial flowers · Décor and gifting",
       dimensions: "60 × 43 cm",
+      composition: "White lilies · red roses · pink tulips",
       icon: "flower",
     },
   };
 
-  const shopName = $("#shopProductName");
-  const shopDescription = $("#shopProductDescription");
-  const shopPrice = $("#shopProductPrice");
-  const shopIndex = $("#shopProductIndex");
-  const shopMeta = $("#shopProductMeta");
-  const shopDimensions = $("#shopProductDimensions");
-  const shopImage = $("#shopChairBouquet");
-  const shopAddButton = $("#shopAddButton");
-  const productCards = $$(".shop-product-card");
-  let activeProductId = "white-lily";
+  const shopTrack = $("#shopCarouselTrack");
+  const shopViewport = $(".carousel-viewport");
+  const shopPrev = $(".nav-arrow.prev");
+  const shopNext = $(".nav-arrow.next");
+  const shopPagination = $("#shopCarouselPagination");
+  const shopProductIds = Object.keys(shopProducts);
 
-  productCards.forEach((card) => {
-    const image = $(".shop-card-art", card);
-    const product = shopProducts[card.dataset.shopProduct];
-    if (!image || !product) return;
-    image.addEventListener("error", () => {
-      image.hidden = true;
-      let fallback = $(".shop-card-fallback", card);
-      if (!fallback) {
-        fallback = document.createElement("span");
-        fallback.className = "shop-card-fallback";
-        fallback.setAttribute("aria-hidden", "true");
-        fallback.innerHTML = iconSvg("flower", "ui-icon ui-icon-illustration");
-        image.after(fallback);
-      }
-    }, { once: true });
-  });
+  // Order positions: [left, active, right]. Product 0 starts in the center.
+  let products = [shopProductIds.length - 1, 0, 1].filter((index) => index < shopProductIds.length);
 
-  function updateProductSelection(id) {
-    productCards.forEach((card) => {
-      const isSelected = card.dataset.shopProduct === id;
-      card.classList.toggle("is-selected", isSelected);
-      card.setAttribute("aria-pressed", String(isSelected));
-    });
+  function renderShopCarousel() {
+    if (!shopTrack) return;
+    shopTrack.innerHTML = shopProductIds.map((id, index) => {
+      const product = shopProducts[id];
+      return `
+        <article class="product-card" data-product-id="${escapeHTML(id)}" aria-label="${escapeHTML(product.name)}">
+          <div class="product-card-copy">
+            <span class="product-index">${escapeHTML(product.index)}</span>
+            <p class="eyebrow">FLOWERS FOR FOREVER</p>
+            <h3>${escapeHTML(product.name)}</h3>
+            <p class="product-description">${escapeHTML(product.description)}</p>
+            <div class="product-price">${money(product.price)}</div>
+            <div class="product-details-mini" aria-label="Bouquet details">
+              <div><span>Dimensions <small>(W × H)</small></span><strong>${escapeHTML(product.dimensions)}</strong></div>
+              <div><span>Main flowers</span><strong>${escapeHTML(product.composition)}</strong></div>
+            </div>
+            <p class="product-meta">${escapeHTML(product.meta)}</p>
+            <button class="button button-dark carousel-add-button" type="button" data-add-product="${escapeHTML(id)}">
+              Add to Cart
+              <svg class="ui-icon ui-icon-inline shop-add-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shopping-bag-plus"></use></svg>
+            </button>
+          </div>
+          <div class="product-card-visual">
+            <div class="product-image-halo" aria-hidden="true"></div>
+            <img class="carousel-product-image" src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)} arranged on a wooden chair" loading="${index === 0 ? "eager" : "lazy"}">
+            <span class="product-visual-caption">A little beauty, every day.</span>
+          </div>
+        </article>`;
+    }).join("");
+
+    if (shopPagination) {
+      shopPagination.innerHTML = shopProductIds.map((id, index) =>
+        `<button type="button" class="carousel-dot" data-carousel-product="${escapeHTML(id)}" aria-label="Go to ${escapeHTML(shopProducts[id].name)}"></button>`
+      ).join("");
+    }
+    render();
   }
 
-  function selectShopProduct(id) {
-    const product = shopProducts[id];
-    if (!product) return;
+  function render() {
+    if (!shopTrack) return;
 
-    activeProductId = id;
-    updateProductSelection(id);
+    const cards = [...shopTrack.querySelectorAll(".product-card")];
+    const positionClasses = ["left", "active", "right"];
 
-    if (shopIndex) shopIndex.textContent = product.index;
-    if (shopName) {
-      shopName.innerHTML = product.subtitle
-        ? `${escapeHTML(product.name)}<br><em>${escapeHTML(product.subtitle)}</em>`
-        : escapeHTML(product.name);
-    }
-    if (shopDescription) shopDescription.textContent = product.description;
-    if (shopPrice) shopPrice.textContent = money(product.price);
-    if (shopMeta) shopMeta.textContent = product.meta;
-    if (shopDimensions) shopDimensions.textContent = product.dimensions;
-    if (shopAddButton) shopAddButton.dataset.addProduct = id;
-
-    if (shopImage) {
-      shopImage.style.display = "block";
-      shopImage.alt = [product.name, product.subtitle]
-        .filter(Boolean)
-        .join(" ");
-      shopImage.onerror = () => {
-        shopImage.style.display = "none";
-        const fallback = $(".chair-fallback");
-        if (fallback) fallback.style.display = "block";
-        const flowerFallback = $(".bouquet-fallback");
-        if (flowerFallback) flowerFallback.style.display = "block";
-      };
-      shopImage.onload = () => {
-        const fallback = $(".chair-fallback");
-        if (fallback) fallback.style.display = "none";
-        const flowerFallback = $(".bouquet-fallback");
-        if (flowerFallback) flowerFallback.style.display = "none";
-      };
-      shopImage.src = product.image;
-    }
-  }
-
-  productCards.forEach((card) => {
-    card.addEventListener("click", () =>
-      selectShopProduct(card.dataset.shopProduct),
-    );
-  });
-
-  const shopSearch = $("#shopSearch");
-  const shopSort = $("#shopSort");
-  const shopResults = $("#shopResults");
-  const shopList = $(".shop-product-list");
-  const originalProductOrder = [...productCards];
-
-  function updateShopListing() {
-    if (!shopList) return;
-    const query = String(shopSearch?.value || "").trim().toLowerCase();
-    const sort = shopSort?.value || "featured";
-    const cards = [...originalProductOrder];
-    if (sort === "price-asc") cards.sort((a, b) => shopProducts[a.dataset.shopProduct].price - shopProducts[b.dataset.shopProduct].price);
-    if (sort === "price-desc") cards.sort((a, b) => shopProducts[b.dataset.shopProduct].price - shopProducts[a.dataset.shopProduct].price);
-    if (sort === "name") cards.sort((a, b) => shopProducts[a.dataset.shopProduct].name.localeCompare(shopProducts[b.dataset.shopProduct].name, "id"));
     cards.forEach((card) => {
-      const product = shopProducts[card.dataset.shopProduct];
-      const matches = `${product.name} ${product.subtitle} ${product.description} ${product.meta}`.toLowerCase().includes(query);
-      card.hidden = !matches;
-      shopList.append(card);
+      const productIndex = shopProductIds.indexOf(card.dataset.productId);
+      const position = products.indexOf(productIndex);
+      const role = positionClasses[position] || "offscreen";
+
+      card.classList.remove("left", "active", "right", "offscreen", "is-prev", "is-next");
+      card.classList.add(role);
+      card.setAttribute("aria-hidden", String(role !== "active"));
+      card.querySelectorAll("button").forEach((button) => {
+        button.tabIndex = role === "active" ? 0 : -1;
+      });
     });
-    const visible = cards.filter((card) => !card.hidden).length;
-    if (shopResults) shopResults.textContent = `${visible} ${visible === 1 ? "piece" : "pieces"} found`;
-    if (query && !visible) {
-      let empty = $("#shopEmptyState");
-      if (!empty) {
-        empty = document.createElement("p");
-        empty.id = "shopEmptyState";
-        empty.className = "shop-empty-state";
-        empty.textContent = "No products match your search.";
-        shopList.after(empty);
-      }
-      empty.hidden = false;
-    } else {
-      const empty = $("#shopEmptyState");
-      if (empty) empty.hidden = true;
-    }
+
+    shopPagination?.querySelectorAll(".carousel-dot").forEach((dot) => {
+      const active = dot.dataset.carouselProduct === shopProductIds[products[1]];
+      dot.classList.toggle("is-active", active);
+      dot.setAttribute("aria-current", String(active));
+    });
+
+    if (shopPrev) shopPrev.disabled = false;
+    if (shopNext) shopNext.disabled = false;
   }
-  shopSearch?.addEventListener("input", updateShopListing);
-  shopSort?.addEventListener("change", updateShopListing);
+
+  function moveShopCarousel(direction) {
+    if (products.length < 2) return;
+
+    if (direction > 0) {
+      const first = products.shift();
+      products.push(first);
+    } else {
+      const last = products.pop();
+      products.unshift(last);
+    }
+    render();
+  }
+
+  function showShopProduct(productId) {
+    const targetIndex = shopProductIds.indexOf(productId);
+    if (targetIndex < 0 || products[1] === targetIndex) return;
+
+    // Rotate until the requested product occupies the center slot.
+    while (products[1] !== targetIndex) {
+      const currentPosition = products.indexOf(targetIndex);
+      if (currentPosition === 2) {
+        const first = products.shift();
+        products.push(first);
+      } else {
+        const last = products.pop();
+        products.unshift(last);
+      }
+    }
+    render();
+  }
+
+  shopPrev?.addEventListener("click", () => moveShopCarousel(-1));
+  shopNext?.addEventListener("click", () => moveShopCarousel(1));
+
+  // Mobile swipe: horizontal gestures rotate the existing three-card carousel.
+  if (shopViewport) {
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    let swipePointerId = null;
+
+    shopViewport.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" || event.button !== 0) return;
+      swipeStartX = event.clientX;
+      swipeStartY = event.clientY;
+      swipePointerId = event.pointerId;
+    }, { passive: true });
+
+    shopViewport.addEventListener("pointerup", (event) => {
+      if (swipePointerId !== event.pointerId) return;
+      const deltaX = event.clientX - swipeStartX;
+      const deltaY = event.clientY - swipeStartY;
+      swipePointerId = null;
+
+      if (Math.abs(deltaX) < 42 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+      moveShopCarousel(deltaX < 0 ? 1 : -1);
+    }, { passive: true });
+
+    shopViewport.addEventListener("pointercancel", () => {
+      swipePointerId = null;
+    }, { passive: true });
+  }
+  shopPagination?.addEventListener("click", (event) => {
+    const dot = event.target.closest("[data-carousel-product]");
+    if (dot) showShopProduct(dot.dataset.carouselProduct);
+  });
+  shopTrack?.addEventListener("click", (event) => {
+    if (event.target.closest("[data-add-product]")) return;
+    const card = event.target.closest(".product-card");
+    if (card && !card.classList.contains("active")) {
+      showShopProduct(card.dataset.productId);
+    }
+  });
+  window.addEventListener("resize", render);
+  renderShopCarousel();
 
   /* =====================================================
      6. CART + LOCAL STORAGE
@@ -2144,6 +2236,9 @@
         "Your browser blocked the new tab. Allow pop-ups and try again.";
     }
   });
+
+  // Initial builder catalog render: populate Flowers and Wrapping on first page load.
+  renderBuilder();
 
   /* =====================================================
      12. KEYBOARD SUPPORT
