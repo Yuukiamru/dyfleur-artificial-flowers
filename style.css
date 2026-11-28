@@ -9252,6 +9252,12 @@ html {
   margin-inline: auto;
 }
 
+@media (max-width: 720px) {
+  #home.hero.hero-editorial {
+    min-height: 0;
+  }
+}
+
 @media (max-width: 640px) {
   #shop.shop {
     padding-top: 0;
