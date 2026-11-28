@@ -9789,6 +9789,19 @@ html {
 }
 
 
+/* Desktop structure for the shared navigation markup */
+.main-nav-content {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.5vw, 38px);
+}
+
+.mobile-nav-top,
+.mobile-nav-footer,
+.mobile-nav-close {
+  display: none;
+}
+
 /* Mobile navigation: full-screen editorial overlay */
 @media (max-width: 768px) {
   body.nav-open {
