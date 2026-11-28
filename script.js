@@ -126,27 +126,51 @@
 
     siteHeader.classList.toggle("scrolled", window.scrollY > 50);
 
-    // Keep the existing desktop compact header behavior separate from mobile.
+    // Desktop keeps its existing compact-header behavior.
     siteHeader.classList.toggle(
       "compact-island",
       !isMobile && pastCompactThreshold,
     );
 
-    // Mobile morphs into a compact centered island only while the menu is closed.
-    siteHeader.classList.toggle(
-      "mobile-island-compact",
-      isMobile && pastCompactThreshold && !isMenuOpen,
-    );
+    if (isMobile) {
+      // Scrolling down returns the mobile header to its logo-only resting state.
+      if (pastCompactThreshold && !isMenuOpen) {
+        siteHeader.classList.remove("mobile-nav-expanded");
+        brand?.setAttribute("aria-expanded", "false");
+      }
+      siteHeader.classList.toggle(
+        "mobile-logo-only",
+        !siteHeader.classList.contains("mobile-nav-expanded") && !isMenuOpen,
+      );
+      siteHeader.classList.remove("mobile-island-compact");
+    } else {
+      siteHeader.classList.remove("mobile-logo-only", "mobile-nav-expanded");
+      brand?.setAttribute("aria-expanded", "false");
+    }
 
     updateAdaptiveThemes();
   }
 
   if (siteHeader) {
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      siteHeader.classList.add("mobile-logo-only");
+    }
     updateScrolledState();
 
     window.addEventListener("scroll", updateScrolledState, { passive: true });
     window.addEventListener("resize", updateScrolledState, { passive: true });
   }
+
+  brand?.addEventListener("click", (event) => {
+    if (!window.matchMedia("(max-width: 768px)").matches) return;
+    event.preventDefault();
+    if (menuToggle?.getAttribute("aria-expanded") === "true") return;
+
+    const willExpand = !siteHeader?.classList.contains("mobile-nav-expanded");
+    siteHeader?.classList.toggle("mobile-nav-expanded", willExpand);
+    brand.setAttribute("aria-expanded", String(willExpand));
+    updateScrolledState();
+  });
 
   function closeMenu() {
     if (!menuToggle || !mainNav) return;
