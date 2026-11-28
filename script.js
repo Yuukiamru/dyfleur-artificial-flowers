@@ -133,11 +133,6 @@
     );
 
     if (isMobile) {
-      // Scrolling down returns the mobile header to its logo-only resting state.
-      if (pastCompactThreshold && !isMenuOpen) {
-        siteHeader.classList.remove("mobile-nav-expanded");
-        brand?.setAttribute("aria-expanded", "false");
-      }
       siteHeader.classList.toggle(
         "mobile-logo-only",
         !siteHeader.classList.contains("mobile-nav-expanded") && !isMenuOpen,
@@ -157,7 +152,17 @@
     }
     updateScrolledState();
 
-    window.addEventListener("scroll", updateScrolledState, { passive: true });
+    window.addEventListener("scroll", () => {
+      if (
+        window.matchMedia("(max-width: 768px)").matches &&
+        window.scrollY > 100 &&
+        menuToggle?.getAttribute("aria-expanded") !== "true"
+      ) {
+        siteHeader.classList.remove("mobile-nav-expanded");
+        brand?.setAttribute("aria-expanded", "false");
+      }
+      updateScrolledState();
+    }, { passive: true });
     window.addEventListener("resize", updateScrolledState, { passive: true });
   }
 
