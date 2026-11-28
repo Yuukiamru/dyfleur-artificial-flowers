@@ -71,6 +71,7 @@
   ===================================================== */
 
   const menuToggle = $("#menuToggle");
+  const brand = $(".site-header .brand");
   const mainNav = $("#mainNav");
   const menuCloseButton = $("#menuClose");
   const siteHeader = $("#top");
