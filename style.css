@@ -8889,19 +8889,27 @@ h6 {
 .carousel-dot { width: 6px; height: 6px; padding: 0; border: 0; border-radius: 50%; background: rgba(53,25,35,.22); cursor: pointer; transition: width .25s ease,background .25s ease; }
 .carousel-dot.is-active { width: 22px; border-radius: 99px; background: var(--wine,#642f43); }
 @media (max-width:900px) {
-  .carousel-viewport { height: 530px; }\n  .product-card { width:min(760px,calc(100vw - 88px)); height:470px; padding:2.2rem; gap:1.4rem; }
-  .product-card-copy h3 { font-size: clamp(2rem,4vw,2.5rem); }
+  .carousel-viewport { height: 530px; }
+  .product-card { width:min(760px,calc(100vw - 88px)); height:470px; padding:2.2rem; gap:1.4rem; }
+  .product-card-copy h3 { font-size:clamp(2rem,4vw,2.5rem); }
   .product-card-visual { min-height:350px; }
   .carousel-product-image { height:340px; }
-  .nav-arrow.prev { left:4px; } .nav-arrow.next { right:4px; }
+  .nav-arrow.prev { left:4px; }
+  .nav-arrow.next { right:4px; }
 }
 @media (max-width:640px) {
   .shop { padding-top:120px; padding-bottom:75px; }
   .shop-heading { padding-inline:18px; margin-bottom:10px; }
   .shop-carousel-wrapper { padding:18px 0 12px; }
-  .carousel-viewport { padding:14px 0 20px; }
-  .carousel-track { gap:18px; }
-  .product-card { flex-basis:calc(100vw - 56px); width:calc(100vw - 56px); min-height:0; grid-template-columns:minmax(0,1fr); gap:15px; padding:25px 22px 28px; border-radius:12px; }
+  .carousel-viewport { height:700px; padding:14px 0 20px; }
+  .carousel-track { width:100%; height:100%; }
+  .product-card {
+    width:calc(100vw - 56px); height:auto; min-height:0; max-height:660px;
+    grid-template-columns:minmax(0,1fr); gap:15px; padding:25px 22px 28px;
+    border-radius:12px;
+  }
+  .product-card.left { transform:translate(calc(-50% - 86%),-50%) scale(.78); }
+  .product-card.right { transform:translate(calc(-50% + 86%),-50%) scale(.78); }
   .product-card-copy .product-index { margin-bottom:15px; }
   .product-card-copy h3 { font-size:2rem; }
   .product-card-copy .product-description { font-size:.68rem; }
@@ -8911,6 +8919,7 @@ h6 {
   .carousel-product-image { height:250px; max-width:100%; }
   .product-visual-caption { right:4px; bottom:-4px; }
   .nav-arrow { top:47%; width:30px; height:48px; font-size:1.45rem; }
-  .nav-arrow.prev { left:0; } .nav-arrow.next { right:0; }
+  .nav-arrow.prev { left:0; }
+  .nav-arrow.next { right:0; }
 }
 @media (prefers-reduced-motion:reduce) { .carousel-track,.product-card,.carousel-dot { transition:none !important; } }
