@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="id">
+<html lang="en">
   <head>
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
     <meta charset="UTF-8" />
@@ -24,23 +24,46 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Inter:wght@300;400;500;600&family=Montserrat:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" />
+
     <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js" defer></script>
 
     <script src="script.js" defer></script>
   </head>
 
   <body>
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <symbol id="icon-shopping-bag" viewBox="0 0 24 24"><path d="M5.5 8.5h13l1 12h-15l1-12Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9V6.5a3 3 0 0 1 6 0V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-shopping-bag-plus" viewBox="0 0 24 24"><path d="M3.5 8.5h12l1 12h-14l1-12Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 9V6.5a2.5 2.5 0 0 1 5 0V9M18.5 10v7m-3.5-3.5h7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11m0-11-11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-chevron-down" viewBox="0 0 24 24"><path d="m6.5 9 5.5 5.5L17.5 9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-flower" viewBox="0 0 24 24"><path d="M12 11.5c-1.4-2.1-2-4.2-.7-5.6 1.4-1.5 3.2-.7 3.2 1.2 0 1.3-.9 3.2-2.5 4.4Zm.5.5c2.1-1.4 4.2-2 5.6-.7 1.5 1.4.7 3.2-1.2 3.2-1.3 0-3.2-.9-4.4-2.5Zm-.5.5c1.4 2.1 2 4.2.7 5.6-1.4 1.5-3.2.7-3.2-1.2 0-1.3.9-3.2 2.5-4.4Zm-.5-.5c-2.1 1.4-4.2 2-5.6.7-1.5-1.4-.7-3.2 1.2-3.2 1.3 0 3.2.9 4.4 2.5Z" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="1.5" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M12 19v3" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></symbol>
+    <symbol id="icon-sparkle" viewBox="0 0 24 24"><path d="M12 3.5 14 10l6.5 2-6.5 2-2 6.5-2-6.5-6.5-2 6.5-2 2-6.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-move" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M12 3l-2.5 2.5M12 3l2.5 2.5M12 21l-2.5-2.5M12 21l2.5 2.5M3 12l2.5-2.5M3 12l2.5 2.5M21 12l-2.5-2.5M21 12l-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-rotate-left" viewBox="0 0 24 24"><path d="M4 9V4m0 5h5M4.8 8.5A8 8 0 1 1 4 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-rotate-right" viewBox="0 0 24 24"><path d="M20 9V4m0 5h-5m4.2-.5A8 8 0 1 0 20 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-layer-back" viewBox="0 0 24 24"><path d="m4 8 8-4 8 4-8 4-8-4Zm0 4 8 4 8-4M12 15v6m-3-3 3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-layer-front" viewBox="0 0 24 24"><path d="m4 14 8 4 8-4M4 10l8 4 8-4m-8 0V3m-3 3 3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-diamond" viewBox="0 0 24 24"><path d="m12 3 9 8-9 10-9-10 9-8Zm-9 8h18M8 3l4 18 4-18" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-needle" viewBox="0 0 24 24"><path d="m18.5 3.5-13 13m10.5-13 2.5 2.5m-13 13 2.5 2.5M5.5 16.5l-2 5 5-2M14 6c-3-2-5-1-6 1m2 2c2 2 2 4 0 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-infinity" viewBox="0 0 24 24"><path d="M12 12c-2.6 3.2-4.3 5-6.2 5A3.8 3.8 0 0 1 5.8 9c1.9 0 3.6 1.8 6.2 5 2.6-3.2 4.3-5 6.2-5a3.8 3.8 0 0 1 0 8c-1.9 0-3.6-1.8-6.2-5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.7" cy="6.7" r=".8" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="icon-message-circle" viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2V11.5A7.5 7.5 0 0 1 11 4h1.5a7.5 7.5 0 0 1 7.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 11h8M8 14.5h5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
     <header class="site-header" id="top">
       <a class="brand" href="#home" aria-label="D’YFleur home">
-        <img
-          src="assets/logo.svg"
-          alt=""
-          onerror="this.hidden = true"
-        />
+        <span class="brand-mark" aria-hidden="true"></span>
 
         <span>D’YFleur</span>
       </a>
@@ -53,7 +76,7 @@
         aria-expanded="false"
         aria-controls="mainNav"
       >
-        <span></span><span></span><span></span>
+        <svg class="menu-icon menu-icon-open" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-menu"></use></svg><svg class="menu-icon menu-icon-close" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-close"></use></svg>
       </button>
 
       <nav class="main-nav" id="mainNav" aria-label="Main navigation">
@@ -74,91 +97,50 @@
         type="button"
         aria-label="Open cart"
       >
-        <img src="assets/icon.svg" alt="" class="cart-icon" />
+        <svg class="ui-icon cart-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shopping-bag"></use></svg>
 
         <span class="cart-count" id="cartCount">0</span>
       </button>
     </header>
 
     <main>
-      <!-- HERO -->
+      <!-- HERO / EDITORIAL SPLIT SCREEN -->
 
       <section
-        class="hero section-screen"
+        class="hero hero-editorial section-screen"
         id="home"
+        data-background-theme="light"
         aria-labelledby="heroTitle"
       >
-        <div class="hero-grain" aria-hidden="true"></div>
-
-        <div class="hero-copy">
+        <div class="hero-editorial-copy">
           <p class="eyebrow hero-eyebrow">ARTIFICIAL FLOWERS · MADE TO LAST</p>
-
-          <h1 id="heroTitle">D’YFleur</h1>
-
-          <p class="hero-tagline">
-            FLOWERS THAT<br />STAY BEAUTIFUL<br />FOREVER.
+          <h1 id="heroTitle" class="hero-editorial-title">Beauty beyond <em>the moment</em></h1>
+          <p class="hero-editorial-description">
+            Thoughtfully crafted floral pieces that preserve the beauty of a
+            moment and bring a lasting sense of elegance into your space.
           </p>
-
-          <a class="text-link hero-link" href="#shop"
-            >Explore the collection <span>↗</span></a
-          >
+          <a class="button hero-cta" href="#shop">
+            Explore Collection
+            <svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-arrow-up-right"></use></svg>
+          </a>
+          <p class="hero-editorial-note">TIMELESS BLOOMS, THOUGHTFULLY ARRANGED</p>
         </div>
 
-        <div class="hero-flower hero-lily" aria-hidden="true">
+        <div class="hero-image-wrapper">
+          <div class="burgundy-box" aria-hidden="true"></div>
           <img
-            src="assets/flowers/lilly.svg"
-            alt=""
-            onerror="
-              this.style.display = 'none';
-
-              this.nextElementSibling.style.display = 'block';
-            "
+            src="assets/flowers/lily-2.svg"
+            alt="Elegant white lily bouquet with a long green stem"
+            class="hero-flower-svg"
+            fetchpriority="high"
           />
-
-          <span class="asset-fallback lily-fallback">✿</span>
+          <span class="image-label">01 / THE ART OF LASTING BEAUTY</span>
         </div>
-
-        <div class="hero-flower hero-tulip" aria-hidden="true">
-          <img
-            src="assets/flowers/tulip.svg"
-            alt=""
-            onerror="
-              this.style.display = 'none';
-
-              this.nextElementSibling.style.display = 'block';
-            "
-          />
-
-          <span class="asset-fallback tulip-fallback">🌷</span>
-        </div>
-
-        <div class="hero-flower hero-purple" aria-hidden="true">
-          <img
-            src="assets/flowers/purple.svg"
-            alt=""
-            onerror="
-              this.style.display = 'none';
-
-              this.nextElementSibling.style.display = 'block';
-            "
-          />
-
-          <span class="asset-fallback purple-fallback">✿</span>
-        </div>
-
-        <div class="hero-bottom-note">
-          <span>01 / COLLECTION</span
-          ><span>TIMELESS BLOOMS, THOUGHTFULLY ARRANGED</span>
-        </div>
-
-        <a class="scroll-cue" href="#shop" aria-label="Scroll to shop"
-          ><span></span>SCROLL</a
-        >
       </section>
 
       <!-- SHOP -->
 
-      <section class="shop section-pad" id="shop" aria-labelledby="shopTitle">
+      <section class="shop section-pad" id="shop" data-background-theme="light" aria-labelledby="shopTitle">
         <div class="section-heading shop-heading">
           <p class="eyebrow">THE D’YFLEUR COLLECTION</p>
 
@@ -212,7 +194,7 @@
                 <small>Rp340.000</small>
               </span>
 
-              <span class="shop-card-check" aria-hidden="true">✓</span>
+              <span class="shop-card-check" aria-hidden="true"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-check"></use></svg></span>
             </button>
 
             <!-- BLUSH TULIP -->
@@ -234,7 +216,7 @@
                 <small>Rp200.000</small>
               </span>
 
-              <span class="shop-card-check" aria-hidden="true">✓</span>
+              <span class="shop-card-check" aria-hidden="true"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-check"></use></svg></span>
             </button>
 
             <!-- LAVENDER BLOOM -->
@@ -256,7 +238,7 @@
                 <small>Rp209.000</small>
               </span>
 
-              <span class="shop-card-check" aria-hidden="true">✓</span>
+              <span class="shop-card-check" aria-hidden="true"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-check"></use></svg></span>
             </button>
           </div>
           </div>
@@ -275,13 +257,24 @@
               </p>
               <div class="product-price" id="shopProductPrice">Rp340.000</div>
               <p class="product-meta" id="shopProductMeta">Made to order · Decorative artificial flowers</p>
+              <div class="shop-product-details" aria-label="Bouquet details">
+                <div class="shop-detail-row">
+                  <span>Dimensions <small>(W × H)</small></span>
+                  <strong id="shopProductDimensions">40 × 60 cm</strong>
+                </div>
+                <div class="shop-detail-row shop-composition-row">
+                  <span>Main flowers</span>
+                  <strong id="shopProductComposition">3 pink alstroemeria · 4 white gerbera / daisy</strong>
+                </div>
+                <p class="shop-detail-note">Approximate dimensions; flower arrangement may vary slightly.</p>
+              </div>
               <button
                 class="button button-dark"
                 type="button"
                 id="shopAddButton"
                 data-add-product="white-lily"
               >
-                Add to Cart <span>↗</span>
+                Add to Cart <svg class="ui-icon ui-icon-inline shop-add-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shopping-bag-plus"></use></svg>
               </button>
             </div>
             <div class="chair-display">
@@ -303,7 +296,7 @@
                   alt="White lily arrangement"
                   onerror="this.style.display = 'none'"
                 />
-                <span class="bouquet-fallback" aria-hidden="true">✿</span>
+                <span class="bouquet-fallback" aria-hidden="true"><svg class="ui-icon ui-icon-flower" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-flower"></use></svg></span>
               </div>
               <span class="display-caption">A little beauty, every day.</span>
             </div>
@@ -316,6 +309,7 @@
       <section
         class="builder section-pad"
         id="builder"
+        data-background-theme="light"
         aria-labelledby="builderTitle"
       >
         <div class="section-heading builder-heading">
@@ -323,10 +317,7 @@
 
           <h2 id="builderTitle">Build Your <em>Own Bouquet.</em></h2>
 
-          <p class="section-intro">
-            Choose your favorite blooms and create an arrangement that feels
-            truly yours.
-          </p>
+          
         </div>
 
         <div class="builder-workspace">
@@ -339,10 +330,10 @@
               </div>
             </div>
             <section class="material-catalog is-active" id="flowerCatalog" role="tabpanel" aria-labelledby="flowersTab">
-              <label class="category-select-label" for="flowerCategory">Category Flowers</label>
+              <label class="category-select-label" for="flowerCategory">Flower Category</label>
               <select class="category-select" id="flowerCategory" aria-label="Filter flowers by category">
                 <option value="all">All Flowers (37)</option>
-                <option value="addons">Add Ons Flower (5)</option>
+                <option value="addons">Floral Accents (5)</option>
                 <option value="carnation">Carnation (4)</option>
                 <option value="gerbera">Gerbera (4)</option>
                 <option value="hydrangea">Hydrangea (4)</option>
@@ -361,9 +352,9 @@
             </section>
             <select id="wrapping" class="wrapping-state-select" aria-label="Selected wrapping paper">
               <option value="0">No wrapping — Rp0</option>
-              <option value="15000">Ivory paper — Rp15.000</option>
-              <option value="20000">Dusty rose paper — Rp20.000</option>
-              <option value="25000">Burgundy paper — Rp25.000</option>
+              <option value="15000">Wrapping 01 — Rp15.000</option>
+              <option value="20000">Wrapping 02 — Rp20.000</option>
+              <option value="25000">Wrapping 03 — Rp25.000</option>
             </select>
           </aside>
 
@@ -384,7 +375,7 @@
 
               <div class="preview-blooms" id="previewBlooms" aria-live="polite">
                 <div class="empty-preview">
-                  <span>✿</span>
+                  <span><svg class="ui-icon ui-icon-illustration" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-flower"></use></svg></span>
                   <p>Your bouquet starts here</p>
                   <small>Select blooms to add them</small>
                 </div>
@@ -410,8 +401,8 @@
               <div class="arrangement-mode-block">
                 <span class="editor-control-label">ARRANGEMENT MODE</span>
                 <div class="arrangement-mode-buttons">
-                  <button class="arrange-mode-button is-active" id="autoArrange" type="button" aria-pressed="true"><span aria-hidden="true">✦</span> Auto Arrange</button>
-                  <button class="arrange-mode-button" id="manualArrange" type="button" aria-pressed="false"><span aria-hidden="true">✥</span> Manual</button>
+                  <button class="arrange-mode-button is-active" id="autoArrange" type="button" aria-pressed="true"><svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-sparkle"></use></svg> Auto Arrange</button>
+                  <button class="arrange-mode-button" id="manualArrange" type="button" aria-pressed="false"><svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-move"></use></svg> Manual</button>
                 </div>
                 <span class="editor-hint" id="editorHint">Automatic layout is on</span>
               </div>
@@ -420,7 +411,6 @@
                 <select id="flowerInstanceSelect" disabled><option value="">No flowers selected</option></select>
               </div>
               <div class="flower-controls" id="flowerControls" aria-label="Selected flower controls">
-                <span class="control-selection" id="controlSelection">Turn off Auto Arrange to edit</span>
                 <div class="editor-control-groups">
                   <div class="editor-control-group position-control-group">
                     <span class="editor-control-label">POSITION</span>
@@ -430,25 +420,24 @@
                   <div class="editor-control-group">
                     <span class="editor-control-label">TRANSFORM</span>
                     <div class="control-actions">
-                      <button type="button" data-flower-control="rotate-left" disabled aria-label="Rotate selected flower left">↶</button>
-                      <button type="button" data-flower-control="rotate-right" disabled aria-label="Rotate selected flower right">↷</button>
+                      <button type="button" data-flower-control="rotate-left" disabled aria-label="Rotate selected flower left"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-rotate-left"></use></svg></button>
+                      <button type="button" data-flower-control="rotate-right" disabled aria-label="Rotate selected flower right"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-rotate-right"></use></svg></button>
                       <span class="control-divider"></span>
-                      <button type="button" data-flower-control="smaller" disabled aria-label="Make selected flower smaller">−</button>
-                      <button type="button" data-flower-control="larger" disabled aria-label="Make selected flower larger">+</button>
+                      <button type="button" data-flower-control="smaller" disabled aria-label="Make selected flower smaller"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
+                      <button type="button" data-flower-control="larger" disabled aria-label="Make selected flower larger"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
                       <button type="button" data-flower-control="reset-one" disabled>Reset</button>
                     </div>
                   </div>
                   <div class="editor-control-group layering-controls">
                     <span class="editor-control-label">LAYERING</span>
                     <div class="control-actions">
-                      <button type="button" data-flower-control="backward" disabled title="Send backward">↓</button>
-                      <button type="button" data-flower-control="forward" disabled title="Bring forward">↑</button>
-                      <button type="button" data-flower-control="send-back" disabled title="Send to back">⇊</button>
-                      <button type="button" data-flower-control="bring-front" disabled title="Bring to front">⇈</button>
+                      <button type="button" data-flower-control="backward" disabled title="Send backward" aria-label="Send selected flower backward"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-layer-back"></use></svg></button>
+                      <button type="button" data-flower-control="forward" disabled title="Bring forward" aria-label="Bring selected flower forward"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-layer-front"></use></svg></button>
+                      <button type="button" data-flower-control="send-back" disabled title="Send to back" aria-label="Send selected flower to back"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-layer-back"></use></svg></button>
+                      <button type="button" data-flower-control="bring-front" disabled title="Bring to front" aria-label="Bring selected flower to front"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-layer-front"></use></svg></button>
                     </div>
                   </div>
                 </div>
-                <small class="editor-drag-hint">In Manual Arrange, drag a flower in the preview to change its position.</small>
               </div>
             </div>
 
@@ -458,13 +447,30 @@
                 <output id="wrappingScaleValue" for="wrappingScale">100%</output>
               </div>
               <input id="wrappingScale" type="range" min="70" max="130" step="1" value="100" disabled aria-label="Adjust wrapping size" />
-              <small class="editor-drag-hint">Adjust the wrapping size only. Its position stays fixed.</small>
             </div>
 
           </aside>
         </div>
 
         <div class="builder-checkout">
+          <div class="checkout-bar-wrapper">
+            <div class="custom-bouquet-name-field">
+              <label for="customBouquetName">NAME YOUR BOUQUET</label>
+              <input
+                id="customBouquetName"
+                type="text"
+                maxlength="40"
+                autocomplete="off"
+                placeholder="e.g. A Promise in Bloom"
+                aria-describedby="customBouquetNameHint"
+              />
+              <small id="customBouquetNameHint">Give your arrangement a name (up to 40 characters).</small>
+            </div>
+            <div class="builder-cart-actions">
+              <button class="button button-light" id="addBouquet" type="button" disabled>Add bouquet to cart <svg class="ui-icon ui-icon-inline builder-add-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shopping-bag-plus"></use></svg></button>
+              <button class="button button-dark" id="cancelBouquetEdit" type="button" hidden>Cancel editing</button>
+            </div>
+          </div>
           <div class="checkout-summary">
             <span class="panel-label">YOUR CREATION</span
             ><strong id="builderSummary">Your bouquet is waiting</strong>
@@ -476,65 +482,53 @@
             ><strong id="builderTotal">Rp0</strong>
           </div>
 
-          <button
-            class="button button-light"
-            id="addBouquet"
-            type="button"
-            disabled
-          >
-            Add bouquet to cart <span>↗</span>
-          </button>
         </div>
       </section>
 
-      <!-- ABOUT -->
+      <!-- ABOUT / INTERACTIVE CARD STACK -->
 
-      <section class="about section-pad" id="about">
-        <img
-          class="about-mark about-mark-desktop"
-          src="assets/logo-1.svg"
-          alt=""
-        />
-
-        <div class
-        ="about-copy">
-          <p class="eyebrow">THE STORY BEHIND D’YFLEUR</p>
-
-          <h2>Beauty that<br /><em>stays.</em></h2>
-
-          <img
-            class="about-mark about-mark-mobile"
-            src="assets/logo-1.svg"
-            alt=""
-          />
-
-          <p>
-            The timeless beauty of flowers inspired us to create a brand that
-            believes beauty should never be limited by time. To us, flowers are
-            more than decoration; they are meaningful expressions of emotions
-            words cannot always capture. Because some feelings deserve to bloom
-            forever, our flowers last as long as the feelings they represent.
-          </p>
-
-          <a class="text-link" href="#contact">Get to know us <span>↗</span></a>
+      <section class="about about-split-wrapper section-pad" id="about" data-background-theme="light" aria-label="About D’YFleur">
+        <div class="about-content-left" id="dynamic-content" aria-live="polite" aria-atomic="true"></div>
+        <div class="about-cards-right">
+          <div class="stack-container" aria-label="Explore the D’YFleur story">
+            <div class="stack-card is-front" data-index="0" role="button" tabindex="0" aria-label="Our Story">
+              <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?q=80&w=800&auto=format&fit=crop" alt="Soft blush pink flowers arranged in an elegant bouquet" draggable="false" />
+              <span class="stack-card-caption" aria-hidden="true">01 / OUR STORY</span>
+            </div>
+            <div class="stack-card" data-index="1" role="button" tabindex="0" aria-label="Logo Philosophy">
+              <img src="https://images.unsplash.com/photo-1596438459194-f28b2b0a440e?q=80&w=800&auto=format&fit=crop" alt="Deep burgundy roses in moody editorial lighting" draggable="false" />
+              <span class="stack-card-caption" aria-hidden="true">02 / LOGO PHILOSOPHY</span>
+            </div>
+            <div class="stack-card" data-index="2" role="button" tabindex="0" aria-label="Color Philosophy">
+              <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=800&auto=format&fit=crop" alt="Neutral-toned floral bouquet with understated styling" draggable="false" />
+              <span class="stack-card-caption" aria-hidden="true">03 / COLOR PHILOSOPHY</span>
+            </div>
+            <div class="stack-card" data-index="3" role="button" tabindex="0" aria-label="Design Language">
+              <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?q=80&w=800&auto=format&fit=crop" alt="Minimal single-stem floral composition" draggable="false" />
+              <span class="stack-card-caption" aria-hidden="true">04 / DESIGN LANGUAGE</span>
+            </div>
+          </div>
+          <p class="stack-instruction">SELECT A CARD TO EXPLORE OUR STORY <svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow-up-right"></use></svg></p>
         </div>
-
-        <div class="about-flower" aria-hidden="true">✿</div>
       </section>
 
       <!-- CONTACT / FOOTER -->
 
-      <footer class="contact section-pad" id="contact">
+      <footer class="contact section-pad" id="contact" data-background-theme="dark">
         <div class="footer-main">
           <div>
             <p class="eyebrow">LET'S MAKE SOMETHING BEAUTIFUL</p>
 
-            <h2>Say <em>hello.</em></h2>
+            <h2>Come find us at:</h2>
           </div>
 
-          <a class="footer-email" href="mailto:hello@dyfeur.com"
-            >hello@dyfeur.com <span>↗</span></a
-          >
+          <a
+            class="footer-email"
+            href="https://www.instagram.com/dwhyfleur.co/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit D’YFleur on Instagram"
+          ><svg class="ui-icon footer-social-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instagram"></use></svg><span>Instagram @dwhyfleur.co</span></a>
         </div>
 
         <div class="footer-bottom">
@@ -571,12 +565,12 @@
           type="button"
           aria-label="Close cart"
         >
-          ×
+          <svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg>
         </button>
       </div>
 
       <div class="cart-items" id="cartItems">
-        <p class="cart-empty">Your cart is empty for now.</p>
+        <p class="cart-empty">Your cart is currently empty.</p>
       </div>
 
       <div class="cart-footer">
@@ -592,7 +586,7 @@
           type="button"
           disabled
         >
-          Continue to order <span>↗</span></button
+          Proceed to Checkout <svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-arrow-up-right"></use></svg></button
         ><small
           >Demo interface — checkout can be connected to WhatsApp or a payment
           service.</small
@@ -612,7 +606,7 @@
             <p class="eyebrow">THE FINAL STEP</p>
             <h2 id="checkoutTitle">Complete your <em>order.</em></h2>
             <p class="checkout-lead">
-              Checkout tanpa akun. Lengkapi alamat dan pilih metode pembayaran.
+              No account required. Complete your address and select a payment method.
             </p>
           </div>
           <button
@@ -633,7 +627,7 @@
               </p>
               <div class="checkout-fields">
                 <label
-                  >Nama penerima
+                  >Recipient Name
                   <input
                     id="customerName"
                     name="customerName"
@@ -641,11 +635,11 @@
                     autocomplete="name"
                     maxlength="80"
                     required
-                    placeholder="Nama lengkap penerima"
+                    placeholder="Full name"
                   />
                 </label>
                 <label
-                  >Nomor WhatsApp
+                  >WhatsApp Number
                   <input
                     id="customerPhone"
                     name="customerPhone"
@@ -658,40 +652,29 @@
                     placeholder="08xxxxxxxxxx"
                   />
                 </label>
-                <label
-                  >Provinsi
-                  <input
-                    name="province"
-                    type="text"
-                    autocomplete="address-level1"
-                    maxlength="80"
-                    required
-                    placeholder="Provinsi"
-                  />
+                <label class="region-field">
+                  Province
+                  <select id="provinsi" name="province" autocomplete="address-level1" required disabled>
+                    <option value="">Loading provinces...</option>
+                  </select>
+                  <small class="region-field-status" id="provinsiStatus" role="status" aria-live="polite">Loading provinces...</small>
+                </label>
+                <label class="region-field">
+                  City / Regency
+                  <select id="kabupaten" name="city" autocomplete="address-level2" required disabled>
+                    <option value="">Select a province first</option>
+                  </select>
+                  <small class="region-field-status" id="kabupatenStatus" role="status" aria-live="polite">Select a province first</small>
+                </label>
+                <label class="region-field">
+                  District
+                  <select id="kecamatan" name="district" required disabled>
+                    <option value="">Select a city or regency first</option>
+                  </select>
+                  <small class="region-field-status" id="kecamatanStatus" role="status" aria-live="polite">Select a city or regency first</small>
                 </label>
                 <label
-                  >Kota / Kabupaten
-                  <input
-                    name="city"
-                    type="text"
-                    autocomplete="address-level2"
-                    maxlength="80"
-                    required
-                    placeholder="Kota atau kabupaten"
-                  />
-                </label>
-                <label
-                  >Kecamatan
-                  <input
-                    name="district"
-                    type="text"
-                    maxlength="80"
-                    required
-                    placeholder="Kecamatan"
-                  />
-                </label>
-                <label
-                  >Kode pos
+                  >Postal Code
                   <input
                     name="postalCode"
                     type="text"
@@ -699,27 +682,27 @@
                     pattern="[0-9]{5}"
                     maxlength="5"
                     required
-                    placeholder="5 digit kode pos"
+                    placeholder="5-digit postal code"
                   />
                 </label>
                 <label class="field-full"
-                  >Alamat lengkap
+                  >Full Address
                   <textarea
                     name="address"
                     rows="3"
                     maxlength="350"
                     autocomplete="street-address"
                     required
-                    placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan"
+                    placeholder="Street name, house number, neighborhood, and local area"
                   ></textarea>
                 </label>
                 <label class="field-full"
-                  >Catatan untuk kurir <span>(opsional)</span>
+                  >Delivery Notes <span>(opsional)</span>
                   <textarea
                     name="deliveryNotes"
                     rows="2"
                     maxlength="250"
-                    placeholder="Patokan rumah atau instruksi pengiriman"
+                    placeholder="Landmarks or delivery instructions"
                   ></textarea>
                 </label>
               </div>
@@ -729,17 +712,11 @@
               <p class="panel-label" id="paymentHeading">
                 02 / DELIVERY & PAYMENT
               </p>
-              <label class="checkout-label" for="checkoutShipping"
-                >Zona pengiriman <span>(tarif simulasi)</span></label
-              >
-              <select id="checkoutShipping" name="shipping" required>
-                <option value="12000">Zona dekat — Rp12.000</option>
-                <option value="20000">Zona menengah — Rp20.000</option>
-                <option value="30000">Zona jauh — Rp30.000</option>
+              <select id="checkoutShipping" name="shipping" hidden aria-hidden="true" tabindex="-1">
+                <option value="0">Shipping is calculated automatically based on your address</option>
               </select>
-              <p class="shipping-helper">Pilih zona sebagai estimasi demo. Tarif belum dihitung otomatis dari alamat.</p>
 
-              <p class="checkout-label payment-title">Metode pembayaran</p>
+              <p class="checkout-label payment-title">Payment Method</p>
               <div class="payment-options">
                 <label class="payment-option">
                   <input
@@ -751,7 +728,7 @@
                   <span class="payment-symbol" aria-hidden="true">▤</span>
                   <span
                     ><strong>Bank Transfer</strong
-                    ><small>Konfirmasi transfer secara manual</small></span
+                    ><small>Bank transfer confirmation is handled manually</small></span
                   >
                 </label>
                 <label class="payment-option">
@@ -759,7 +736,7 @@
                   <span class="payment-symbol" aria-hidden="true">▦</span>
                   <span
                     ><strong>QRIS</strong
-                    ><small>Scan barcode untuk pembayaran QRIS</small></span
+                    ><small>Scan the QR code to pay with QRIS</small></span
                   >
                 </label>
                 <label class="payment-option">
@@ -771,13 +748,13 @@
                   <span class="payment-symbol" aria-hidden="true">₨</span>
                   <span
                     ><strong>Cash on Delivery</strong
-                    ><small>Bayar saat pesanan diterima (simulasi)</small></span
+                    ><small>Pay when your order arrives (simulation)</small></span
                   >
                 </label>
               </div>
               <div class="qris-code" id="qrisCode" hidden>
-                <p>Scan barcode QRIS ini untuk membayar</p>
-                <img src="assets/qr.svg" alt="Barcode pembayaran QRIS" />
+                <p>Scan this QR code to pay with QRIS</p>
+                <img src="assets/qr.svg" alt="QRIS payment code" />
               </div>
 
               <div
@@ -787,24 +764,30 @@
               ></div>
               <div class="checkout-price-summary">
                 <div>
-                  <span>Subtotal produk</span
+                  <span>Product Subtotal</span
                   ><strong id="checkoutSubtotal">Rp0</strong>
                 </div>
                 <div>
-                  <span>Ongkos kirim</span
-                  ><strong id="checkoutShippingCost">Rp12.000</strong>
+                  <span>Shipping Cost</span
+                  ><strong id="checkoutShippingCost">Rp0</strong>
+                </div>
+                <div
+                  class="shipping-breakdown"
+                  id="shippingBreakdown"
+                  aria-live="polite"
+                >
+
                 </div>
                 <div class="checkout-grand-total">
-                  <span>Total pembayaran</span
+                  <span>Total Payment</span
                   ><strong id="checkoutGrandTotal">Rp0</strong>
                 </div>
               </div>
               <p class="checkout-disclaimer">
-                Demo akademik: belum ada transaksi pembayaran, verifikasi
-                transfer, atau tarif kurir sungguhan.
+                Academic demo: no actual payments, bank transfer verification, or live courier rates are processed.
               </p>
               <button class="button button-dark checkout-submit" type="submit">
-                Place order <span>↗</span>
+                Place order <svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-arrow-up-right"></use></svg>
               </button>
             </section>
           </div>
@@ -816,19 +799,18 @@
           hidden
           aria-labelledby="successTitle"
         >
-          <div class="success-mark" aria-hidden="true">✓</div>
+          <div class="success-mark" aria-hidden="true"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-check"></use></svg></div>
           <p class="eyebrow">ORDER RECEIVED</p>
           <h3 id="successTitle">Your order is <em>in our hands.</em></h3>
           <p>
-            Terima kasih, <strong id="successOrderName"></strong>. Pesanan demo
-            lu sudah dicatat.
+            Thank you, <strong id="successOrderName"></strong>. Your demo order has been recorded.
           </p>
           <div class="order-reference">
             <span>ORDER NUMBER</span><strong id="successOrderNumber"></strong>
           </div>
           <div class="qris-code" id="successQrisCode" hidden>
-            <p>Scan barcode QRIS ini untuk membayar</p>
-            <img src="assets/qr.svg" alt="Barcode pembayaran QRIS" />
+            <p>Scan this QR code to pay with QRIS</p>
+            <img src="assets/qr.svg" alt="QRIS payment code" />
           </div>
           <div class="success-order-items" id="successOrderItems"></div>
           <div class="success-meta">
@@ -850,8 +832,7 @@
           <p class="panel-label tracking-heading">03 / ORDER DELIVERY STATUS</p>
           <div class="tracking-timeline" id="trackingTimeline"></div>
           <p class="checkout-disclaimer">
-            Status pengiriman bisa digerakkan untuk demo. Ini bukan pelacakan
-            kurir langsung.
+            Delivery status can be advanced for demonstration purposes. This is not live courier tracking.
           </p>
           <p
             class="checkout-disclaimer"
@@ -865,7 +846,7 @@
               id="sendWhatsAppOrder"
               type="button"
             >
-              Send order via WhatsApp <span>↗</span>
+              Send order via WhatsApp <svg class="ui-icon ui-icon-inline" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-arrow-up-right"></use></svg>
             </button>
             <button
               class="button button-outline"
@@ -890,9 +871,9 @@
       <div class="history-dialog-inner">
         <header class="history-dialog-header">
           <div><p class="eyebrow">YOUR PREVIOUS CHECKOUTS</p><h2 id="historyTitle">Order <em>history.</em></h2></div>
-          <button class="cart-close" id="closeOrderHistory" type="button" aria-label="Close order history">×</button>
+          <button class="cart-close" id="closeOrderHistory" type="button" aria-label="Close order history"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
         </header>
-        <p class="history-note">Riwayat tersimpan di browser ini saja. Pesanan tidak tersinkron ke perangkat lain.</p>
+        <p class="history-note">Order history is stored only in this browser and is not synced across devices.</p>
         <div class="history-list" id="orderHistoryList" aria-live="polite"></div>
       </div>
     </dialog>
@@ -903,10 +884,10 @@
       href="https://wa.me/628881548329?text=Halo%20D%E2%80%99YFleur%2C%20saya%20ingin%20bertanya."
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Hubungi customer service D’YFleur via WhatsApp"
-      title="Hubungi customer service"
+      aria-label="Contact D’YFleur customer service via WhatsApp"
+      title="Contact customer service"
     >
-      <img src="assets/CS.svg" alt="Customer Service" />
+      <svg class="ui-icon customer-service-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-message-circle"></use></svg>
     </a>
   </body>
 </html>
