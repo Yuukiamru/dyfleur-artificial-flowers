@@ -9269,3 +9269,33 @@ html {
   }
 }
 
+/* =====================================================
+   SECTION SPACING & ANCHOR ALIGNMENT — FIXED VALUES
+   Keep all primary sections clear of the floating navbar.
+===================================================== */
+#home,
+#shop,
+#about,
+#builder,
+#contact {
+  scroll-margin-top: 120px;
+  padding-top: 140px;
+  padding-bottom: 100px;
+}
+
+/* Let the editorial hero size to its actual content instead of forcing a viewport height. */
+#home.hero.hero-editorial {
+  min-height: auto;
+  margin-bottom: 2rem;
+}
+
+/* Preserve the same fixed spacing on the Shop carousel section. */
+#shop.shop {
+  padding-top: 140px;
+  padding-bottom: 100px;
+}
+
+/* A subtle divider separates the ivory Shop and About sections. */
+#about {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
